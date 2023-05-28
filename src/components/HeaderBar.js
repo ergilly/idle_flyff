@@ -1,61 +1,56 @@
 import React, {
-    useCallback, 
-    Fragment
+  useCallback,
+  Fragment
 } from 'react';
-import { useNavigate } from 'react-router-dom';
 import firebase_app from '../firebase/config';
 import { signOut, getAuth } from 'firebase/auth';
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import {  Menu, Transition } from '@headlessui/react'
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { Menu, Transition } from '@headlessui/react';
 import {
-    Bars3Icon,
-    BellIcon,
-  } from '@heroicons/react/24/outline'
+  Bars3Icon,
+  BellIcon
+} from '@heroicons/react/24/outline';
 
 const auth = getAuth(firebase_app);
 
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+function classNames (...classes) {
+  return classes.filter(Boolean).join(' ');
 }
 
-function logout() {
-    return new Promise((resolve, reject) => {
-        signOut(auth)
-        .then(() => resolve())
-        .catch(error => reject(error));
-    });
+function logout () {
+  return new Promise((resolve, reject) => {
+    signOut(auth)
+      .then(() => resolve())
+      .catch(error => reject(error));
+  });
 }
 
-function LogoutView({ onClick }) {
-    return (
+function LogoutView ({ onClick }) {
+  return (
         <Menu.Item key={'signOut'}>
             {({ active }) => (
             <a
-                onClick={() => {onClick()}}
+                onClick={() => { onClick(); }}
                 href={'#'}
                 className={classNames(
-                active ? 'bg-gray-50' : '',
-                'block px-3 py-1 text-sm leading-6 text-gray-900'
+                  active ? 'bg-gray-50' : '',
+                  'block px-3 py-1 text-sm leading-6 text-gray-900'
                 )}
             >
                 Sign Out
             </a>
             )}
         </Menu.Item>
-    );
+  );
 }
 
-export default function Navbar({ setSidebarOpen }) {
-
-  const navigate = useNavigate();
-
+export default function Navbar ({ setSidebarOpen }) {
   const requestLogout = useCallback(() => {
     console.log('hello');
-        logout();
-    }, []);
+    logout();
+  }, []);
 
-    return (
+  return (
     <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
         <button type="button" className="-m-2.5 p-2.5 text-gray-700 lg:hidden" onClick={() => setSidebarOpen(true)}>
           <span className="sr-only">Open sidebar</span>
@@ -137,8 +132,5 @@ export default function Navbar({ setSidebarOpen }) {
           </div>
         </div>
       </div>
-    );
-
-};
-
-
+  );
+}

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   CalendarIcon,
   ChartPieIcon,
@@ -7,8 +6,8 @@ import {
   DocumentDuplicateIcon,
   FolderIcon,
   HomeIcon,
-  UsersIcon,
-} from '@heroicons/react/24/outline'
+  UsersIcon
+} from '@heroicons/react/24/outline';
 
 const navigation = [
   { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
@@ -16,18 +15,15 @@ const navigation = [
   { name: 'Projects', href: '#', icon: FolderIcon, current: false },
   { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
   { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
-]
+  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false }
+];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+function classNames (...classes) {
+  return classes.filter(Boolean).join(' ');
 }
 
-export default function Navbar() {
-
-    const navigate = useNavigate();
-
-    return (
+export default function Navbar () {
+  return (
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
             <img
@@ -45,10 +41,10 @@ export default function Navbar() {
                         <a
                         href={item.href}
                         className={classNames(
-                            item.current
+                          item.current
                             ? 'bg-gray-800 text-white'
                             : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                         )}
                         >
                         <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
@@ -58,7 +54,7 @@ export default function Navbar() {
                     ))}
                 </ul>
                 </li>
-                
+
                 <li className="mt-auto">
                 <a
                     href="#"
@@ -71,8 +67,5 @@ export default function Navbar() {
             </ul>
             </nav>
         </div>
-    );
-
-};
-
-
+  );
+}
