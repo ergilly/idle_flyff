@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "flyff-idle"
-  }
+  },
+  "targets": {
+    "flyff-idle": {
+      "hosting": {
+        "idleflyff": [
+          "idleflyff"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
