@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "target": "idleflyff",
     "public": "build",
     "ignore": [
       "firebase.json",
