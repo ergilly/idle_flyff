@@ -28,7 +28,8 @@ module.exports = {
       '5xl': '3.052rem',
     }
   },
-  purge: [
+  content: [
+    // Example content paths...
     './public/**/*.html',
     './src/**/*.{js,jsx,ts,tsx,vue}',
   ],

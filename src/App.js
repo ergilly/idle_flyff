@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/NavBar';
 import HeaderBar from './components/HeaderBar';
 import { UserProvider } from './utils/userContext';
-import MainPage from './components/MainPage'
-import { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import {  XMarkIcon } from '@heroicons/react/24/outline'
+import MainPage from './components/MainPage';
+import { Dialog, Transition } from '@headlessui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
-function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+function App () {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <BrowserRouter>
@@ -67,7 +66,7 @@ function App() {
           <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
             <Navbar />
           </div>
-                                      
+
           <div className="lg:pl-72">
             <HeaderBar setSidebarOpen={setSidebarOpen}></HeaderBar>
 
