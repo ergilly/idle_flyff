@@ -17,7 +17,7 @@ export function InventoryPage() {
           selectedItem={selectedItem}
           setSelectedItem={setSelectedItem}
         />
-        <SelectedItemView item={selectedItem} />
+        <SelectedItemView item={selectedItem} equipped={false} />
       </div>
     </div>
   )

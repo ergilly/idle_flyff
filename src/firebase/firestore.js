@@ -28,6 +28,7 @@ export async function addData(collection, id, data) {
 }
 
 export async function getData(collection, id) {
+  console.log(collection, id)
   const docRef = doc(db, collection, id)
 
   let result = null
