@@ -11,11 +11,11 @@ import firebase_app from './config'
 
 const auth = getAuth(firebase_app)
 
-export async function getCurrentUser() {
+export function getCurrentUser() {
   return auth.currentUser
 }
 
-export async function resetPassword(email) {
+export function resetPassword(email) {
   return new Promise((resolve, reject) => {
     sendPasswordResetEmail(auth, email)
       .then(() => resolve())
@@ -23,7 +23,7 @@ export async function resetPassword(email) {
   })
 }
 
-export async function setUsername(username) {
+export function setUsername(username) {
   return new Promise((resolve, reject) => {
     updateProfile(auth.currentUser, { displayName: username })
       .then(() => resolve())
@@ -31,7 +31,7 @@ export async function setUsername(username) {
   })
 }
 
-export async function signIn(email, password) {
+export function signIn(email, password) {
   return new Promise((resolve, reject) => {
     signInWithEmailAndPassword(auth, email, password)
       .then(() => resolve())
@@ -39,7 +39,7 @@ export async function signIn(email, password) {
   })
 }
 
-export async function logOut() {
+export function logOut() {
   return new Promise((resolve, reject) => {
     signOut(auth)
       .then(() => resolve())
@@ -47,7 +47,7 @@ export async function logOut() {
   })
 }
 
-export async function signup(email, password) {
+export function signup(email, password) {
   return new Promise((resolve, reject) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => resolve())
@@ -55,7 +55,7 @@ export async function signup(email, password) {
   })
 }
 
-export async function verifyEmail() {
+export function verifyEmail() {
   return new Promise((resolve, reject) => {
     sendEmailVerification(auth.currentUser)
       .then(() => resolve())

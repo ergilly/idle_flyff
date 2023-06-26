@@ -7,10 +7,10 @@ export function InventoryView({ inventory, selectedItem, setSelectedItem }) {
   const [items, setItems] = useState(inventory.tab1)
   const [slots, setSlots] = useState(50)
 
-  const calculateInventoryValue = (tabs) => {
+  const calculateInventoryValue = (inventoryTabs) => {
     let inventoryValue = 0
-    Object.values(tabs).forEach((array) => {
-      array.forEach((item) => {
+    Object.values(inventoryTabs).forEach((itemsArray) => {
+      itemsArray.forEach((item) => {
         inventoryValue += item.sellPrice * item.count
       })
     })
@@ -25,7 +25,7 @@ export function InventoryView({ inventory, selectedItem, setSelectedItem }) {
     return formatNumber(tabValue)
   }
 
-  const itemCount = (item) => {
+  const renderItemCount = (item) => {
     if (item.stack > 1) {
       return (
         <span className="absolute top-12 bg-gray-500 text-gray-100 font-bold hidden rounded-full h-5 px-2.5 text-sm md:inline-block">
@@ -36,12 +36,25 @@ export function InventoryView({ inventory, selectedItem, setSelectedItem }) {
     return null
   }
 
-  const selectItem = (item, selectedItem) => {
+  const selectItem = (item) => {
     if (item === selectedItem) {
-      setSelectedItem({})
+      setSelectedItem(null)
     } else {
       setSelectedItem(item)
     }
+  }
+
+  const renderItem = (item, index) => {
+    return (
+      <div
+        key={item.id} // Use a unique identifier as the key
+        className="relative flex flex-col items-center justify-center box-content h-12 w-12 p-1 border-2 border-white cursor-pointer rounded-lg bg-gray-700"
+        onClick={() => selectItem(item)}
+      >
+        <ItemImage item={item} classNames="h-8 w-8" />
+        {renderItemCount(item)}
+      </div>
+    )
   }
 
   return (
@@ -75,16 +88,7 @@ export function InventoryView({ inventory, selectedItem, setSelectedItem }) {
         setList={setItems}
         className="m-4 flex flex-wrap gap-4"
       >
-        {items.map((item, index) => (
-          <div
-            key={index}
-            className="relative flex flex-col items-center justify-center box-content h-12 w-12 p-1 border-2 border-white rounded-lg bg-gray-700"
-            onClick={() => selectItem(item, selectedItem)}
-          >
-            <ItemImage item={item} classNames="h-8 w-8" />
-            {itemCount(item)}
-          </div>
-        ))}
+        {items.map(renderItem)}
       </ReactSortable>
     </div>
   )

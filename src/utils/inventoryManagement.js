@@ -1,69 +1,79 @@
 function searchItemInObject(obj, searchItem) {
   const entries = Object.entries(obj)
-  let result = null
-
-  entries.forEach(([key, value]) => {
+  const foundEntry = entries.find(([key, value]) => {
     if (Array.isArray(value)) {
       const foundItem = value.find((item) => item.id === searchItem.id)
-      if (foundItem) {
-        result = {
-          item: foundItem,
-          tab: key,
-        }
-      }
+      return foundItem !== undefined
     }
+    return false
   })
 
-  return result
+  if (foundEntry) {
+    const [key, value] = foundEntry
+    return {
+      item: value.find((item) => item.id === searchItem.id),
+      tab: key,
+    }
+  }
+
+  return null
 }
 
 export function addItemToInventory(character, item) {
-  const newChar = character
-  const existingItem = searchItemInObject(newChar.inventory, item)
-  if (existingItem === null || item.stack === 1) {
-    newChar.inventory.tab1.push(item)
+  const newCharacter = { ...character }
+  const existingItem = searchItemInObject(newCharacter.inventory, item)
+
+  if (existingItem === null || item.stack === 1 || !existingItem.tab) {
+    newCharacter.inventory.tab1.push(item)
   } else {
-    const index = newChar.inventory[existingItem.tab].indexOf(existingItem.item)
+    const index = newCharacter.inventory[existingItem.tab].indexOf(
+      existingItem.item,
+    )
     if (index !== -1) {
-      newChar.inventory[existingItem.tab][index].count += item.count
+      newCharacter.inventory[existingItem.tab][index].count += item.count
     }
   }
-  return newChar
+
+  return newCharacter
 }
 
 export function removeItemFromInventory(character, item, count) {
-  const newChar = character
-  const existingItem = searchItemInObject(newChar.inventory, item)
-  if (existingItem !== null) {
-    const index = newChar.inventory[existingItem.tab].indexOf(existingItem.item)
+  const newCharacter = { ...character }
+  const existingItem = searchItemInObject(newCharacter.inventory, item)
+
+  if (existingItem !== null && existingItem.tab) {
+    const index = newCharacter.inventory[existingItem.tab].indexOf(
+      existingItem.item,
+    )
     if (existingItem.item.count > count) {
-      newChar.inventory[existingItem.tab][index].count -= item.count
+      newCharacter.inventory[existingItem.tab][index].count -= count
     } else {
-      newChar.inventory[existingItem.tab].splice(index, 1)
+      newCharacter.inventory[existingItem.tab].splice(index, 1)
     }
   }
-  return newChar
+
+  return newCharacter
 }
 
 export function addItemToEquipment(character, item, slot) {
-  const newChar = character
-  newChar.equipment[slot] = item
-  return newChar
+  const newCharacter = { ...character }
+  newCharacter.equipment[slot] = item
+  return newCharacter
 }
 
 export function removeItemFromEquipment(character, slot) {
-  const newChar = character
-  newChar.equipment[slot] = null
-  return newChar
+  const newCharacter = { ...character }
+  newCharacter.equipment[slot] = null
+  return newCharacter
 }
 
 export function replaceEquippedItem(character, item, slot) {
-  let newChar = character
-  if (newChar.equipment[slot] !== null) {
-    const currentEquip = newChar.equipment[slot]
-    newChar = removeItemFromEquipment(newChar, slot)
-    newChar = addItemToInventory(newChar, currentEquip)
+  let newCharacter = { ...character }
+  if (newCharacter.equipment[slot] !== null) {
+    const currentEquip = newCharacter.equipment[slot]
+    newCharacter = removeItemFromEquipment(newCharacter, slot)
+    newCharacter = addItemToInventory(newCharacter, currentEquip)
   }
-  newChar.equipment[slot] = item
-  return newChar
+  newCharacter.equipment[slot] = item
+  return newCharacter
 }
