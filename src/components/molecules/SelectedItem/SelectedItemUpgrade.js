@@ -1,6 +1,6 @@
 import React from 'react'
 
-const upgradable = [
+const upgradableCategories = [
   'weapon',
   'armor',
   'fashion',
@@ -11,9 +11,10 @@ const upgradable = [
 ]
 
 export function SelectedItemUpgrade({ item }) {
-  if (!upgradable.includes(item.category)) {
+  if (!upgradableCategories.includes(item.category)) {
     return <div />
   }
+
   return (
     <div className="flex justify-between m-1 p-4 bg-gray-600 border-0 rounded-lg h-16">
       <span className="text-white text-lg font-bold">Upgrade Item</span>

@@ -12,47 +12,40 @@ import { CharContext } from '../../context/characterContext'
 import { logOut } from '../../firebase/auth'
 import { getImageUrl } from '../../firebase/storage'
 
-export function HeaderBar({ setSidebarOpen }) {
-  const context = useContext(CharContext)
-  console.log(context)
-  const { name, job } = useContext(CharContext)
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
 
-  function selectCharacter() {
-    const { selected } = useContext(CharContext)
-    if (selected) {
-      return (
-        <Menu.Item key="selectCharacter">
-          {({ active }) => (
-            <button
-              type="button"
-              className={classNames(
-                active ? 'bg-gray-50' : '',
-                'block px-3 py-1 text-sm leading-6 text-gray-900',
-              )}
-            >
-              Character Select
-            </button>
+function SelectCharacterItem() {
+  return (
+    <Menu.Item key="selectCharacter">
+      {({ active }) => (
+        <button
+          type="button"
+          className={classNames(
+            active ? 'bg-gray-50' : '',
+            'block px-3 py-1 text-sm leading-6 text-gray-900',
           )}
-        </Menu.Item>
-      )
-    }
-    return null
-  }
+        >
+          Character Select
+        </button>
+      )}
+    </Menu.Item>
+  )
+}
 
-  const jobImage = (job) => {
-    const [src, setSrc] = useState('')
-    useEffect(() => {
-      async function fetchUrl() {
-        const src = await getImageUrl('class/target/', `${job}.png`)
-        setSrc(src)
-      }
-      fetchUrl()
-    }, [])
-    return src
-  }
+export function HeaderBar({ setSidebarOpen }) {
+  const { name, job, selected } = useContext(CharContext)
+  const context = useContext(CharContext)
+  const [jobImageSrc, setJobImageSrc] = useState('')
+
+  useEffect(() => {
+    async function fetchJobImage() {
+      const src = await getImageUrl('class/target/', `${job}.png`)
+      setJobImageSrc(src)
+    }
+    fetchJobImage()
+  }, [job])
 
   const requestLogout = useCallback(() => {
     logOut()
@@ -110,8 +103,8 @@ export function HeaderBar({ setSidebarOpen }) {
               <span className="sr-only">Open user menu</span>
               <img
                 className="h-8 w-8 rounded-full bg-gray-50"
-                src={jobImage(job)}
-                alt=""
+                src={jobImageSrc}
+                alt="Profile"
               />
               <span className="hidden lg:flex lg:items-center">
                 <span
@@ -149,14 +142,12 @@ export function HeaderBar({ setSidebarOpen }) {
                     </button>
                   )}
                 </Menu.Item>
-                {selectCharacter()}
+                {selected && <SelectCharacterItem />}
                 <Menu.Item key="signOut">
                   {({ active }) => (
                     <button
                       type="button"
-                      onClick={() => {
-                        requestLogout()
-                      }}
+                      onClick={requestLogout}
                       className={classNames(
                         active ? 'bg-gray-50' : '',
                         'block px-3 py-1 text-sm leading-6 text-gray-900',

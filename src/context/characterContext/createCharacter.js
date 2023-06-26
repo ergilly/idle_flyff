@@ -70,7 +70,7 @@ export function CreateCharacterView({
     if (error) {
       return console.log(error)
     }
-    return result.data()
+    return result
   }
 
   const getItemData = async (itemId) => {
@@ -78,7 +78,7 @@ export function CreateCharacterView({
     if (error) {
       return console.log(error)
     }
-    return result.data()
+    return result
   }
 
   const createStartingInventory = async () => {
@@ -92,7 +92,27 @@ export function CreateCharacterView({
   }
 
   const createStartingEquipment = async (characterSex) => {
-    const equipment = {}
+    const equipment = {
+      mainhand: null,
+      offhand: null,
+      ammo: null,
+      cloak: null,
+      mask: null,
+      helmet: null,
+      suit: null,
+      gloves: null,
+      boots: null,
+      mount: null,
+      l_ring: null,
+      r_ring: null,
+      l_earring: null,
+      r_earring: null,
+      necklace: null,
+      f_hat: null,
+      f_suit: null,
+      f_gloves: null,
+      f_boots: null,
+    }
     equipment.mainhand = await getItemData('3497')
     if (characterSex === 'male') {
       equipment.suit = await getItemData('3314')

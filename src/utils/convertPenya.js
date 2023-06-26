@@ -1,17 +1,18 @@
 export function formatNumber(number) {
-  const abbreviations = {
-    K: 1000,
-    M: 1000000,
-    B: 1000000000,
-    T: 1000000000000,
-  }
+  const abbreviations = [
+    { symbol: 'T', value: 1e12 },
+    { symbol: 'B', value: 1e9 },
+    { symbol: 'M', value: 1e6 },
+    { symbol: 'K', value: 1e3 },
+  ]
 
-  Object.keys(abbreviations).forEach((key) => {
-    if (Math.abs(number) >= abbreviations[key]) {
-      return (number / abbreviations[key]).toFixed(1) + key
-    }
-    return abbreviations[key]
-  })
+  const abbreviation = abbreviations.find(
+    (abbr) => Math.abs(number) >= abbr.value,
+  )
+
+  if (abbreviation) {
+    return (number / abbreviation.value).toFixed(1) + abbreviation.symbol
+  }
 
   return number.toString()
 }

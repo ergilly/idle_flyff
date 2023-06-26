@@ -13,11 +13,8 @@ export function CharProvider({ children }) {
 
   const requestCharacter = useCallback((char) => {
     setCharacter(char)
-      .then(() => {
-        setError('')
-      })
-      .catch((error) => setError(error.code))
-  })
+    setError('')
+  }, [])
 
   if (!character.selected) {
     if (!createChar) {

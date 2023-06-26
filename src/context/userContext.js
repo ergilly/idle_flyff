@@ -36,44 +36,36 @@ export function UserProvider({ children }) {
         setError('')
       })
       .catch((error) => setError(error.code))
-  })
+  }, [])
 
   const requestSignUp = useCallback(async (username, email, password) => {
-    signup(email, password)
-      .then(() => {
-        setUsername(username)
-          .then(() => {
-            verifyEmail()
-              .then(() => {
-                setSignUp(false)
-                setError('')
-              })
-              .catch((error) => setError(error.code))
-          })
-          .catch((error) => setError(error.code))
-      })
-      .catch((error) => setError(error.code))
-  })
+    try {
+      await signup(email, password)
+      await setUsername(username)
+      await verifyEmail()
+      setSignUp(false)
+      setError('')
+    } catch (error) {
+      setError(error.code)
+    }
+  }, [])
 
   if (!user.loggedIn) {
-    if (!signUp) {
-      return (
-        <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 bg-[url('https://firebasestorage.googleapis.com/v0/b/flyff-idle.appspot.com/o/images%2Fapp%2Fog_flyff-transformed.jpg?alt=media&token=574c202d-d695-4481-85bd-8fcdb197fb79')] bg-no-repeat bg-cover bg-center">
+    return (
+      <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 bg-[url('https://firebasestorage.googleapis.com/v0/b/flyff-idle.appspot.com/o/images%2Fapp%2Fog_flyff-transformed.jpg?alt=media&token=574c202d-d695-4481-85bd-8fcdb197fb79')] bg-no-repeat bg-cover bg-center">
+        {signUp ? (
+          <SignUpView
+            setSignUp={setSignUp}
+            onClick={requestSignUp}
+            error={error}
+          />
+        ) : (
           <SignInView
             setSignUp={setSignUp}
             onClick={requestLogin}
             error={error}
           />
-        </div>
-      )
-    }
-    return (
-      <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 bg-[url('https://firebasestorage.googleapis.com/v0/b/flyff-idle.appspot.com/o/images%2Fapp%2Fog_flyff-transformed.jpg?alt=media&token=574c202d-d695-4481-85bd-8fcdb197fb79')] bg-no-repeat bg-cover bg-center">
-        <SignUpView
-          setSignUp={setSignUp}
-          onClick={requestSignUp}
-          error={error}
-        />
+        )}
       </div>
     )
   }

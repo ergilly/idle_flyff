@@ -6,7 +6,7 @@ import { SortBanner } from '../organisms/Inventory/SortBanner'
 
 export function InventoryPage() {
   const { inventory } = useContext(CharContext)
-  const [selectedItem, setSelectedItem] = useState({})
+  const [selectedItem, setSelectedItem] = useState(null)
 
   return (
     <div className="w-full p-8">

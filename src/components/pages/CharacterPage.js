@@ -5,7 +5,8 @@ import { SelectedItemView } from '../organisms/Inventory/SelectedItemView'
 
 export function CharacterPage() {
   const { equipment } = useContext(CharContext)
-  const [selectedItem, setSelectedItem] = useState({})
+  const [selectedItem, setSelectedItem] = useState(null)
+  const [selectedItemSlot, setSelectedItemSlot] = useState(null)
 
   return (
     <div className="w-full p-8">
@@ -14,8 +15,13 @@ export function CharacterPage() {
           equipment={equipment}
           selectedItem={selectedItem}
           setSelectedItem={setSelectedItem}
+          setSelectedItemSlot={setSelectedItemSlot}
         />
-        <SelectedItemView item={selectedItem} equipped />
+        <SelectedItemView
+          item={selectedItem}
+          slot={selectedItemSlot}
+          equipped
+        />
       </div>
     </div>
   )
