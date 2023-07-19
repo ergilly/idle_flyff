@@ -37,7 +37,7 @@ export function SelectedItemSell({ item, equipped }) {
         value={value}
         setValue={setValue}
       />
-      <div className="flex mt-4">
+      <div className="flex">
         <input
           type="number"
           min="1"

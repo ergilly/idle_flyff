@@ -34,11 +34,21 @@ export async function getData(collectionName, documentId) {
   }
 }
 
-export async function getDocuments(collectionName, query1Key, query1Val) {
-  const q = query(
-    collection(db, collectionName),
-    where(query1Key, '==', query1Val),
-  )
+export async function getDataByField(collectionName, field, evaluator, value) {
+  const queryRef = collection(db, collectionName)
+  const q = await query(queryRef, where(field, evaluator, value))
+
+  try {
+    const querySnapshot = await getDocs(q)
+    const result = querySnapshot.docs.map((doc) => doc.data())
+    return { result }
+  } catch (error) {
+    return { error }
+  }
+}
+
+export async function getDocuments(collectionName) {
+  const q = query(collection(db, collectionName))
 
   try {
     const querySnapshot = await getDocs(q)

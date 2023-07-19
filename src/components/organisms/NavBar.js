@@ -6,11 +6,17 @@ import {
   HomeIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline'
+import { ItemImage } from '../atoms/ItemImage'
 
 const initialNavigation = [
-  { name: 'Character', href: '/character', icon: HomeIcon, current: true },
-  { name: 'Inventory', href: '/inventory', icon: UsersIcon, current: false },
-  { name: 'Battle', href: '/battle', icon: FolderIcon, current: false },
+  { name: 'Character', href: '/character', icon: 'rpg.png', current: true },
+  {
+    name: 'Inventory',
+    href: '/inventory',
+    icon: 'backpack.png',
+    current: false,
+  },
+  { name: 'Battle', href: '/battle', icon: 'slash.png', current: false },
 ]
 
 function classNames(...classes) {
@@ -57,14 +63,15 @@ export function NavBar() {
                       item.current
                         ? 'bg-gray-800 text-white'
                         : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                      'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
+                      'group flex gap-x-3 rounded-md p-2 text-lg leading-6 font-semibold',
                     )}
                   >
-                    <item.icon
-                      className="h-6 w-6 shrink-0"
-                      aria-hidden="true"
+                    <ItemImage
+                      item={item.icon}
+                      classNames="item-image h-8 w-8"
+                      icon
                     />
-                    {item.name}
+                    <span className="py-1">{item.name}</span>
                   </button>
                 </li>
               ))}

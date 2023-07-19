@@ -10,7 +10,6 @@ export function EquipmentItemSquares({
   setSelectedItemSlot,
 }) {
   const selectItem = (item, selectedItem, slot) => {
-    console.log(item)
     setSelectedItem(item === selectedItem ? null : item)
     setSelectedItemSlot(slot)
   }
