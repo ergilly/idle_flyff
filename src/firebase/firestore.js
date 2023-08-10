@@ -8,7 +8,7 @@ import {
   getDoc,
   getDocs,
 } from 'firebase/firestore'
-import firebaseApp from './config'
+import firebaseApp from './config.js'
 
 const db = getFirestore(firebaseApp)
 

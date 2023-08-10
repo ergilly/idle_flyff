@@ -6,7 +6,7 @@ import {
   HomeIcon,
   UsersIcon,
 } from '@heroicons/react/24/outline'
-import { ItemImage } from '../atoms/ItemImage'
+import { ItemImage } from '../atoms/ItemImage.js'
 
 const initialNavigation = [
   { name: 'Character', href: '/character', icon: 'rpg.png', current: true },

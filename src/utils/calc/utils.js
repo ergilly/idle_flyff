@@ -13,7 +13,11 @@ import {
   Blade,
   Knight,
 } from './jobs.js'
-import { getData, getDataByField, getDocuments } from '../../firebase/firestore'
+import {
+  getData,
+  getDataByField,
+  getDocuments,
+} from '../../firebase/firestore.js'
 
 Math.lerp = function (start, end, amount) {
   return (1 - amount) * start + amount * end

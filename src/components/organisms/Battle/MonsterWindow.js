@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { getData } from '../../../firebase/firestore'
-import { BattleBars } from '../../molecules/Battle/BattleBars'
-import { MonsterInfo } from '../../molecules/Battle/MonsterWindow/MonsterInfo'
-import { AttkInterval } from '../../molecules/Battle/AttkInterval'
+import { getData } from '../../../firebase/firestore.js'
+import { BattleBars } from '../../molecules/Battle/BattleBars.js'
+import { MonsterInfo } from '../../molecules/Battle/MonsterWindow/MonsterInfo.js'
+import { AttkInterval } from '../../molecules/Battle/AttkInterval.js'
 
 export function MonsterWindow() {
   const [monster, setMonster] = useState(null)

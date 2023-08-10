@@ -1,0 +1,87 @@
+[
+  {
+    "description": "  Feature Description: Test",
+    "elements": [
+      {
+        "description": "",
+        "id": "character-selection-page;test-load-of-character-selection-page",
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "Test load of Character Selection Page",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 175368000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I load the Application and am logged in",
+            "match": {
+              "location": "test\\step-definitions\\character_select\\character_select_given.steps.ts:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 987364400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "I am taken to the Character Selection Page",
+            "match": {
+              "location": "test\\step-definitions\\character_select\\character_select_then.steps.ts:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5494399
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "failed",
+              "duration": 16988800,
+              "error_message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\nCall log:\n  \u001b[2m- locator._expect with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('login-view')\u001b[22m\n\n    at Proxy.<anonymous> (D:\\Users\\ergil\\Coding\\idle_flyff\\node_modules\\@playwright\\test\\lib\\matchers\\expect.js:165:37)\n    at CustomWorld.<anonymous> (D:\\Users\\ergil\\Coding\\idle_flyff\\test\\step-definitions\\character_select\\character_select_then.steps.ts:8:33)"
+            },
+            "embeddings": [
+              {
+                "data": "Status: PASSED. Duration:0s",
+                "mime_type": "text/plain"
+              }
+            ]
+          }
+        ],
+        "tags": [
+          {
+            "name": "@feature",
+            "line": 1
+          },
+          {
+            "name": "@demo",
+            "line": 6
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "character-selection-page",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Character selection page",
+    "tags": [
+      {
+        "name": "@feature",
+        "line": 1
+      }
+    ],
+    "uri": "test\\features\\character_select\\character_select.feature"
+  }
+]

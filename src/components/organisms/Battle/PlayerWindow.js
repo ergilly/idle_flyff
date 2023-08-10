@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { EquipmentView } from '../Character/EquipmentView'
-import { CharContext } from '../../../context/characterContext'
-import { BattleBars } from '../../molecules/Battle/BattleBars'
-import { AttkInterval } from '../../molecules/Battle/AttkInterval'
-import { MenuSelect } from '../../molecules/Battle/PlayerWindow/MenuSelect'
-import { Consumables } from '../../molecules/Battle/PlayerWindow/Consumables'
-import { Utils } from '../../../utils/calc/utils'
+import { EquipmentView } from '../Character/EquipmentView.js'
+import { CharContext } from '../../../context/characterContext.js'
+import { BattleBars } from '../../molecules/Battle/BattleBars.js'
+import { AttkInterval } from '../../molecules/Battle/AttkInterval.js'
+import { MenuSelect } from '../../molecules/Battle/PlayerWindow/MenuSelect.js'
+import { Consumables } from '../../molecules/Battle/PlayerWindow/Consumables.js'
+import { Utils } from '../../../utils/calc/utils.js'
 
 export function PlayerWindow() {
   const { equipment, jobId, level, stats } = useContext(CharContext)

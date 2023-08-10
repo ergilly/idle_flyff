@@ -1,6 +1,6 @@
-import { Mover } from './mover'
-import { Utils } from './utils'
-import Moverutils from './moverutils'
+import { Mover } from './mover.js'
+import { Utils } from './utils.js'
+import Moverutils from './moverutils.js'
 
 export class Vagrant extends Mover {
   constructor(

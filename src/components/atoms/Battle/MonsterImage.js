@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getImageUrl } from '../../../firebase/storage'
+import { getImageUrl } from '../../../firebase/store.js'
 
 export function MonsterImage({ monster, classNames }) {
   const [src, setSrc] = useState('')

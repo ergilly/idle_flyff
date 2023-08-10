@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ItemAmountSlider } from '../../atoms/SelectedItemSell/ItemAmountSlider'
+import { ItemAmountSlider } from '../../atoms/SelectedItemSell/ItemAmountSlider.js'
 
 export function SelectedItemSell({ item, equipped }) {
   const [value, setValue] = useState(1)

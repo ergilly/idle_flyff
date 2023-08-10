@@ -1,6 +1,6 @@
 import React from 'react'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
-import { ItemImage } from '../../../atoms/ItemImage'
+import { ItemImage } from '../../../atoms/ItemImage.js'
 
 export function Consumables({ hpFood, fpFood, mpFood }) {
   function useFood(food) {

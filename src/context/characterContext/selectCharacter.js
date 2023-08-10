@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getData } from '../../firebase/firestore'
+import { getData } from '../../firebase/firestore.js'
 
 const getLastOnline = (time) => {
   const lastOnline = new Date(time.seconds * 1000)

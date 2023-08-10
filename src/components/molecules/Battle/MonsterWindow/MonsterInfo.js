@@ -1,7 +1,7 @@
 import React from 'react'
-import { ItemImage } from '../../../atoms/ItemImage'
-import { MonsterImage } from '../../../atoms/Battle/MonsterImage'
-import { ElementImage } from '../../../atoms/Battle/ElementImage'
+import { ItemImage } from '../../../atoms/ItemImage.js'
+import { MonsterImage } from '../../../atoms/Battle/MonsterImage.js'
+import { ElementImage } from '../../../atoms/Battle/ElementImage.js'
 
 export function MonsterInfo({ monster }) {
   return (

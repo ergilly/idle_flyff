@@ -1,5 +1,5 @@
 import { getStorage, ref, getDownloadURL } from 'firebase/storage'
-import firebaseApp from './config'
+import firebaseApp from './config.js'
 
 export function getImageUrl(route, imageName) {
   const storage = getStorage(firebaseApp)

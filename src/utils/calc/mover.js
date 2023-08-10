@@ -1,6 +1,6 @@
-import { Utils } from './utils'
-import Moverutils from './moverutils'
-import { DamageCalculator } from './damageCalculator'
+import { Utils } from './utils.js'
+import Moverutils from './moverutils.js'
+import { DamageCalculator } from './damageCalculator.js'
 /**
  * The mover class is the base of all characters. Acts as a helper class for a lot of functions.
  */

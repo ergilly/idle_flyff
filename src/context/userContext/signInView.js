@@ -5,7 +5,10 @@ export function SignInView({ setSignUp, onClick, error }) {
   const [password, setPassword] = useState('')
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
-      <div className="bg-white bg-opacity-90 px-6 py-6 shadow sm:rounded-lg sm:px-12">
+      <div
+        data-testid="login-view"
+        className="bg-white bg-opacity-90 px-6 py-6 shadow sm:rounded-lg sm:px-12"
+      >
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mb-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getData } from '../../../firebase/firestore'
+import { getData } from '../../../firebase/firestore.js'
 
 const rarityColor = {
   common: 'text-cyan-300',

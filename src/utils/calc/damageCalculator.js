@@ -1,6 +1,6 @@
-import { Utils } from './utils'
-import Moverutils from './moverutils'
-import { Blade, Knight, Psykeeper } from './jobs'
+import { Utils } from './utils.js'
+import Moverutils from './moverutils.js'
+import { Blade, Knight, Psykeeper } from './jobs.js'
 
 export class DamageCalculator {
   constructor(attacker, defender) {
