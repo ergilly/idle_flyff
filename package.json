@@ -43,8 +43,10 @@
     "report": "open reports/report.html",
     "snippets": "cucumber-js features/**/*.feature --dry-run --format snippets",
     "steps-usage": "cucumber-js features/**/*.feature --dry-run",
-    "test": "cucumber-js",
-    "test:parallel": "cucumber-js --parallel=2",
+    "test:ui:cucumber": "cucumber-js",
+    "bddgen": "npx bddgen",
+    "test:ui:playwright:watch": "playwright test --ui",
+    "test:ui:playwright:watch:bdd": "nodemon -w ./features -w ./steps -e feature,js,ts --exec 'npx bddgen'",
     "allure": "allure serve reports/allure-results"
   },
   "browserslist": {

@@ -1,4 +1,5 @@
-import { setWorldConstructor, World, IWorldOptions } from '@cucumber/cucumber'
+import { setWorldConstructor } from '@cucumber/cucumber'
+import { World, WorldOptions } from 'playwright-bdd';
 import * as messages from '@cucumber/messages'
 import {
   BrowserContext,
@@ -15,8 +16,8 @@ export interface CucumberWorldConstructorParams {
 export interface ICustomWorld extends World {
   debug: boolean
   feature?: messages.Pickle
-  context?: BrowserContext
-  page?: Page
+  context: BrowserContext
+  page: Page
 
   testName?: string
   startTime?: Date
@@ -28,7 +29,7 @@ export interface ICustomWorld extends World {
 }
 
 export class CustomWorld extends World implements ICustomWorld {
-  constructor(options: IWorldOptions) {
+  constructor(options: WorldOptions) {
     super(options)
   }
   debug = false
