@@ -6,7 +6,7 @@ Then(
   'I am taken to the Character Selection Page',
   async function (this: ICustomWorld) {
     const page = this.page!
-    const element = await page.getByTestId("login-view")
+    const element = await page.getByTestId('login-view')
     expect(element).toBeVisible()
   },
 )

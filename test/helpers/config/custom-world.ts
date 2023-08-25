@@ -1,5 +1,5 @@
 import { setWorldConstructor } from '@cucumber/cucumber'
-import { World, WorldOptions } from 'playwright-bdd';
+import { World, WorldOptions } from 'playwright-bdd'
 import * as messages from '@cucumber/messages'
 import {
   BrowserContext,

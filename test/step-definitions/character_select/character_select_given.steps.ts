@@ -7,6 +7,6 @@ Given(
   async function (this: ICustomWorld) {
     const page = this.page!
     await page.goto(config.BASE_URL)
-    await page.getByTestId("login-view").waitFor()
+    await page.getByTestId('login-view').waitFor()
   },
 )

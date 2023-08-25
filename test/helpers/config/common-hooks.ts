@@ -78,21 +78,21 @@ Before(async function (this: ICustomWorld, { pickle }: ITestCaseHookParameter) {
   this.feature = pickle
 })
 
-After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {  
+After(async function (this: ICustomWorld, { result }: ITestCaseHookParameter) {
   if (result) {
     await this.attach(
       `Status: ${result?.status}. Duration:${result.duration?.seconds}s`,
     )
-    
+
     if (result.status !== Status.PASSED) {
       const image = await this.page?.screenshot()
-      
+
       // Replace : with _ because colons aren't allowed in Windows paths
       const timePart = this.startTime
-      ?.toISOString()
-      .split('.')[0]
-      .replaceAll(':', '_')
-      
+        ?.toISOString()
+        .split('.')[0]
+        .replaceAll(':', '_')
+
       image && (await this.attach(image, 'image/png'))
       await this.context?.tracing.stop({
         path: `${tracesDir}/${this.testName}-${timePart}trace.zip`,
