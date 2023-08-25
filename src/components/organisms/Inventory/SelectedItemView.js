@@ -1,9 +1,9 @@
 import React from 'react'
-import { SelectedItemImage } from '../../molecules/SelectedItem/SelectedItemImage'
-import { SelectedItemDescription } from '../../molecules/SelectedItem/SelectedItemDescription'
-import { SelectedItemSell } from '../../molecules/SelectedItem/SelectedItemSell'
-import { SelectedItemUpgrade } from '../../molecules/SelectedItem/SelectedItemUpgrade'
-import { SelectedItemEquip } from '../../molecules/SelectedItem/SelectedItemEquip'
+import { SelectedItemImage } from '../../molecules/SelectedItem/SelectedItemImage.js'
+import { SelectedItemDescription } from '../../molecules/SelectedItem/SelectedItemDescription.js'
+import { SelectedItemSell } from '../../molecules/SelectedItem/SelectedItemSell.js'
+import { SelectedItemUpgrade } from '../../molecules/SelectedItem/SelectedItemUpgrade.js'
+import { SelectedItemEquip } from '../../molecules/SelectedItem/SelectedItemEquip.js'
 
 export function SelectedItemView({ item, slot, equipped }) {
   return (

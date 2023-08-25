@@ -1,5 +1,5 @@
 import React from 'react'
-import { ItemImage } from '../../atoms/ItemImage'
+import { ItemImage } from '../../atoms/ItemImage.js'
 
 export function EquipmentItemSquares({
   item,
@@ -10,7 +10,6 @@ export function EquipmentItemSquares({
   setSelectedItemSlot,
 }) {
   const selectItem = (item, selectedItem, slot) => {
-    console.log(item)
     setSelectedItem(item === selectedItem ? null : item)
     setSelectedItemSlot(slot)
   }

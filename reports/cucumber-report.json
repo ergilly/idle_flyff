@@ -1,0 +1,87 @@
+[
+  {
+    "description": "  Feature Description: Test",
+    "elements": [
+      {
+        "description": "",
+        "id": "character-selection-page;test-load-of-character-selection-page",
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "Test load of Character Selection Page",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "failed",
+              "duration": 40052699,
+              "error_message": "TypeError: Cannot set property context of #<World> which has only a getter\n    at CustomWorld.<anonymous> (D:\\Users\\ergil\\Coding\\idle_flyff\\test\\helpers\\config\\common-hooks.ts:34:18)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "I load the Application and am logged in",
+            "match": {
+              "location": "test\\step-definitions\\character_select\\character_select_given.steps.ts:5"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "I am taken to the Character Selection Page",
+            "match": {
+              "location": "test\\step-definitions\\character_select\\character_select_then.steps.ts:5"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 802199
+            },
+            "embeddings": [
+              {
+                "data": "Status: FAILED. Duration:0s",
+                "mime_type": "text/plain"
+              }
+            ]
+          }
+        ],
+        "tags": [
+          {
+            "name": "@feature",
+            "line": 1
+          },
+          {
+            "name": "@demo",
+            "line": 6
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "character-selection-page",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Character selection page",
+    "tags": [
+      {
+        "name": "@feature",
+        "line": 1
+      }
+    ],
+    "uri": "test\\features\\character_select\\character_select.feature"
+  }
+]

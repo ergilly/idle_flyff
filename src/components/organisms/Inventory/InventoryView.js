@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ReactSortable } from 'react-sortablejs'
-import { ItemImage } from '../../atoms/ItemImage'
-import { formatNumber } from '../../../utils/convertPenya'
+import { ItemImage } from '../../atoms/ItemImage.js'
+import { formatNumber } from '../../../utils/convertPenya.js'
 
 export function InventoryView({ inventory, selectedItem, setSelectedItem }) {
   const [items, setItems] = useState(inventory.tab1)

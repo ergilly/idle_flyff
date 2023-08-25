@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { Timestamp } from 'firebase/firestore'
 import { uid as charId } from 'uid'
 import { useNavigate } from 'react-router-dom'
-import { getData, addData } from '../../firebase/firestore'
-import { getCurrentUser } from '../../firebase/auth'
+import { getData, addData } from '../../firebase/firestore.js'
+import { getCurrentUser } from '../../firebase/auth.js'
+import { Utils } from '../../utils/calc/utils.js'
+import { Vagrant } from '../../utils/calc/jobs.js'
 
 export function CreateCharacterView({
   setCharacter,
@@ -73,22 +75,14 @@ export function CreateCharacterView({
     return result
   }
 
-  const getItemData = async (itemId) => {
-    const { result, error } = await getData('item', itemId)
-    if (error) {
-      return console.log(error)
-    }
-    return result
-  }
-
   const createStartingInventory = async () => {
-    const lollipop = await getItemData('5325')
-    lollipop.count = 3
-    const biscuit = await getItemData('9449')
+    // const lollipop = await Utils.getItemById('5325')
+    // lollipop.count = 3
+    const biscuit = await Utils.getItemById('9449')
     biscuit.count = 1
-    const blinkwing = await getItemData('8815')
+    const blinkwing = await Utils.getItemById('8815')
     blinkwing.count = 5
-    return { tab1: [lollipop, biscuit, blinkwing] }
+    return { tab1: [biscuit, blinkwing] }
   }
 
   const createStartingEquipment = async (characterSex) => {
@@ -100,28 +94,34 @@ export function CreateCharacterView({
       mask: null,
       helmet: null,
       suit: null,
-      gloves: null,
+      gauntlet: null,
       boots: null,
       mount: null,
-      l_ring: null,
-      r_ring: null,
-      l_earring: null,
-      r_earring: null,
+      ringL: null,
+      ringR: null,
+      earringL: null,
+      earringR: null,
       necklace: null,
-      f_hat: null,
-      f_suit: null,
-      f_gloves: null,
-      f_boots: null,
+      hatF: null,
+      suitF: null,
+      gauntletF: null,
+      bootsF: null,
+      hpFood: [],
+      fpFood: [],
+      mpFood: [],
     }
-    equipment.mainhand = await getItemData('3497')
+    const lollipop = await Utils.getItemById('5325')
+    lollipop.count = 3
+    equipment.hpFood.push(lollipop)
+    equipment.mainhand = await Utils.getItemById('3497')
     if (characterSex === 'male') {
-      equipment.suit = await getItemData('3314')
-      equipment.gloves = await getItemData('5535')
-      equipment.boots = await getItemData('4750')
+      equipment.suit = await Utils.getItemById('3314')
+      equipment.gauntlet = await Utils.getItemById('5535')
+      equipment.boots = await Utils.getItemById('4750')
     } else if (characterSex === 'female') {
-      equipment.suit = await getItemData('6040')
-      equipment.gloves = await getItemData('5011')
-      equipment.boots = await getItemData('8195')
+      equipment.suit = await Utils.getItemById('6040')
+      equipment.gauntlet = await Utils.getItemById('5011')
+      equipment.boots = await Utils.getItemById('8195')
     }
     return equipment
   }
@@ -141,10 +141,12 @@ export function CreateCharacterView({
     const newCharId = charId()
     const startingInventory = await createStartingInventory()
     const startingEquipment = await createStartingEquipment(characterSex)
+    const character2 = new Vagrant(20)
+    console.log(character2)
     const character = {
       [newCharId]: {
         action: null,
-        job: 'vagrant',
+        jobId: 9686,
         lastOnline: current_timestamp,
         level: 1,
         name: characterName,

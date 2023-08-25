@@ -1,5 +1,5 @@
 import React from 'react'
-import { EquipmentItemSquares } from '../../molecules/Equipment/EquipmentItemSquares'
+import { EquipmentItemSquares } from '../../molecules/Equipment/EquipmentItemSquares.js'
 
 export function EquipmentView({
   equipment,
@@ -34,14 +34,14 @@ export function EquipmentView({
       slot: 'mask',
     },
     {
-      item: equipment.l_ring,
+      item: equipment.ringL,
       size: 6,
-      slot: 'l_ring',
+      slot: 'ringL',
     },
     {
-      item: equipment.l_earring,
+      item: equipment.earringL,
       size: 6,
-      slot: 'l_earring',
+      slot: 'earringL',
     },
     {
       item: equipment.necklace,
@@ -49,34 +49,34 @@ export function EquipmentView({
       slot: 'necklace',
     },
     {
-      item: equipment.r_earring,
+      item: equipment.earringR,
       size: 6,
-      slot: 'r_earring',
+      slot: 'earringR',
     },
     {
-      item: equipment.r_ring,
+      item: equipment.ringR,
       size: 6,
-      slot: 'r_ring',
+      slot: 'ringR',
     },
     {
-      item: equipment.f_hat,
+      item: equipment.hatF,
       size: 6,
-      slot: 'f_hat',
+      slot: 'hatF',
     },
     {
-      item: equipment.f_suit,
+      item: equipment.suitF,
       size: 6,
-      slot: 'f_suit',
+      slot: 'suitF',
     },
     {
-      item: equipment.f_gloves,
+      item: equipment.gauntletF,
       size: 6,
-      slot: 'f_gloves',
+      slot: 'gauntletF',
     },
     {
-      item: equipment.f_boots,
+      item: equipment.bootsF,
       size: 6,
-      slot: 'f_boots',
+      slot: 'bootsF',
     },
     {
       item: equipment.helmet,
@@ -89,9 +89,9 @@ export function EquipmentView({
       slot: 'suit',
     },
     {
-      item: equipment.gloves,
+      item: equipment.gauntlet,
       size: 8,
-      slot: 'gloves',
+      slot: 'gauntlet',
     },
     {
       item: equipment.boots,
@@ -106,7 +106,7 @@ export function EquipmentView({
   ]
 
   return (
-    <div className="container flex flex-col justify-between w-auto h-min m-2 border rounded-xl px-4 py-2 bg-gray-800">
+    <div className="container flex flex-col justify-between min-w-min w-auto h-min m-2 border rounded-xl px-4 py-2 bg-gray-800">
       <div className="text-white text-center text-lg font-bold">Equipment</div>
       <div className="flex self-center">
         {equipmentSlots.slice(5, 10).map((slot) => (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ItemAmountSlider } from '../../atoms/SelectedItemSell/ItemAmountSlider'
+import { ItemAmountSlider } from '../../atoms/SelectedItemSell/ItemAmountSlider.js'
 
 export function SelectedItemSell({ item, equipped }) {
   const [value, setValue] = useState(1)
@@ -37,7 +37,7 @@ export function SelectedItemSell({ item, equipped }) {
         value={value}
         setValue={setValue}
       />
-      <div className="flex mt-4">
+      <div className="flex">
         <input
           type="number"
           min="1"

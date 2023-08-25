@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { onAuthStateChanged, getAuth } from 'firebase/auth'
-import { SignInView } from './userContext/signInView'
-import { SignUpView } from './userContext/signUpView'
-import { signIn, signup, setUsername, verifyEmail } from '../firebase/auth'
-import firebase_app from '../firebase/config'
+import { SignInView } from './userContext/signInView.js'
+import { SignUpView } from './userContext/signUpView.js'
+import { signIn, signup, setUsername, verifyEmail } from '../firebase/auth.js'
+import firebase_app from '../firebase/config.js'
 
 const auth = getAuth(firebase_app)
 export const UserContext = React.createContext({})

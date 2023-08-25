@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getData } from '../../firebase/firestore'
+import { getData } from '../../firebase/firestore.js'
 
 const getLastOnline = (time) => {
   const lastOnline = new Date(time.seconds * 1000)
@@ -61,6 +61,7 @@ const renderCharacter = (userChar, index, setCreateChar, routeChange) => {
   return (
     <li
       key={id}
+      data-testid={`character-slot-${index + 1}`}
       className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-gray-600 text-center shadow"
     >
       <div className="flex flex-1 flex-col p-8">

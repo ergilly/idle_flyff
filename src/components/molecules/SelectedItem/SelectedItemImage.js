@@ -1,5 +1,5 @@
 import React from 'react'
-import { ItemImage } from '../../atoms/ItemImage'
+import { ItemImage } from '../../atoms/ItemImage.js'
 
 export function SelectedItemImage({ item }) {
   const { stack, count } = item

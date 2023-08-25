@@ -8,9 +8,10 @@ import React, {
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline'
-import { CharContext } from '../../context/characterContext'
-import { logOut } from '../../firebase/auth'
-import { getImageUrl } from '../../firebase/storage'
+import { CharContext } from '../../context/characterContext.js'
+import { logOut } from '../../firebase/auth.js'
+import { getImageUrl } from '../../firebase/store.js'
+import { Utils } from '../../utils/calc/utils.js'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -35,17 +36,23 @@ function SelectCharacterItem() {
 }
 
 export function HeaderBar({ setSidebarOpen }) {
-  const { name, job, selected } = useContext(CharContext)
-  const context = useContext(CharContext)
+  const { name, jobId, selected } = useContext(CharContext)
   const [jobImageSrc, setJobImageSrc] = useState('')
 
-  useEffect(() => {
-    async function fetchJobImage() {
-      const src = await getImageUrl('class/target/', `${job}.png`)
+  async function fetchJobImage() {
+    if (jobId) {
+      const jobName = await Utils.getJobName(`${jobId}`)
+      const src = await getImageUrl(
+        'class/target/',
+        `${jobName.toLowerCase()}.png`,
+      )
       setJobImageSrc(src)
     }
+  }
+
+  useEffect(() => {
     fetchJobImage()
-  }, [job])
+  }, [jobId])
 
   const requestLogout = useCallback(() => {
     logOut()

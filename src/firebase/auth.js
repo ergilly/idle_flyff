@@ -7,7 +7,7 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from 'firebase/auth'
-import firebase_app from './config'
+import firebase_app from './config.js'
 
 const auth = getAuth(firebase_app)
 
