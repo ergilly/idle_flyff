@@ -5,9 +5,9 @@ import {
   removeItemFromInventory,
   removeItemFromEquipment,
   addItemToInventory,
-} from '../../../utils/inventoryManagement'
-import { ItemAmountSlider } from '../../atoms/SelectedItemSell/ItemAmountSlider'
-import { CharContext } from '../../../context/characterContext'
+} from '../../../utils/inventoryManagement.js'
+import { ItemAmountSlider } from '../../atoms/SelectedItemSell/ItemAmountSlider.js'
+import { CharContext } from '../../../context/characterContext.js'
 
 const equipable = [
   'weapon',

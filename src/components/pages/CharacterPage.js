@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
-import { CharContext } from '../../context/characterContext'
-import { EquipmentView } from '../organisms/Character/EquipmentView'
-import { SelectedItemView } from '../organisms/Inventory/SelectedItemView'
-import { StatsView } from '../organisms/Character/StatsView'
+import { CharContext } from '../../context/characterContext.js'
+import { EquipmentView } from '../organisms/Character/EquipmentView.js'
+import { SelectedItemView } from '../organisms/Inventory/SelectedItemView.js'
+import { StatsView } from '../organisms/Character/StatsView.js'
 
 export function CharacterPage() {
   const { equipment } = useContext(CharContext)

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getImageUrl } from '../../firebase/storage'
+import { getImageUrl } from '../../firebase/store.js'
 
 export function ItemImage({ item, classNames, icon }) {
   const [src, setSrc] = useState('')

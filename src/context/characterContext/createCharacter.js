@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { Timestamp } from 'firebase/firestore'
 import { uid as charId } from 'uid'
 import { useNavigate } from 'react-router-dom'
-import { getData, addData } from '../../firebase/firestore'
-import { getCurrentUser } from '../../firebase/auth'
-import { Utils } from '../../utils/calc/utils'
-import { Vagrant } from '../../utils/calc/jobs'
+import { getData, addData } from '../../firebase/firestore.js'
+import { getCurrentUser } from '../../firebase/auth.js'
+import { Utils } from '../../utils/calc/utils.js'
+import { Vagrant } from '../../utils/calc/jobs.js'
 
 export function CreateCharacterView({
   setCharacter,

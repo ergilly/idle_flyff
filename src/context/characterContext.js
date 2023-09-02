@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useContext } from 'react'
-import { UserContext } from './userContext'
-import { CreateCharacterView } from './characterContext/createCharacter'
-import { SelectCharacterView } from './characterContext/selectCharacter'
+import { UserContext } from './userContext.js'
+import { CreateCharacterView } from './characterContext/createCharacter.js'
+import { SelectCharacterView } from './characterContext/selectCharacter.js'
 
 export const CharContext = React.createContext({})
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { EquipmentItemSquares } from '../../molecules/Equipment/EquipmentItemSquares'
+import { EquipmentItemSquares } from '../../molecules/Equipment/EquipmentItemSquares.js'
 
 export function EquipmentView({
   equipment,
