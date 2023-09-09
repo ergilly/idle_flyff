@@ -8,7 +8,7 @@ jobs:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     outputs:
-      url: ${{ steps.deploy_firebase_hosting_channel.outputs.urls[0] }}
+      url: ${{ steps.deploy_firebase_hosting_channel.outputs.urls }}
     steps:
       - uses: actions/checkout@v3
       - run: npm ci && CI=false npm run build
@@ -33,7 +33,7 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         env:
-          BASE_URL: ${{ fromJson(needs.build_and_preview.outputs.url) }}
+          BASE_URL: ${{ needs.build_and_preview.outputs.url }}
           HEADLESS_MODE: true
         run: npm run test
       - uses: actions/upload-artifact@v3
