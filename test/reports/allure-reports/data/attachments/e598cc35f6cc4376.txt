@@ -1,1 +1,0 @@
-Locator@internal:testid=[data-testid="login-view"s]
