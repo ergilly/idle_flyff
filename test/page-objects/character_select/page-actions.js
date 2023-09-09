@@ -4,7 +4,7 @@ class PageActions {
   }
 
   async loadLoginPage() {
-    console.log(process.env.BASE_URL)
+    console.log(`Base Url: ${process.env.BASE_URL}`)
     await this.page.goto(process.env.BASE_URL)
   }
 }
