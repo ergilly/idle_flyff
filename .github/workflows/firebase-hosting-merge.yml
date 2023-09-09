@@ -35,7 +35,7 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         env:
-          BASE_URL: ${{ fromJson(steps.deploy_firebase_hosting_channel.outputs.urls)[0] }}
+          BASE_URL: ${{ steps.deploy_firebase_hosting_channel.outputs.urls[0] }}
           HEADLESS_MODE: true
         run: npm run test
       - uses: actions/upload-artifact@v3
