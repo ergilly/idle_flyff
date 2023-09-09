@@ -35,6 +35,8 @@ jobs:
         run: npm ci
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: Run Feature Generation
+        run: npm run bddgen
       - name: Run Playwright tests
         env:
           BASE_URL: ${{ needs.build_and_preview.outputs.url }}
