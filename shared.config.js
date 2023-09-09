@@ -25,7 +25,6 @@ const config = {
       Number.parseInt(process.env.NAVIGATION_TIMEOUT, 10) * timeInMin,
   },
   testDir: '.features-gen',
-  outputDir: './test/reports',
   timeout: Number.parseInt(process.env.TEST_TIMEOUT, 10) * timeInMin,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,

@@ -12,7 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm ci && CI=false npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Deploy to Firebase Hosting Channel
+        id: deploy_firebase_hosting_channel
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FLYFF_IDLE }}'
@@ -33,7 +35,7 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         env:
-          BASE_URL: ${{needs.build_and_preview.outputs.urls}}
+          BASE_URL: ${{ fromJson(steps.deploy_firebase_hosting_channel.outputs.urls)[0] }}
           HEADLESS_MODE: true
         run: npm run test
       - uses: actions/upload-artifact@v3
