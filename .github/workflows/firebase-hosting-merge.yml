@@ -14,8 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm ci && CI=false npm run build
-      - name: Deploy to Firebase Hosting Channel
-        id: deploy_firebase_hosting_channel
+      - id: deploy_firebase_hosting_channel
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
