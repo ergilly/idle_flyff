@@ -4,17 +4,35 @@ import { SignInView } from './userContext/signInView.js'
 import { SignUpView } from './userContext/signUpView.js'
 import { signIn, signup, setUsername, verifyEmail } from '../firebase/auth.js'
 import firebase_app from '../firebase/config.js'
+import { addData, getData } from '../firebase/firestore.js'
 
 const auth = getAuth(firebase_app)
 export const UserContext = React.createContext({})
 
 function onAuthStateChange(callback) {
-  return onAuthStateChanged(auth, (user) => {
+  return onAuthStateChanged(auth, async (user) => {
     if (user) {
+      console.log(user.uid)
+      console.log(await getData('user', user.uid))
+      const { result, error } = await getData('user', user.uid)
+      if (error) {
+        return console.log(error)
+      }
+      console.log(result)
+      if (result === undefined) {
+        const { res, err } = await addData('user', user.uid, {
+          characters: [],
+          displayName: user.displayName,
+        })
+        if (err) {
+          return console.log(err)
+        }
+      }
       callback({ loggedIn: true, ...user })
     } else {
       callback({ loggedIn: false })
     }
+    return null
   })
 }
 
