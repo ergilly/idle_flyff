@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export function StatInputBox({
   stat,
@@ -7,23 +7,53 @@ export function StatInputBox({
   value,
   setValue,
 }) {
-  async function incrementStatValue(value, setValue) {
-    console.log(availableStatPoints)
+  const [inputValue, setInputValue] = useState(value)
+  const [timeoutId, setTimeoutId] = useState(null)
+
+  async function incrementStatValue(
+    value,
+    setValue,
+    inputValue,
+    setInputValue,
+  ) {
     if (availableStatPoints > 0) {
       setValue(value + 1)
+      setInputValue(inputValue + 1)
     }
   }
 
-  async function decrementStatValue(value, setValue) {
+  async function decrementStatValue(
+    value,
+    setValue,
+    inputValue,
+    setInputValue,
+  ) {
     if (value > 0) {
       setValue(value - 1)
+      setInputValue(inputValue - 1)
     }
   }
 
-  async function handleOnChange(value, setValue) {
-    if (value > 0) {
-      setValue(value)
+  function handleOnChange(newValue) {
+    setInputValue(newValue)
+
+    if (timeoutId) {
+      clearTimeout(timeoutId)
     }
+
+    const newTimeoutId = setTimeout(() => {
+      if (newValue < 0) {
+        setValue(0)
+        setInputValue(0)
+      } else if (newValue > availableStatPoints) {
+        setValue(availableStatPoints)
+        setInputValue(availableStatPoints)
+      } else {
+        setValue(newValue)
+      }
+    }, 500)
+
+    setTimeoutId(newTimeoutId)
   }
 
   return (
@@ -39,7 +69,7 @@ export function StatInputBox({
           type="button"
           className="px-1 text-xl"
           onClick={() => {
-            decrementStatValue(value, setValue)
+            decrementStatValue(value, setValue, inputValue, setInputValue)
           }}
         >
           -
@@ -50,14 +80,14 @@ export function StatInputBox({
           id={`${stat.toUpperCase()}_value`}
           className="block w-16 rounded-md border-0 px-2 py-1.5 text-gray-900 placeholder:text-gray-400"
           placeholder="0"
-          value={value}
-          onChange={(e) => handleOnChange(e.target.value, setValue)}
+          value={inputValue}
+          onChange={(e) => handleOnChange(e.target.value)}
         />
         <button
           type="button"
           className="px-1 text-xl"
           onClick={() => {
-            incrementStatValue(value, setValue)
+            incrementStatValue(value, setValue, inputValue, setInputValue)
           }}
         >
           +
