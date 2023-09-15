@@ -37,7 +37,7 @@ jobs:
         env:
           BASE_URL: ${{ needs.build_and_preview.outputs.url }}
           HEADLESS_MODE: true
-        run: npm run test
+        run: npm run test:ui
       - uses: actions/upload-artifact@v3
         if: always()
         with:
