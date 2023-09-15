@@ -23,14 +23,7 @@ export function StatsView() {
     }
   }
 
-  async function calculateAvailableStatPoints(
-    statPointsForLevel,
-    strValue,
-    staValue,
-    dexValue,
-    intValue,
-    stats,
-  ) {
+  async function calculateAvailableStatPoints(statPointsForLevel, stats) {
     setAvailableStatPoints(
       statPointsForLevel -
         strValue -
@@ -49,15 +42,8 @@ export function StatsView() {
   }, [])
 
   useEffect(() => {
-    calculateAvailableStatPoints(
-      statPointsForLevel,
-      strValue,
-      staValue,
-      dexValue,
-      intValue,
-      stats,
-    )
-  }, [statPointsForLevel, strValue, staValue, dexValue, intValue, stats])
+    calculateAvailableStatPoints(statPointsForLevel, stats)
+  }, [statPointsForLevel])
 
   return (
     <div className="container flex flex-col justify-between min-w-min w-auto h-min m-2 border rounded-xl px-4 py-2 bg-gray-800">
@@ -75,6 +61,8 @@ export function StatsView() {
           stat="str"
           stats={stats}
           availableStatPoints={availableStatPoints}
+          setAvailableStatPoints={setAvailableStatPoints}
+          statPointsForLevel={statPointsForLevel}
           value={strValue}
           setValue={setStrValue}
         />
@@ -82,6 +70,8 @@ export function StatsView() {
           stat="sta"
           stats={stats}
           availableStatPoints={availableStatPoints}
+          setAvailableStatPoints={setAvailableStatPoints}
+          statPointsForLevel={statPointsForLevel}
           value={staValue}
           setValue={setStaValue}
         />
@@ -89,6 +79,8 @@ export function StatsView() {
           stat="dex"
           stats={stats}
           availableStatPoints={availableStatPoints}
+          setAvailableStatPoints={setAvailableStatPoints}
+          statPointsForLevel={statPointsForLevel}
           value={dexValue}
           setValue={setDexValue}
         />
@@ -96,6 +88,8 @@ export function StatsView() {
           stat="int"
           stats={stats}
           availableStatPoints={availableStatPoints}
+          setAvailableStatPoints={setAvailableStatPoints}
+          statPointsForLevel={statPointsForLevel}
           value={intValue}
           setValue={setIntValue}
         />

@@ -1,55 +1,59 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export function StatInputBox({
   stat,
   stats,
   availableStatPoints,
+  setAvailableStatPoints,
+  statPointsForLevel,
   value,
   setValue,
 }) {
-  const [inputValue, setInputValue] = useState(value)
   const [timeoutId, setTimeoutId] = useState(null)
 
   async function incrementStatValue(
     value,
     setValue,
-    inputValue,
-    setInputValue,
+    availableStatPoints,
+    setAvailableStatPoints,
   ) {
     if (availableStatPoints > 0) {
       setValue(value + 1)
-      setInputValue(inputValue + 1)
+      setAvailableStatPoints(availableStatPoints - 1)
     }
   }
 
   async function decrementStatValue(
     value,
     setValue,
-    inputValue,
-    setInputValue,
+    availableStatPoints,
+    setAvailableStatPoints,
   ) {
     if (value > 0) {
       setValue(value - 1)
-      setInputValue(inputValue - 1)
+      setAvailableStatPoints(availableStatPoints + 1)
     }
   }
 
-  function handleOnChange(newValue) {
-    setInputValue(newValue)
+  function handleOnChange(value) {
+    const newValue = Number.isNaN(parseInt(value, 10)) ? 0 : parseInt(value, 10)
+    setValue(newValue)
 
     if (timeoutId) {
       clearTimeout(timeoutId)
     }
+    setAvailableStatPoints(
+      statPointsForLevel - newValue >= 0 ? statPointsForLevel - newValue : 0,
+    )
 
     const newTimeoutId = setTimeout(() => {
       if (newValue < 0) {
         setValue(0)
-        setInputValue(0)
-      } else if (newValue > availableStatPoints) {
-        setValue(availableStatPoints)
-        setInputValue(availableStatPoints)
+      } else if (newValue > statPointsForLevel) {
+        setAvailableStatPoints(0)
+        setValue(statPointsForLevel)
       } else {
-        setValue(newValue)
+        setAvailableStatPoints(statPointsForLevel - newValue)
       }
     }, 500)
 
@@ -69,7 +73,12 @@ export function StatInputBox({
           type="button"
           className="px-1 text-xl"
           onClick={() => {
-            decrementStatValue(value, setValue, inputValue, setInputValue)
+            decrementStatValue(
+              value,
+              setValue,
+              availableStatPoints,
+              setAvailableStatPoints,
+            )
           }}
         >
           -
@@ -80,14 +89,19 @@ export function StatInputBox({
           id={`${stat.toUpperCase()}_value`}
           className="block w-16 rounded-md border-0 px-2 py-1.5 text-gray-900 placeholder:text-gray-400"
           placeholder="0"
-          value={inputValue}
+          value={value}
           onChange={(e) => handleOnChange(e.target.value)}
         />
         <button
           type="button"
           className="px-1 text-xl"
           onClick={() => {
-            incrementStatValue(value, setValue, inputValue, setInputValue)
+            incrementStatValue(
+              value,
+              setValue,
+              availableStatPoints,
+              setAvailableStatPoints,
+            )
           }}
         >
           +
