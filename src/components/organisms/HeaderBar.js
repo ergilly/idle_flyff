@@ -36,7 +36,9 @@ function SelectCharacterItem() {
 }
 
 export function HeaderBar({ setSidebarOpen }) {
-  const { name, jobId, selected } = useContext(CharContext)
+  const {
+    character: { name, jobId, selected },
+  } = useContext(CharContext)
   const [jobImageSrc, setJobImageSrc] = useState('')
 
   async function fetchJobImage() {

@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react'
 export function StatInputBox({
   stat,
   stats,
+  unassignedStatPoints,
+  setUnassignedStatPoints,
   availableStatPoints,
-  setAvailableStatPoints,
-  statPointsForLevel,
   value,
   setValue,
 }) {
@@ -14,24 +14,24 @@ export function StatInputBox({
   async function incrementStatValue(
     value,
     setValue,
-    availableStatPoints,
-    setAvailableStatPoints,
+    unassignedStatPoints,
+    setUnassignedStatPoints,
   ) {
-    if (availableStatPoints > 0) {
+    if (unassignedStatPoints > 0) {
       setValue(value + 1)
-      setAvailableStatPoints(availableStatPoints - 1)
+      setUnassignedStatPoints(unassignedStatPoints - 1)
     }
   }
 
   async function decrementStatValue(
     value,
     setValue,
-    availableStatPoints,
-    setAvailableStatPoints,
+    unassignedStatPoints,
+    setUnassignedStatPoints,
   ) {
     if (value > 0) {
       setValue(value - 1)
-      setAvailableStatPoints(availableStatPoints + 1)
+      setUnassignedStatPoints(unassignedStatPoints + 1)
     }
   }
 
@@ -42,18 +42,18 @@ export function StatInputBox({
     if (timeoutId) {
       clearTimeout(timeoutId)
     }
-    setAvailableStatPoints(
-      statPointsForLevel - newValue >= 0 ? statPointsForLevel - newValue : 0,
+    setUnassignedStatPoints(
+      availableStatPoints - newValue >= 0 ? availableStatPoints - newValue : 0,
     )
 
     const newTimeoutId = setTimeout(() => {
       if (newValue < 0) {
         setValue(0)
-      } else if (newValue > statPointsForLevel) {
-        setAvailableStatPoints(0)
-        setValue(statPointsForLevel)
+      } else if (newValue > availableStatPoints) {
+        setUnassignedStatPoints(0)
+        setValue(availableStatPoints)
       } else {
-        setAvailableStatPoints(statPointsForLevel - newValue)
+        setUnassignedStatPoints(availableStatPoints - newValue)
       }
     }, 500)
 
@@ -76,8 +76,8 @@ export function StatInputBox({
             decrementStatValue(
               value,
               setValue,
-              availableStatPoints,
-              setAvailableStatPoints,
+              unassignedStatPoints,
+              setUnassignedStatPoints,
             )
           }}
         >
@@ -99,8 +99,8 @@ export function StatInputBox({
             incrementStatValue(
               value,
               setValue,
-              availableStatPoints,
-              setAvailableStatPoints,
+              unassignedStatPoints,
+              setUnassignedStatPoints,
             )
           }}
         >

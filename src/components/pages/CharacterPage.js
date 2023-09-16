@@ -5,7 +5,9 @@ import { SelectedItemView } from '../organisms/Inventory/SelectedItemView.js'
 import { StatsView } from '../organisms/Character/StatsView.js'
 
 export function CharacterPage() {
-  const { equipment } = useContext(CharContext)
+  const {
+    character: { equipment },
+  } = useContext(CharContext)
   const [selectedItem, setSelectedItem] = useState(null)
   const [selectedItemSlot, setSelectedItemSlot] = useState(null)
 

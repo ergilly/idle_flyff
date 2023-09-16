@@ -8,7 +8,9 @@ import { Consumables } from '../../molecules/Battle/PlayerWindow/Consumables.js'
 import { Utils } from '../../../utils/calc/utils.js'
 
 export function PlayerWindow() {
-  const { equipment, jobId, level, stats } = useContext(CharContext)
+  const {
+    character: { equipment, jobId, level, stats },
+  } = useContext(CharContext)
   const [playerMenu, setPlayerMenu] = useState('equipment')
   const [currentHp, setCurrentHp] = useState(150)
   const [characterData, setCharacterData] = useState(null)
