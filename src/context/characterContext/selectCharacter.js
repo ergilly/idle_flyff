@@ -116,7 +116,7 @@ export function SelectCharacterView({ user, setCharacter, setCreateChar }) {
     const getCharacterData = async () => {
       if (user && user.uid) {
         const { result, error } = await getData('user', user.uid)
-        if (error) {
+        if (error || !result) {
           console.log(error)
         } else {
           const characterData = result.characters
