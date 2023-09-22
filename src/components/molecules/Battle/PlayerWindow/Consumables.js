@@ -4,12 +4,12 @@ import { ItemImage } from '../../../atoms/ItemImage.js'
 
 export function Consumables({ hpFood, fpFood, mpFood }) {
   function useFood(food) {
-    console.log(food)
+    // console.log(food)
   }
-  console.log(hpFood)
+  // console.log(hpFood)
 
   const renderItemCount = (item) => {
-    console.log(item)
+    // console.log(item)
     if (item?.stack > 1) {
       return (
         <span className="absolute top-10 bg-gray-500 text-gray-100 font-bold hidden rounded-full h-5 px-2.5 text-sm md:inline-block">

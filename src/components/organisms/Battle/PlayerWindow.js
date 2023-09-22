@@ -5,45 +5,39 @@ import { BattleBars } from '../../molecules/Battle/BattleBars.js'
 import { AttkInterval } from '../../molecules/Battle/AttkInterval.js'
 import { MenuSelect } from '../../molecules/Battle/PlayerWindow/MenuSelect.js'
 import { Consumables } from '../../molecules/Battle/PlayerWindow/Consumables.js'
-import { Utils } from '../../../utils/calc/utils.js'
+import { Stats } from '../../molecules/Battle/PlayerWindow/Stats.js'
 
-export function PlayerWindow() {
-  const { equipment, jobId, level, stats } = useContext(CharContext)
+export function PlayerWindow({
+  characterData,
+  combatRunning,
+  setCombatRunning,
+  damageCalculator,
+}) {
+  const { equipment } = useContext(CharContext)
   const [playerMenu, setPlayerMenu] = useState('equipment')
-  const [currentHp, setCurrentHp] = useState(150)
-  const [characterData, setCharacterData] = useState(null)
+  const [currentHp, setCurrentHp] = useState(0)
+  const [currentFp, setCurrentFp] = useState(0)
+  const [currentMp, setCurrentMp] = useState(0)
+  const [hitsPerSecond, setHitsPerSecond] = useState(0)
 
-  async function createCharacterData() {
-    const charData = await Utils.getJobFromId(jobId, [
-      stats.str,
-      stats.sta,
-      stats.int,
-      stats.dex,
-      level,
-      null,
-      null,
-      equipment.mainhand,
-      equipment.offhand,
-      equipment.helmet,
-      equipment.suit,
-      equipment.gauntlet,
-      equipment.boots,
-      equipment.cloak,
-      equipment.earringR,
-      equipment.earringL,
-      equipment.ringR,
-      equipment.ringL,
-      equipment.necklace,
-      null,
-      jobId,
-    ])
-    await charData.initialize()
-    await setCharacterData(charData)
-  }
-
+  console.log(characterData)
   useEffect(() => {
-    createCharacterData()
-  }, [jobId])
+    let isMounted = true
+    const setDynamicStats = async () => {
+      if (isMounted) {
+        await Promise.all([
+          setCurrentHp(characterData.health),
+          setCurrentFp(characterData.fp),
+          setCurrentMp(characterData.mp),
+          setHitsPerSecond(characterData.constants.hps * characterData.aspd),
+        ])
+      }
+    }
+    setDynamicStats()
+    return () => {
+      isMounted = false
+    }
+  }, [characterData])
 
   if (!characterData) {
     return (
@@ -56,8 +50,14 @@ export function PlayerWindow() {
     )
   }
 
-  console.log(characterData)
-  console.log(characterData.defense)
+  const calculateDamage = async () => {
+    console.log(damageCalculator.computeAttack())
+    if (currentHp === characterData.health) {
+      setCurrentHp(currentHp - 1)
+    } else {
+      setCurrentHp(characterData.health)
+    }
+  }
 
   return (
     <div
@@ -73,8 +73,8 @@ export function PlayerWindow() {
               maxFp={characterData.fp}
               maxMp={characterData.mp}
               currentHp={currentHp}
-              currentFp={characterData.fp}
-              currentMp={characterData.mp}
+              currentFp={currentFp}
+              currentMp={currentMp}
             />
             <Consumables
               hpFood={equipment.hpFood}
@@ -92,15 +92,13 @@ export function PlayerWindow() {
             </div>
           </div>
           <div className="flex flex-col w-1/2">
-            <AttkInterval />
-            <div
-              id="Stats"
-              className="container flex w-auto h-min m-2 border rounded-xl px-4 bg-gray-800"
-            >
-              <div className="text-white text-center text-lg font-bold w-full">
-                Stats
-              </div>
-            </div>
+            <AttkInterval
+              calculateDamage={calculateDamage}
+              hitsPerSecond={hitsPerSecond}
+              combatRunning={combatRunning}
+              setCombatRunning={setCombatRunning}
+            />
+            <Stats characterData={characterData} />
             <div
               id="Quest"
               className="container flex w-auto h-min m-2 border rounded-xl px-4 bg-gray-800"

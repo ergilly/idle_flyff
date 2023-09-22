@@ -141,8 +141,6 @@ export function CreateCharacterView({
     const newCharId = charId()
     const startingInventory = await createStartingInventory()
     const startingEquipment = await createStartingEquipment(characterSex)
-    const character2 = new Vagrant(20)
-    console.log(character2)
     const character = {
       [newCharId]: {
         action: null,
