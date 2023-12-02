@@ -119,7 +119,7 @@ export class Utils {
   }
 
   static async getItemById(id) {
-    const { result, error } = await getData('item', id)
+    const { result, error } = await getData('item', `${id}`)
     if (error) {
       console.log(error)
       return
@@ -156,7 +156,7 @@ export class Utils {
   }
 
   static async getSkillById(id) {
-    const { result, error } = await getData('skill', id)
+    const { result, error } = await getData('skill', `${id}`)
     if (error) {
       console.log(error)
       return
@@ -179,7 +179,7 @@ export class Utils {
   } // 9686 = vagrant
 
   static async getJobName(jobId) {
-    const { result, error } = await getData('class', jobId)
+    const { result, error } = await getData('class', `${jobId}`)
     if (error) {
       console.log(error)
       return
@@ -188,7 +188,7 @@ export class Utils {
   }
 
   static async getParentJobId(jobId) {
-    const { result, error } = await getData('class', jobId)
+    const { result, error } = await getData('class', `${jobId}`)
     if (error) {
       console.log(error)
       return
@@ -197,7 +197,7 @@ export class Utils {
   }
 
   static async getJobById(jobId) {
-    const { result, error } = await getData('class', jobId)
+    const { result, error } = await getData('class', `${jobId}`)
     if (error) {
       console.log(error)
       return
@@ -262,7 +262,10 @@ export class Utils {
   }
 
   static async getUpgradeBonus(upgradeLevel) {
-    const { result, error } = await getData('upgradelevelbonus', upgradeLevel)
+    const { result, error } = await getData(
+      'upgradelevelbonus',
+      `${upgradeLevel}`,
+    )
     if (error) {
       console.log(error)
       return
@@ -305,7 +308,7 @@ export class Utils {
       'skill',
       'class',
       '==',
-      jobId,
+      `${jobId}`,
     )
     if (error) {
       console.log(error)
@@ -400,40 +403,40 @@ export class Utils {
     return false
   }
 
-  // static updateMonsters(character) {
-  //   let level = parseInt(character.level)
-  //   let ignoreRanks = ['super', 'boss', 'giant', 'violet']
+  static updateMonsters(character) {
+    let level = parseInt(character.level)
+    let ignoreRanks = ['super', 'boss', 'giant', 'violet']
 
-  //   let index = Utils.monsters.findIndex(
-  //     (monster) => monster.level >= level + 1,
-  //   )
+    let index = Utils.monsters.findIndex(
+      (monster) => monster.level >= level + 1,
+    )
 
-  //   // Could not find monsters that are higher level than you, use the highest level monster
-  //   if (index === null || index < 0) {
-  //     index = Utils.monsters.length - 1
-  //   }
+    // Could not find monsters that are higher level than you, use the highest level monster
+    if (index === null || index < 0) {
+      index = Utils.monsters.length - 1
+    }
 
-  //   let res = Utils.monsters.slice(
-  //     Math.max(index - 10, 0),
-  //     Math.min(index + 20, Utils.monsters.length),
-  //   )
-  //   res = res.filter(function (monster) {
-  //     return (
-  //       !ignoreRanks.includes(monster.rank) &&
-  //       monster.experience > 0 &&
-  //       !monster.name.en.includes('Criminal') &&
-  //       monster.spawns != undefined &&
-  //       monster.spawns.length > 0
-  //     )
-  //   })
+    let res = Utils.monsters.slice(
+      Math.max(index - 10, 0),
+      Math.min(index + 20, Utils.monsters.length),
+    )
+    res = res.filter(function (monster) {
+      return (
+        !ignoreRanks.includes(monster.rank) &&
+        monster.experience > 0 &&
+        !monster.name.en.includes('Criminal') &&
+        monster.spawns != undefined &&
+        monster.spawns.length > 0
+      )
+    })
 
-  //   // Update the damage against each monster
-  //   for (const monster of res) {
-  //     character.getDamage(monster)
-  //   }
+    // Update the damage against each monster
+    for (const monster of res) {
+      character.getDamage(monster)
+    }
 
-  //   return res
-  // }
+    return res
+  }
 
   static getExpReward(monster, level) {
     return monster.experienceTable[level - 1]

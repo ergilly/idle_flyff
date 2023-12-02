@@ -14,7 +14,7 @@ export function ElementImage({ element, classNames }) {
       }
     }
 
-    if (element) {
+    if (element && element !== 'none') {
       fetchUrl()
     }
 
@@ -22,6 +22,10 @@ export function ElementImage({ element, classNames }) {
       isMounted = false
     }
   }, [element])
+
+  if (element === 'none') {
+    return <div />
+  }
 
   return <img src={src} alt={element} className="h-6 w-6 mx-2" />
 }

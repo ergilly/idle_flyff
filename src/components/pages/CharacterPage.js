@@ -6,7 +6,7 @@ import { StatsView } from '../organisms/Character/StatsView.js'
 
 export function CharacterPage() {
   const {
-    character: { equipment },
+    character: { equipment, sex },
   } = useContext(CharContext)
   const [selectedItem, setSelectedItem] = useState(null)
   const [selectedItemSlot, setSelectedItemSlot] = useState(null)
@@ -15,6 +15,7 @@ export function CharacterPage() {
     <div className="w-full p-8">
       <div className="flex">
         <EquipmentView
+          sex={sex}
           equipment={equipment}
           selectedItem={selectedItem}
           setSelectedItem={setSelectedItem}

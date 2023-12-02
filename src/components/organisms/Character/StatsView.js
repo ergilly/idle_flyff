@@ -41,7 +41,13 @@ export function StatsView() {
   }
 
   useEffect(() => {
-    calculateStatPointsForLevel(level)
+    let isMounted = true
+    if (isMounted) {
+      calculateStatPointsForLevel(level)
+    }
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   useEffect(() => {

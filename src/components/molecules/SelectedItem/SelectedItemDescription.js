@@ -21,19 +21,24 @@ function attackSpeedString(inputString) {
 export function SelectedItemDescription({ item }) {
   const [className, setClassName] = useState('Vagrant')
 
-  async function fetchClass() {
-    if (item?.class) {
-      const { result, error } = await getData('class', `${item.class}`)
-      if (error) {
-        console.log(error)
-        return
-      }
-      setClassName(result?.name?.en || 'Vagrant')
-    }
-  }
-
   useEffect(() => {
+    let isMounted = true
+    const fetchClass = async () => {
+      if (item?.class) {
+        const { result, error } = await getData('class', `${item.class}`)
+        if (error) {
+          console.log(error)
+          return
+        }
+        if (isMounted) {
+          setClassName(result?.name?.en || 'Vagrant')
+        }
+      }
+    }
     fetchClass()
+    return () => {
+      isMounted = false
+    }
   }, [item])
 
   return (

@@ -24,17 +24,24 @@ export class Vagrant extends Mover {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
+    sex = 'male',
     jobId = null,
+    inventory = null,
   ) {
     super()
     this.jobId = jobId || 9686
+    this.inventory = inventory || { tab1: [] }
+    this.sex = sex || 'male'
     this.mainhand = mainhand || null
     this.offhand = offhand || null
     this.helmet = helmet || null
     this.suit = suit || null
     this.gauntlet = gauntlet || null
     this.boots = boots || null
-    ;(this.cloak = cloak || null), (this.earringR = earringR || null)
+    this.cloak = cloak || null
+    this.earringR = earringR || null
     this.earringL = earringL || null
     this.ringR = ringR || null
     this.ringL = ringL || null
@@ -52,7 +59,7 @@ export class Vagrant extends Mover {
     this.necklaceUpgrade = 0
     this.weapon_img = img || 'woodensword.png'
     this.armorSet = armorSet || null
-    this.armorUpgradeBonus = null
+    this.armorSetUpgradeBonus = null
     this.mainhandUpgradeBonus = null
     this.mainhandElement = Moverutils.Elements.none
     this.mainhandElementUpgrade = 0
@@ -83,6 +90,8 @@ export class Vagrant extends Mover {
       wand: 6.0,
       yoyo: 4.2,
     }
+    this.buffsArray = buffsArray || []
+    this.skillsArray = skillsArray || []
     this.skillsRawDamage = {}
 
     this.str = parseInt(str)
@@ -127,11 +136,26 @@ export class Vagrant extends Mover {
   }
 
   async initialize() {
-    const skillsArray = []
-    skillsArray.push(await Utils.getSkillByName('Clean Hit'))
-    skillsArray.push(await Utils.getSkillByName('Flurry'))
-    skillsArray.push(await Utils.getSkillByName('Over Cutter'))
-    this.constants.skills = skillsArray
+    const newBuffsArray = []
+    const newSkillsArray = []
+    if (this.buffsArray && this.skillsArray) {
+      for (let buff of this.buffsArray) {
+        if (typeof buff === 'number') {
+          newSkillsArray.push(await Utils.getSkillById(buff))
+        } else {
+          newSkillsArray.push(await Utils.getSkillByName(buff))
+        }
+      }
+      for (let skill of this.skillsArray) {
+        if (typeof skill === 'number') {
+          newSkillsArray.push(await Utils.getSkillById(skill))
+        } else {
+          newSkillsArray.push(await Utils.getSkillByName(skill))
+        }
+      }
+    }
+    this.constants.buffs = newBuffsArray
+    this.constants.skills = newSkillsArray
   }
 
   async getItem(itemName) {
@@ -174,20 +198,28 @@ export class Assist extends Vagrant {
     img = null,
     mainhand = null,
     offhand = null,
-    armor = null,
+    helmet = null,
+    suit = null,
+    gauntlet = null,
+    boots = null,
+    cloak = null,
+    earringR = null,
+    earringL = null,
+    ringR = null,
+    ringL = null,
+    necklace = null,
+    armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
+    sex = 'male',
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 8962
     img = img || 'overamknuckle.png'
-    armor = armor || Utils.getArmorByName('Talin Set')
-    mainhand = mainhand || Utils.getItemByName('Paipol Knuckle')
     constants = constants || {
-      skills: [
-        Utils.getSkillById('Power Fist'),
-        Utils.getSkillById('Temping Hole'),
-        Utils.getSkillById('Burst Crack'),
-      ],
-      buffs: [Utils.getSkillById('Stonehand')],
+      skills: [],
+      buffs: [],
       attackSpeed: 72.0,
       HP: 1.4,
       hps: 4,
@@ -216,8 +248,22 @@ export class Assist extends Vagrant {
       img,
       mainhand,
       offhand,
-      armor,
+      helmet,
+      suit,
+      gauntlet,
+      boots,
+      cloak,
+      earringR,
+      earringL,
+      ringR,
+      ringL,
+      necklace,
+      armorSet,
+      ['Stonehand'],
+      ['Power Fist', 'Temping Hole', 'Burst Crack'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -256,20 +302,28 @@ export class Billposter extends Assist {
     img = null,
     mainhand = null,
     offhand = null,
-    armor = null,
+    helmet = null,
+    suit = null,
+    gauntlet = null,
+    boots = null,
+    cloak = null,
+    earringR = null,
+    earringL = null,
+    ringR = null,
+    ringL = null,
+    necklace = null,
+    armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 7424
     img = img || 'lgknuckle.png'
-    armor = armor || Utils.getArmorByName('Rody Set')
-    mainhand = mainhand || Utils.getItemByName('Legendary Golden gauntlet')
     constants = constants || {
-      skills: [
-        Utils.getSkillById('Bgvur Tialbold'),
-        Utils.getSkillById('Blood Fist'),
-        Utils.getSkillById('Asalraalaikum'),
-      ],
-      buffs: [Utils.getSkillById('Asmodeus')],
+      skills: [],
+      buffs: [],
       attackSpeed: 82.0,
       hps: 2.5,
       HP: 1.8,
@@ -298,8 +352,22 @@ export class Billposter extends Assist {
       img,
       mainhand,
       offhand,
-      armor,
+      helmet,
+      suit,
+      gauntlet,
+      boots,
+      cloak,
+      earringR,
+      earringL,
+      ringR,
+      ringL,
+      necklace,
+      armorSet,
+      ['Asmodeus'],
+      ['Bgvur Tialbold', 'Blood Fist', 'Asalraalaikum'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -338,24 +406,28 @@ export class Ringmaster extends Assist {
     img = null,
     mainhand = null,
     offhand = null,
-    armor = null,
+    helmet = null,
+    suit = null,
+    gauntlet = null,
+    boots = null,
+    cloak = null,
+    earringR = null,
+    earringL = null,
+    ringR = null,
+    ringL = null,
+    necklace = null,
+    armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 9389
     img = img || 'lgstick.png'
-    armor = armor || Utils.getArmorByName('Rimyth Set')
-    mainhand = mainhand || Utils.getItemByName('Legendary Golden Stick')
     constants = constants || {
-      skills: [
-        Utils.getSkillById('Merkaba Hanzelrusha'),
-        Utils.getSkillById('Burst Crack'),
-      ],
-      buffs: [
-        Utils.getSkillById('Holyguard'),
-        Utils.getSkillById('Protect'),
-        Utils.getSkillById('Spirit Fortune'),
-        Utils.getSkillById('Geburah Tiphreth'),
-      ],
+      skills: [],
+      buffs: [],
       attackSpeed: 72.0,
       hps: 3,
       HP: 1.6,
@@ -384,8 +456,22 @@ export class Ringmaster extends Assist {
       img,
       mainhand,
       offhand,
-      armor,
+      helmet,
+      suit,
+      gauntlet,
+      boots,
+      cloak,
+      earringR,
+      earringL,
+      ringR,
+      ringL,
+      necklace,
+      armorSet,
+      ['Holyguard', 'Protect', 'Spirit Fortune', 'Geburah Tiphreth'],
+      ['Merkaba Hanzelrusha', 'Burst Crack'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -424,25 +510,28 @@ export class Acrobat extends Vagrant {
     img = null,
     mainhand = null,
     offhand = null,
-    armor = null,
+    helmet = null,
+    suit = null,
+    gauntlet = null,
+    boots = null,
+    cloak = null,
+    earringR = null,
+    earringL = null,
+    ringR = null,
+    ringL = null,
+    necklace = null,
+    armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 9098
     img = img || 'layeredbow.png'
-    armor = armor || Utils.getArmorByName('Cruiser Set')
-    mainhand = mainhand || Utils.getItemByName('Layered Bow')
     constants = constants || {
-      skills: [
-        Utils.getSkillById('Junk Arrow'),
-        Utils.getSkillById('Silent Shot'),
-        Utils.getSkillById('Arrow Rain'),
-      ],
-      buffs: [
-        Utils.getSkillById('Perfect Block'),
-        Utils.getSkillById('Bow Mastery'),
-        Utils.getSkillById('Yo-Yo mastery'),
-        Utils.getSkillById('Fast Walker'),
-      ],
+      skills: [],
+      buffs: [],
       attackSpeed: 77.0,
       hps: 2,
       HP: 1.4,
@@ -472,8 +561,22 @@ export class Acrobat extends Vagrant {
       img,
       mainhand,
       offhand,
-      armor,
+      helmet,
+      suit,
+      gauntlet,
+      boots,
+      cloak,
+      earringR,
+      earringL,
+      ringR,
+      ringL,
+      necklace,
+      armorSet,
+      ['Perfect Block', 'Bow Mastery', 'Yo-Yo mastery', 'Fast Walker'],
+      ['Junk Arrow', 'Silent Shot', 'Arrow Rain'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -512,25 +615,28 @@ export class Jester extends Acrobat {
     img = null,
     mainhand = null,
     offhand = null,
-    armor = null,
+    helmet = null,
+    suit = null,
+    gauntlet = null,
+    boots = null,
+    cloak = null,
+    earringR = null,
+    earringL = null,
+    ringR = null,
+    ringL = null,
+    necklace = null,
+    armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 3545
     img = img || 'lgyoyo.png'
-    armor = armor || Utils.getArmorByName('Neis Set')
-    mainhand = mainhand || Utils.getItemByName('Legendary Golden Yo-Yo')
     constants = constants || {
-      skills: [
-        Utils.getSkillById('Multi-Stab'),
-        Utils.getSkillById('Vital stab'),
-        Utils.getSkillById('Hit of Penya'),
-      ],
-      buffs: [
-        Utils.getSkillById('Critical Swing'),
-        Utils.getSkillById('Enchant Absorb'),
-        Utils.getSkillById('Yo-Yo Mastery'),
-        Utils.getSkillById('Bow Mastery'),
-      ],
+      skills: [],
+      buffs: [],
       attackSpeed: 82.0,
       hps: 2.6,
       HP: 1.5,
@@ -560,8 +666,22 @@ export class Jester extends Acrobat {
       img,
       mainhand,
       offhand,
-      armor,
+      helmet,
+      suit,
+      gauntlet,
+      boots,
+      cloak,
+      earringR,
+      earringL,
+      ringR,
+      ringL,
+      necklace,
+      armorSet,
+      ['Critical Swing', 'Enchant Absorb', 'Yo-Yo Mastery', 'Bow Mastery'],
+      ['Multi-Stab', 'Vital stab', 'Hit of Penya'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -598,25 +718,28 @@ export class Ranger extends Acrobat {
     img = null,
     mainhand = null,
     offhand = null,
-    armor = null,
+    helmet = null,
+    suit = null,
+    gauntlet = null,
+    boots = null,
+    cloak = null,
+    earringR = null,
+    earringL = null,
+    ringR = null,
+    ringL = null,
+    necklace = null,
+    armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 9295
     img = img || 'lgbow.png'
-    armor = armor || Utils.getArmorByName('Tyrent Set')
-    mainhand = mainhand || Utils.getItemByName('Legendary Golden Bow')
     constants = constants || {
-      skills: [
-        Utils.getSkillById('Ice Arrow'),
-        Utils.getSkillById('Flame Arrow'),
-        Utils.getSkillById('Silent Arrow'),
-      ],
-      buffs: [
-        Utils.getSkillById('Critical Shot'),
-        Utils.getSkillById('Nature'),
-        Utils.getSkillById('Yo-Yo Mastery'),
-        Utils.getSkillById('Bow Mastery'),
-      ],
+      skills: [],
+      buffs: [],
       attackSpeed: 77.0,
       hps: 1.5,
       HP: 1.6,
@@ -646,8 +769,22 @@ export class Ranger extends Acrobat {
       img,
       mainhand,
       offhand,
-      armor,
+      helmet,
+      suit,
+      gauntlet,
+      boots,
+      cloak,
+      earringR,
+      earringL,
+      ringR,
+      ringL,
+      necklace,
+      armorSet,
+      ['Critical Shot', 'Nature', 'Yo-Yo Mastery', 'Bow Mastery'],
+      ['Ice Arrow', 'Flame Arrow', 'Silent Arrow'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -686,19 +823,27 @@ export class Magician extends Vagrant {
     img = null,
     mainhand = null,
     offhand = null,
-    armor = null,
+    helmet = null,
+    suit = null,
+    gauntlet = null,
+    boots = null,
+    cloak = null,
+    earringR = null,
+    earringL = null,
+    ringR = null,
+    ringL = null,
+    necklace = null,
+    armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 9581
     img = img || 'opelwand.png'
-    armor = armor || Utils.getArmorByName('Teba Set')
-    mainhand = mainhand || Utils.getItemByName('Opel Wand')
     constants = constants || {
-      skills: [
-        Utils.getSkillById(4729), // Mental strike, there is 2 so using ID for this one
-        Utils.getSkillById('Rock Crash'),
-        Utils.getSkillById('Water Well'),
-      ],
+      skills: [],
       buffs: [],
       attackSpeed: 62.0,
       hps: 1,
@@ -728,8 +873,26 @@ export class Magician extends Vagrant {
       img,
       mainhand,
       offhand,
-      armor,
+      helmet,
+      suit,
+      gauntlet,
+      boots,
+      cloak,
+      earringR,
+      earringL,
+      ringR,
+      ringL,
+      necklace,
+      armorSet,
+      [],
+      [
+        4729, // Mental strike, there is 2 so using ID for this one
+        'Rock Crash',
+        'Water Well',
+      ],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -768,19 +931,27 @@ export class Psykeeper extends Magician {
     img = null,
     mainhand = null,
     offhand = null,
-    armor = null,
+    helmet = null,
+    suit = null,
+    gauntlet = null,
+    boots = null,
+    cloak = null,
+    earringR = null,
+    earringL = null,
+    ringR = null,
+    ringL = null,
+    necklace = null,
+    armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 5709
     img = img || 'lgwand.png'
-    armor = armor || Utils.getArmorByName('Mekatro Set')
-    mainhand = mainhand || Utils.getItemByName('Legendary Golden Wand')
     constants = constants || {
-      skills: [
-        Utils.getSkillById('Psychic Bomb'),
-        Utils.getSkillById('Spirit Bomb'),
-        Utils.getSkillById('Psychic Square'),
-      ],
+      skills: [],
       buffs: [],
       attackSpeed: 67.0,
       hps: 1,
@@ -810,8 +981,22 @@ export class Psykeeper extends Magician {
       img,
       mainhand,
       offhand,
-      armor,
+      helmet,
+      suit,
+      gauntlet,
+      boots,
+      cloak,
+      earringR,
+      earringL,
+      ringR,
+      ringL,
+      necklace,
+      armorSet,
+      [],
+      ['Psychic Bomb', 'Spirit Bomb', 'Psychic Square'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -848,26 +1033,28 @@ export class Elementor extends Magician {
     img = null,
     mainhand = null,
     offhand = null,
-    armor = null,
+    helmet = null,
+    suit = null,
+    gauntlet = null,
+    boots = null,
+    cloak = null,
+    earringR = null,
+    earringL = null,
+    ringR = null,
+    ringL = null,
+    necklace = null,
+    armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 9150
     img = img || 'lgstaff.png'
-    armor = armor || Utils.getArmorByName('Shabel Set')
-    mainhand = mainhand || Utils.getItemByName('Legendary Golden Staff')
     constants = constants || {
-      skills: [
-        Utils.getSkillById('Firebird'),
-        Utils.getSkillById('Windfield'),
-        Utils.getSkillById('Iceshark'),
-      ],
-      buffs: [
-        Utils.getSkillById('Lightning Mastery'),
-        Utils.getSkillById('Fire Mastery'),
-        Utils.getSkillById('Earth Mastery'),
-        Utils.getSkillById('Wind Mastery'),
-        Utils.getSkillById('Water Mastery'),
-      ],
+      skills: [],
+      buffs: [],
       attackSpeed: 67.0,
       hps: 1,
       HP: 1.5,
@@ -896,8 +1083,28 @@ export class Elementor extends Magician {
       img,
       mainhand,
       offhand,
-      armor,
+      helmet,
+      suit,
+      gauntlet,
+      boots,
+      cloak,
+      earringR,
+      earringL,
+      ringR,
+      ringL,
+      necklace,
+      armorSet,
+      [
+        'Lightning Mastery',
+        'Fire Mastery',
+        'Earth Mastery',
+        'Wind Mastery',
+        'Water Mastery',
+      ],
+      ['Firebird', 'Windfield', 'Iceshark'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -934,23 +1141,28 @@ export class Mercenary extends Vagrant {
     img = null,
     mainhand = null,
     offhand = null,
-    armor = null,
+    helmet = null,
+    suit = null,
+    gauntlet = null,
+    boots = null,
+    cloak = null,
+    earringR = null,
+    earringL = null,
+    ringR = null,
+    ringL = null,
+    necklace = null,
+    armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 764
     img = img || 'zirkansword.png'
-    armor = armor || Utils.getArmorByName('Panggril Set')
-    mainhand = mainhand || Utils.getItemByName('Flam Sword')
     constants = constants || {
-      skills: [
-        Utils.getSkillById('Shield Bash'),
-        Utils.getSkillById('Keenwheel'),
-        Utils.getSkillById('Guillotine'),
-      ],
-      buffs: [
-        Utils.getSkillById('Blazing Sword'),
-        Utils.getSkillById('Sword Mastery'),
-      ],
+      skills: [],
+      buffs: [],
       attackSpeed: 77.0,
       hps: 4,
       HP: 1.5,
@@ -979,8 +1191,22 @@ export class Mercenary extends Vagrant {
       img,
       mainhand,
       offhand,
-      armor,
+      helmet,
+      suit,
+      gauntlet,
+      boots,
+      cloak,
+      earringR,
+      earringL,
+      ringR,
+      ringL,
+      necklace,
+      armorSet,
+      ['Blazing Sword', 'Sword Mastery'],
+      ['Shield Bash', 'Keenwheel', 'Guillotine'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -1017,26 +1243,28 @@ export class Blade extends Mercenary {
     img = null,
     mainhand = null,
     offhand = null,
-    armor = null,
+    helmet = null,
+    suit = null,
+    gauntlet = null,
+    boots = null,
+    cloak = null,
+    earringR = null,
+    earringL = null,
+    ringR = null,
+    ringL = null,
+    necklace = null,
+    armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 2246
     img = img || 'lgaxe.png'
-    armor = armor || Utils.getArmorByName('Hanes Set')
-    mainhand = mainhand || Utils.getItemByName('Legendary Golden Axe')
-    offhand = offhand || Utils.getItemByName('Legendary Golden Axe')
     constants = constants || {
-      skills: [
-        Utils.getSkillById('Blade Dance'),
-        Utils.getSkillById('Hawk Attack'),
-        Utils.getSkillById('Cross Strike'),
-      ],
-      buffs: [
-        Utils.getSkillById('Berserk'),
-        Utils.getSkillById('Smite Axe'),
-        Utils.getSkillById('Axe Mastery'),
-        Utils.getSkillById('Sword Mastery'),
-      ],
+      skills: [],
+      buffs: [],
       attackSpeed: 87.0,
       hps: 3,
       HP: 1.5,
@@ -1065,8 +1293,22 @@ export class Blade extends Mercenary {
       img,
       mainhand,
       offhand,
-      armor,
+      helmet,
+      suit,
+      gauntlet,
+      boots,
+      cloak,
+      earringR,
+      earringL,
+      ringR,
+      ringL,
+      necklace,
+      armorSet,
+      ['Berserk', 'Smite Axe', 'Axe Mastery', 'Sword Mastery'],
+      ['Blade Dance', 'Hawk Attack', 'Cross Strike'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -1103,27 +1345,28 @@ export class Knight extends Mercenary {
     img = null,
     mainhand = null,
     offhand = null,
-    armor = null,
+    helmet = null,
+    suit = null,
+    gauntlet = null,
+    boots = null,
+    cloak = null,
+    earringR = null,
+    earringL = null,
+    ringR = null,
+    ringL = null,
+    necklace = null,
+    armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 5330
     img = img || 'lgswt.png'
-    armor = armor || Utils.getArmorByName('Extro Set')
-    mainhand = mainhand || Utils.getItemByName('Legendary Golden Big Sword')
     constants = constants || {
-      skills: [
-        Utils.getSkillById('Pain Dealer'),
-        Utils.getSkillById('Power Stomp'),
-        Utils.getSkillById('Earth Divider'),
-      ],
-      buffs: [
-        Utils.getSkillById('Rage'),
-        Utils.getSkillById('Smite Axe'),
-        Utils.getSkillById('Axe Mastery'),
-        Utils.getSkillById('Sword Mastery'),
-        Utils.getSkillById('Protection'),
-        Utils.getSkillById('Heart of Fury'),
-      ],
+      skills: [],
+      buffs: [],
       attackSpeed: 77.0,
       hps: 2,
       HP: 2.0,
@@ -1152,8 +1395,29 @@ export class Knight extends Mercenary {
       img,
       mainhand,
       offhand,
-      armor,
+      helmet,
+      suit,
+      gauntlet,
+      boots,
+      cloak,
+      earringR,
+      earringL,
+      ringR,
+      ringL,
+      necklace,
+      armorSet,
+      [
+        'Rage',
+        'Smite Axe',
+        'Axe Mastery',
+        'Sword Mastery',
+        'Protection',
+        'Heart of Fury',
+      ],
+      ['Pain Dealer', 'Power Stomp', 'Earth Divider'],
+      sex,
       jobId,
+      inventory,
     )
   }
 

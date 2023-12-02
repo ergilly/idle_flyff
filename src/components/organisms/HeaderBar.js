@@ -41,19 +41,24 @@ export function HeaderBar({ setSidebarOpen }) {
   } = useContext(CharContext)
   const [jobImageSrc, setJobImageSrc] = useState('')
 
-  async function fetchJobImage() {
-    if (jobId) {
-      const jobName = await Utils.getJobName(`${jobId}`)
-      const src = await getImageUrl(
-        'class/target/',
-        `${jobName.toLowerCase()}.png`,
-      )
-      setJobImageSrc(src)
-    }
-  }
-
   useEffect(() => {
+    let isMounted = true
+    const fetchJobImage = async () => {
+      if (jobId) {
+        const jobName = await Utils.getJobName(`${jobId}`)
+        const src = await getImageUrl(
+          'class/target/',
+          `${jobName.toLowerCase()}.png`,
+        )
+        if (isMounted) {
+          await setJobImageSrc(src)
+        }
+      }
+    }
     fetchJobImage()
+    return () => {
+      isMounted = false
+    }
   }, [jobId])
 
   const requestLogout = useCallback(() => {
