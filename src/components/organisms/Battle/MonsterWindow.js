@@ -4,19 +4,23 @@ import { MonsterInfo } from '../../molecules/Battle/MonsterWindow/MonsterInfo.js
 import { AttkInterval } from '../../molecules/Battle/AttkInterval.js'
 
 export function MonsterWindow({
+  characterData,
   monsterData,
+  monsterCurrentHp,
+  setMonsterCurrentHp,
+  playerCurrentHp,
+  setPlayerCurrentHp,
   combatRunning,
   setCombatRunning,
   damageCalculator,
 }) {
-  const [currentHp, setCurrentHp] = useState(0)
+  const [attackRotation, setAttackRotation] = useState(0)
 
-  console.log(monsterData)
   useEffect(() => {
     let isMounted = true
     const setDynamicStats = async () => {
-      if (isMounted) {
-        await setCurrentHp(monsterData.hp)
+      if (isMounted && monsterData) {
+        await setMonsterCurrentHp(monsterData.hp)
       }
     }
 
@@ -37,12 +41,29 @@ export function MonsterWindow({
     )
   }
 
+  const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+  }
+
   const calculateDamage = async () => {
-    if (currentHp === monsterData.hp) {
-      setCurrentHp(currentHp - 1)
+    const attack = getRandomInt(
+      monsterData.attacks[attackRotation].minAttack,
+      monsterData.attacks[attackRotation].maxAttack,
+    )
+    if (playerCurrentHp - attack >= 0) {
+      setPlayerCurrentHp(playerCurrentHp - attack)
     } else {
-      setCurrentHp(monsterData.hp)
+      setPlayerCurrentHp(0)
     }
+    // if (monsterCurrentHp === monsterData.hp) {
+    //   setMonsterCurrentHp(monsterCurrentHp - 1)
+    // } else {
+    //   setMonsterCurrentHp(monsterData.hp)
+    // }
+  }
+
+  const numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
   return (
@@ -53,7 +74,11 @@ export function MonsterWindow({
       <div className="flex flex-col w-full">
         <div className="flex">
           <div className="flex flex-col min-w-min w-1/2">
-            <BattleBars maxHp={monsterData.hp} currentHp={currentHp} />
+            <BattleBars
+              target="monster"
+              maxHp={numberWithCommas(monsterData.hp)}
+              currentHp={numberWithCommas(monsterCurrentHp)}
+            />
           </div>
           <div className="flex flex-col min-w-min w-1/2">
             <AttkInterval

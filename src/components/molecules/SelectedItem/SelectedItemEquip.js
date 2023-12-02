@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react'
 import {
-  addItemToEquipment,
-  replaceEquippedItem,
-  removeItemFromInventory,
-  removeItemFromEquipment,
   addItemToInventory,
+  removeItemFromInventory,
+  addItemToEquipment,
+  removeItemFromEquipment,
+  equipItem,
 } from '../../../utils/inventoryManagement.js'
 import { ItemAmountSlider } from '../../atoms/SelectedItemSell/ItemAmountSlider.js'
 import { CharContext } from '../../../context/characterContext.js'
@@ -23,15 +23,6 @@ const equipable = [
 export function SelectedItemEquip({ item, equipped, slot }) {
   const { character, equipment } = useContext(CharContext)
   const [value, setValue] = useState(1)
-
-  function equipItem() {
-    if (equipment[slot]) {
-      replaceEquippedItem(character, item, slot)
-    } else {
-      addItemToEquipment(character, item, slot)
-    }
-    removeItemFromInventory(character, item, 1)
-  }
 
   function equipFood() {
     console.log(item)
@@ -88,7 +79,7 @@ export function SelectedItemEquip({ item, equipped, slot }) {
       <button
         type="button"
         className="rounded-md bg-indigo-500 px-3 py-2 ml-2.5 text-sm font-bold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-        onClick={equipItem}
+        onClick={() => equipItem(character, item)}
       >
         Equip Item
       </button>

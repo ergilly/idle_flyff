@@ -4,40 +4,31 @@ import { CharContext } from '../../../context/characterContext.js'
 import { BattleBars } from '../../molecules/Battle/BattleBars.js'
 import { AttkInterval } from '../../molecules/Battle/AttkInterval.js'
 import { MenuSelect } from '../../molecules/Battle/PlayerWindow/MenuSelect.js'
+import { Food } from '../../molecules/Battle/PlayerWindow/Food.js'
 import { Consumables } from '../../molecules/Battle/PlayerWindow/Consumables.js'
+import { Buffs } from '../../molecules/Battle/PlayerWindow/Buffs.js'
+import { Skills } from '../../molecules/Battle/PlayerWindow/Skills.js'
 import { Stats } from '../../molecules/Battle/PlayerWindow/Stats.js'
+import { Utils } from '../../../utils/calc/utils.js'
 
 export function PlayerWindow({
   characterData,
+  monsterData,
   combatRunning,
   setCombatRunning,
   damageCalculator,
+  monsterCurrentHp,
+  setMonsterCurrentHp,
+  playerCurrentHp,
+  playerCurrentFp,
+  playerCurrentMp,
+  setPlayerCurrentHp,
+  setPlayerCurrentFp,
+  setPlayerCurrentMp,
+  playerHitsPerSecond,
 }) {
-  const { equipment } = useContext(CharContext)
+  const { equipment, sex } = useContext(CharContext)
   const [playerMenu, setPlayerMenu] = useState('equipment')
-  const [currentHp, setCurrentHp] = useState(0)
-  const [currentFp, setCurrentFp] = useState(0)
-  const [currentMp, setCurrentMp] = useState(0)
-  const [hitsPerSecond, setHitsPerSecond] = useState(0)
-
-  console.log(characterData)
-  useEffect(() => {
-    let isMounted = true
-    const setDynamicStats = async () => {
-      if (isMounted) {
-        await Promise.all([
-          setCurrentHp(characterData.health),
-          setCurrentFp(characterData.fp),
-          setCurrentMp(characterData.mp),
-          setHitsPerSecond(characterData.constants.hps * characterData.aspd),
-        ])
-      }
-    }
-    setDynamicStats()
-    return () => {
-      isMounted = false
-    }
-  }, [characterData])
 
   if (!characterData) {
     return (
@@ -51,12 +42,17 @@ export function PlayerWindow({
   }
 
   const calculateDamage = async () => {
-    console.log(damageCalculator.computeAttack())
-    if (currentHp === characterData.health) {
-      setCurrentHp(currentHp - 1)
+    console.log(damageCalculator.computeDamage())
+    if (monsterCurrentHp - damageCalculator.computeDamage() >= 0) {
+      setMonsterCurrentHp(monsterCurrentHp - damageCalculator.computeDamage())
     } else {
-      setCurrentHp(characterData.health)
+      setMonsterCurrentHp(0)
     }
+    // if (playerCurrentHp === characterData.health) {
+    //   setPlayerCurrentHp(playerCurrentHp - 1)
+    // } else {
+    //   setPlayerCurrentHp(characterData.health)
+    // }
   }
 
   return (
@@ -72,11 +68,11 @@ export function PlayerWindow({
               maxHp={characterData.health}
               maxFp={characterData.fp}
               maxMp={characterData.mp}
-              currentHp={currentHp}
-              currentFp={currentFp}
-              currentMp={currentMp}
+              currentHp={playerCurrentHp}
+              currentFp={playerCurrentFp}
+              currentMp={playerCurrentMp}
             />
-            <Consumables
+            <Food
               hpFood={equipment.hpFood}
               fpFood={equipment.fpFood}
               mpFood={equipment.mpFood}
@@ -84,17 +80,17 @@ export function PlayerWindow({
             <MenuSelect playerMenu={playerMenu} setPlayerMenu={setPlayerMenu} />
             <div id="View">
               {playerMenu === 'equipment' && (
-                <EquipmentView equipment={equipment} />
+                <EquipmentView equipment={equipment} sex={sex} />
               )}
-              {playerMenu === 'skills' && <div id="Skills" />}
-              {playerMenu === 'buffs' && <div id="Buffs" />}
-              {playerMenu === 'consumables' && <div id="Consumables" />}
+              {playerMenu === 'skills' && <Skills />}
+              {playerMenu === 'buffs' && <Buffs />}
+              {playerMenu === 'consumables' && <Consumables />}
             </div>
           </div>
           <div className="flex flex-col w-1/2">
             <AttkInterval
               calculateDamage={calculateDamage}
-              hitsPerSecond={hitsPerSecond}
+              hitsPerSecond={playerHitsPerSecond}
               combatRunning={combatRunning}
               setCombatRunning={setCombatRunning}
             />

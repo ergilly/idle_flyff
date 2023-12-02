@@ -262,7 +262,10 @@ export class Utils {
   }
 
   static async getUpgradeBonus(upgradeLevel) {
-    const { result, error } = await getData('upgradelevelbonus', `${upgradeLevel}`)
+    const { result, error } = await getData(
+      'upgradelevelbonus',
+      `${upgradeLevel}`,
+    )
     if (error) {
       console.log(error)
       return

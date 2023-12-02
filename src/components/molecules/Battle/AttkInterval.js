@@ -6,7 +6,7 @@ export function AttkInterval({
   combatRunning,
   setCombatRunning,
 }) {
-  const attkInterval = (1 / hitsPerSecond) * 1000 // Convert to milliseconds
+  const attkInterval = (1 / hitsPerSecond) * 1000 * 2 // Convert to milliseconds
   const [progress, setProgress] = useState(0)
   const intervalRef = useRef(null) // useRef to store the interval ID
 
@@ -18,9 +18,9 @@ export function AttkInterval({
           calculateDamage() // Trigger the parent component's function
           return 0 // Reset progress to 0
         }
-        return prevProgress + 100 / attkInterval
+        return prevProgress + 1000 / attkInterval
       })
-    }, attkInterval / 100) // Adjust the interval for smoother animation
+    }, attkInterval / 1000) // Adjust the interval for smoother animation
   }
 
   const stopAndReset = () => {

@@ -1,56 +1,40 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getData } from '../../firebase/firestore.js'
-import { CharContext } from '../../context/characterContext.js'
 import { PlayerWindow } from '../organisms/Battle/PlayerWindow.js'
 import { MonsterWindow } from '../organisms/Battle/MonsterWindow.js'
 import { BattleMap } from '../organisms/Battle/BattleMap.js'
-import { Utils } from '../../utils/calc/utils.js'
 import { DamageCalculator } from '../../utils/calc/damageCalculator.js'
 
-export function BattlePage() {
-  const { equipment, jobId, level, stats } = useContext(CharContext)
-  const [characterData, setCharacterData] = useState(null)
+export function BattlePage({ characterData }) {
   const [monsterData, setMonsterData] = useState(null)
   const [combatRunning, setCombatRunning] = useState(false) // Track whether the interval is running
   const [damageCalculator, setDamageCalculator] = useState(null)
+  const [monsterCurrentHp, setMonsterCurrentHp] = useState(0)
+  const [playerCurrentHp, setPlayerCurrentHp] = useState(0)
+  const [playerCurrentFp, setPlayerCurrentFp] = useState(0)
+  const [playerCurrentMp, setPlayerCurrentMp] = useState(0)
+  const [playerHitsPerSecond, setPlayerHitsPerSecond] = useState(0)
 
+  console.log(characterData)
   useEffect(() => {
     let isMounted = true
-    const createCharacterData = async () => {
-      const charData = await Utils.getJobFromId(jobId, [
-        stats.str,
-        stats.sta,
-        stats.int,
-        stats.dex,
-        level,
-        null,
-        null,
-        equipment.mainhand,
-        equipment.offhand,
-        equipment.helmet,
-        equipment.suit,
-        equipment.gauntlet,
-        equipment.boots,
-        equipment.cloak,
-        equipment.earringR,
-        equipment.earringL,
-        equipment.ringR,
-        equipment.ringL,
-        equipment.necklace,
-        null,
-        jobId,
-      ])
-      if (isMounted) {
-        await charData.initialize()
-        await charData.update()
-        await Promise.all([setCharacterData(charData)])
+    const setDynamicStats = async () => {
+      if (isMounted && characterData) {
+        await Promise.all([
+          setPlayerCurrentHp(characterData.health),
+          setPlayerCurrentFp(characterData.fp),
+          setPlayerCurrentMp(characterData.mp),
+          setPlayerHitsPerSecond(
+            characterData.constants.hps * characterData.aspd,
+          ),
+        ])
       }
     }
-    createCharacterData()
+    setDynamicStats()
     return () => {
       isMounted = false
     }
-  }, [jobId])
+  }, [characterData])
 
   useEffect(() => {
     let isMounted = true
@@ -76,22 +60,21 @@ export function BattlePage() {
     let isMounted = true
     const setDamageCalc = async () => {
       const damageInfo = new DamageCalculator(characterData, monsterData)
-      console.log(damageInfo)
       if (isMounted) {
         await setDamageCalculator(damageInfo)
       }
     }
-    setDamageCalc()
+    if (monsterData) {
+      setDamageCalc()
+    }
     return () => {
       isMounted = false
     }
-  }, [characterData])
-
-  console.log(damageCalculator)
+  }, [characterData, monsterData])
 
   return (
     <div className="w-full py-8 px-6">
-      <BattleMap />
+      <BattleMap characterData={characterData} />
       <div className="flex">
         {characterData && (
           <PlayerWindow
@@ -100,12 +83,25 @@ export function BattlePage() {
             combatRunning={combatRunning}
             setCombatRunning={setCombatRunning}
             damageCalculator={damageCalculator}
+            monsterCurrentHp={monsterCurrentHp}
+            setMonsterCurrentHp={setMonsterCurrentHp}
+            playerCurrentHp={playerCurrentHp}
+            playerCurrentFp={playerCurrentFp}
+            playerCurrentMp={playerCurrentMp}
+            setPlayerCurrentHp={setPlayerCurrentHp}
+            setPlayerCurrentFp={setPlayerCurrentFp}
+            setPlayerCurrentMp={setPlayerCurrentMp}
+            playerHitsPerSecond={playerHitsPerSecond}
           />
         )}
         {monsterData && (
           <MonsterWindow
             characterData={characterData}
             monsterData={monsterData}
+            monsterCurrentHp={monsterCurrentHp}
+            setMonsterCurrentHp={setMonsterCurrentHp}
+            playerCurrentHp={playerCurrentHp}
+            setPlayerCurrentHp={setPlayerCurrentHp}
             combatRunning={combatRunning}
             setCombatRunning={setCombatRunning}
             damageCalculator={damageCalculator}

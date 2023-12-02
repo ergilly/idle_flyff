@@ -22,7 +22,9 @@ export class Mover {
     this.suitUpgradeBonus = await Utils.getUpgradeBonus(this.suit)
     this.gauntletUpgradeBonus = await Utils.getUpgradeBonus(this.gauntlet)
     this.bootsUpgradeBonus = await Utils.getUpgradeBonus(this.boots)
-    this.mainhandUpgradeBonus = await Utils.getUpgradeBonus(this.mainhandUpgrade)
+    this.mainhandUpgradeBonus = await Utils.getUpgradeBonus(
+      this.mainhandUpgrade,
+    )
     this.offhandUpgradeBonus = await Utils.getUpgradeBonus(this.offhandUpgrade)
 
     this.applyBuffs()
@@ -106,12 +108,12 @@ export class Mover {
     // TODO: Use computeDefense from DamageCalculator
     let defense = Math.floor(
       (this.level * 2 + this.sta / 2) / 2.8 -
-      4 +
-      (this.sta - 14) * this.constants.Def,
-      )
-      defense += this.getExtraParam('def')
-      defense += this.getEquipmentDefense()
-      defense *= 1 + this.getExtraParam('def', true) / 100
+        4 +
+        (this.sta - 14) * this.constants.Def,
+    )
+    defense += this.getExtraParam('def')
+    defense += this.getEquipmentDefense()
+    defense *= 1 + this.getExtraParam('def', true) / 100
     return Math.floor(defense)
   }
 

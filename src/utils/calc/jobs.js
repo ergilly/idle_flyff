@@ -26,10 +26,14 @@ export class Vagrant extends Mover {
     armorSet = null,
     buffsArray = [],
     skillsArray = [],
+    sex = 'male',
     jobId = null,
+    inventory = null,
   ) {
     super()
     this.jobId = jobId || 9686
+    this.inventory = inventory || { tab1: [] }
+    this.sex = sex || 'male'
     this.mainhand = mainhand || null
     this.offhand = offhand || null
     this.helmet = helmet || null
@@ -134,17 +138,17 @@ export class Vagrant extends Mover {
   async initialize() {
     const newBuffsArray = []
     const newSkillsArray = []
-    if(this.buffsArray && this.skillsArray) {
-      for(let buff of this.buffsArray) {
-        if(typeof buff === 'number') {
-          newSkillsArray.push(await Utils.getSkillById(buff),)
+    if (this.buffsArray && this.skillsArray) {
+      for (let buff of this.buffsArray) {
+        if (typeof buff === 'number') {
+          newSkillsArray.push(await Utils.getSkillById(buff))
         } else {
           newSkillsArray.push(await Utils.getSkillByName(buff))
         }
       }
-      for(let skill of this.skillsArray) {
-        if(typeof skill === 'number') {
-          newSkillsArray.push(await Utils.getSkillById(skill),)
+      for (let skill of this.skillsArray) {
+        if (typeof skill === 'number') {
+          newSkillsArray.push(await Utils.getSkillById(skill))
         } else {
           newSkillsArray.push(await Utils.getSkillByName(skill))
         }
@@ -205,7 +209,11 @@ export class Assist extends Vagrant {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
+    sex = 'male',
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 8962
     img = img || 'overamknuckle.png'
@@ -252,12 +260,10 @@ export class Assist extends Vagrant {
       necklace,
       armorSet,
       ['Stonehand'],
-      [
-        'Power Fist',
-        'Temping Hole',
-        'Burst Crack',
-      ],
+      ['Power Fist', 'Temping Hole', 'Burst Crack'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -307,7 +313,11 @@ export class Billposter extends Assist {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 7424
     img = img || 'lgknuckle.png'
@@ -354,12 +364,10 @@ export class Billposter extends Assist {
       necklace,
       armorSet,
       ['Asmodeus'],
-      [
-        'Bgvur Tialbold',
-        'Blood Fist',
-        'Asalraalaikum',
-      ],
+      ['Bgvur Tialbold', 'Blood Fist', 'Asalraalaikum'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -409,7 +417,11 @@ export class Ringmaster extends Assist {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 9389
     img = img || 'lgstick.png'
@@ -455,17 +467,11 @@ export class Ringmaster extends Assist {
       ringL,
       necklace,
       armorSet,
-      [
-        'Holyguard',
-        'Protect',
-        'Spirit Fortune',
-        'Geburah Tiphreth',
-      ],
-      [
-        'Merkaba Hanzelrusha',
-        'Burst Crack',
-      ],
+      ['Holyguard', 'Protect', 'Spirit Fortune', 'Geburah Tiphreth'],
+      ['Merkaba Hanzelrusha', 'Burst Crack'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -515,7 +521,11 @@ export class Acrobat extends Vagrant {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 9098
     img = img || 'layeredbow.png'
@@ -562,18 +572,11 @@ export class Acrobat extends Vagrant {
       ringL,
       necklace,
       armorSet,
-      [
-        'Perfect Block',
-        'Bow Mastery',
-        'Yo-Yo mastery',
-        'Fast Walker',
-      ],
-      [
-        'Junk Arrow',
-        'Silent Shot',
-        'Arrow Rain',
-      ],
+      ['Perfect Block', 'Bow Mastery', 'Yo-Yo mastery', 'Fast Walker'],
+      ['Junk Arrow', 'Silent Shot', 'Arrow Rain'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -623,7 +626,11 @@ export class Jester extends Acrobat {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 3545
     img = img || 'lgyoyo.png'
@@ -670,18 +677,11 @@ export class Jester extends Acrobat {
       ringL,
       necklace,
       armorSet,
-      [
-        'Critical Swing',
-        'Enchant Absorb',
-        'Yo-Yo Mastery',
-        'Bow Mastery',
-      ],
-      [
-        'Multi-Stab',
-        'Vital stab',
-        'Hit of Penya',
-      ],
+      ['Critical Swing', 'Enchant Absorb', 'Yo-Yo Mastery', 'Bow Mastery'],
+      ['Multi-Stab', 'Vital stab', 'Hit of Penya'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -729,7 +729,11 @@ export class Ranger extends Acrobat {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 9295
     img = img || 'lgbow.png'
@@ -776,18 +780,11 @@ export class Ranger extends Acrobat {
       ringL,
       necklace,
       armorSet,
-      [
-        'Critical Shot',
-        'Nature',
-        'Yo-Yo Mastery',
-        'Bow Mastery',
-      ],
-      [
-        'Ice Arrow',
-        'Flame Arrow',
-        'Silent Arrow',
-      ],
+      ['Critical Shot', 'Nature', 'Yo-Yo Mastery', 'Bow Mastery'],
+      ['Ice Arrow', 'Flame Arrow', 'Silent Arrow'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -837,7 +834,11 @@ export class Magician extends Vagrant {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 9581
     img = img || 'opelwand.png'
@@ -889,7 +890,9 @@ export class Magician extends Vagrant {
         'Rock Crash',
         'Water Well',
       ],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -939,7 +942,11 @@ export class Psykeeper extends Magician {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 5709
     img = img || 'lgwand.png'
@@ -986,12 +993,10 @@ export class Psykeeper extends Magician {
       necklace,
       armorSet,
       [],
-      [
-        'Psychic Bomb',
-        'Spirit Bomb',
-        'Psychic Square',
-      ],
+      ['Psychic Bomb', 'Spirit Bomb', 'Psychic Square'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -1039,7 +1044,11 @@ export class Elementor extends Magician {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 9150
     img = img || 'lgstaff.png'
@@ -1092,12 +1101,10 @@ export class Elementor extends Magician {
         'Wind Mastery',
         'Water Mastery',
       ],
-      [
-        'Firebird',
-        'Windfield',
-        'Iceshark',
-      ],
+      ['Firebird', 'Windfield', 'Iceshark'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -1145,7 +1152,11 @@ export class Mercenary extends Vagrant {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 764
     img = img || 'zirkansword.png'
@@ -1191,16 +1202,11 @@ export class Mercenary extends Vagrant {
       ringL,
       necklace,
       armorSet,
-      [
-        'Blazing Sword',
-        'Sword Mastery',
-      ],
-      [
-        'Shield Bash',
-        'Keenwheel',
-        'Guillotine',
-      ],
+      ['Blazing Sword', 'Sword Mastery'],
+      ['Shield Bash', 'Keenwheel', 'Guillotine'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -1248,7 +1254,11 @@ export class Blade extends Mercenary {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 2246
     img = img || 'lgaxe.png'
@@ -1294,18 +1304,11 @@ export class Blade extends Mercenary {
       ringL,
       necklace,
       armorSet,
-      [
-        'Berserk',
-        'Smite Axe',
-        'Axe Mastery',
-        'Sword Mastery',
-      ],
-      [
-        'Blade Dance',
-        'Hawk Attack',
-        'Cross Strike',
-      ],
+      ['Berserk', 'Smite Axe', 'Axe Mastery', 'Sword Mastery'],
+      ['Blade Dance', 'Hawk Attack', 'Cross Strike'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
@@ -1353,7 +1356,11 @@ export class Knight extends Mercenary {
     ringL = null,
     necklace = null,
     armorSet = null,
+    buffsArray = null,
+    skillsArray = null,
+    sex = null,
     jobId = null,
+    inventory = null,
   ) {
     jobId = jobId || 5330
     img = img || 'lgswt.png'
@@ -1407,12 +1414,10 @@ export class Knight extends Mercenary {
         'Protection',
         'Heart of Fury',
       ],
-      [
-        'Pain Dealer',
-        'Power Stomp',
-        'Earth Divider',
-      ],
+      ['Pain Dealer', 'Power Stomp', 'Earth Divider'],
+      sex,
       jobId,
+      inventory,
     )
   }
 
