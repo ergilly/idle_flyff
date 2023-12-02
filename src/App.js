@@ -12,8 +12,9 @@ import { Utils } from './utils/calc/utils.js'
 
 function App() {
   const character = useContext(CharContext)
-  const { inventory, equipment, jobId, level, stats, sex } =
-    useContext(CharContext)
+  const {
+    character: { inventory, equipment, jobId, level, stats, sex },
+  } = useContext(CharContext)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [characterData, setCharacterData] = useState(null)
   useEffect(() => {

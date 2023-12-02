@@ -27,7 +27,9 @@ export function PlayerWindow({
   setPlayerCurrentMp,
   playerHitsPerSecond,
 }) {
-  const { equipment, sex } = useContext(CharContext)
+  const {
+    character: { equipment, sex, jobId, level, stats },
+  } = useContext(CharContext)
   const [playerMenu, setPlayerMenu] = useState('equipment')
 
   if (!characterData) {

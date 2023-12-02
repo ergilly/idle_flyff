@@ -21,7 +21,10 @@ const equipable = [
 ]
 
 export function SelectedItemEquip({ item, equipped, slot }) {
-  const { character, equipment } = useContext(CharContext)
+  const {
+    character,
+    character: { equipment },
+  } = useContext(CharContext)
   const [value, setValue] = useState(1)
 
   function equipFood() {

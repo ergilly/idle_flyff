@@ -3,10 +3,12 @@ import { CharContext } from '../../../context/characterContext.js'
 import { StatInputBox } from '../../molecules/Character/Stats/StatInputBox.js'
 
 export function StatsView() {
-  const { stats, level } = useContext(CharContext)
+  const {
+    character,
+    character: { stats, level },
+    saveCharacter,
+  } = useContext(CharContext)
 
-  // 0-60 = 2 stat points per level
-  // 60-120 = 3 stat points per level
   const [strValue, setStrValue] = useState(0)
   const [staValue, setStaValue] = useState(0)
   const [dexValue, setDexValue] = useState(0)
@@ -14,6 +16,7 @@ export function StatsView() {
 
   const [statPointsForLevel, setStatPointsForLevel] = useState(0)
   const [availableStatPoints, setAvailableStatPoints] = useState(0)
+  const [unassignedStatPoints, setUnassignedStatPoints] = useState(0)
 
   async function calculateStatPointsForLevel(level) {
     if (level <= 60) {
@@ -23,14 +26,7 @@ export function StatsView() {
     }
   }
 
-  async function calculateAvailableStatPoints(
-    statPointsForLevel,
-    strValue,
-    staValue,
-    dexValue,
-    intValue,
-    stats,
-  ) {
+  async function calculateAvailableStatPoints(statPointsForLevel, stats) {
     setAvailableStatPoints(
       statPointsForLevel -
         strValue -
@@ -55,21 +51,36 @@ export function StatsView() {
   }, [])
 
   useEffect(() => {
-    let isMounted = true
-    if (isMounted) {
-      calculateAvailableStatPoints(
-        statPointsForLevel,
-        strValue,
-        staValue,
-        dexValue,
-        intValue,
-        stats,
-      )
-    }
-    return () => {
-      isMounted = false
-    }
-  }, [statPointsForLevel, strValue, staValue, dexValue, intValue, stats])
+    calculateAvailableStatPoints(statPointsForLevel, stats)
+  }, [statPointsForLevel])
+
+  useEffect(() => {
+    setUnassignedStatPoints(availableStatPoints)
+  }, [availableStatPoints])
+
+  async function handleReset() {
+    setStrValue(0)
+    setStaValue(0)
+    setDexValue(0)
+    setIntValue(0)
+    setUnassignedStatPoints(availableStatPoints)
+  }
+
+  async function handleSubmit() {
+    const newStr = stats.str + strValue
+    const newSta = stats.sta + staValue
+    const newDex = stats.dex + dexValue
+    const newInt = stats.int + intValue
+    await saveCharacter({
+      ...character,
+      stats: { str: newStr, sta: newSta, dex: newDex, int: newInt },
+    })
+    setStrValue(0)
+    setStaValue(0)
+    setDexValue(0)
+    setIntValue(0)
+    calculateAvailableStatPoints(statPointsForLevel, stats)
+  }
 
   return (
     <div className="container flex flex-col justify-between min-w-min w-auto h-min m-2 border rounded-xl px-4 py-2 bg-gray-800">
@@ -77,7 +88,7 @@ export function StatsView() {
         id="available_stat_points"
         className="text-white text-center text-lg font-bold"
       >
-        Available Stat Points: {availableStatPoints}
+        Available Stat Points: {unassignedStatPoints}
       </div>
       <div
         id="stat_input_box"
@@ -86,31 +97,63 @@ export function StatsView() {
         <StatInputBox
           stat="str"
           stats={stats}
-          availableStatPoints={availableStatPoints}
+          unassignedStatPoints={unassignedStatPoints}
+          setUnassignedStatPoints={setUnassignedStatPoints}
+          availableStatPoints={
+            availableStatPoints - staValue - dexValue - intValue
+          }
           value={strValue}
           setValue={setStrValue}
         />
         <StatInputBox
           stat="sta"
           stats={stats}
-          availableStatPoints={availableStatPoints}
+          unassignedStatPoints={unassignedStatPoints}
+          setUnassignedStatPoints={setUnassignedStatPoints}
+          availableStatPoints={
+            availableStatPoints - strValue - dexValue - intValue
+          }
           value={staValue}
           setValue={setStaValue}
         />
         <StatInputBox
           stat="dex"
           stats={stats}
-          availableStatPoints={availableStatPoints}
+          unassignedStatPoints={unassignedStatPoints}
+          setUnassignedStatPoints={setUnassignedStatPoints}
+          availableStatPoints={
+            availableStatPoints - staValue - strValue - intValue
+          }
           value={dexValue}
           setValue={setDexValue}
         />
         <StatInputBox
           stat="int"
           stats={stats}
-          availableStatPoints={availableStatPoints}
+          unassignedStatPoints={unassignedStatPoints}
+          setUnassignedStatPoints={setUnassignedStatPoints}
+          availableStatPoints={
+            availableStatPoints - staValue - dexValue - strValue
+          }
           value={intValue}
           setValue={setIntValue}
         />
+      </div>
+      <div className="flex justify-between">
+        <button
+          type="button"
+          onClick={handleReset}
+          className="bg-blue-500 text-white py-2 px-4 rounded mt-2"
+        >
+          Reset
+        </button>
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className="bg-blue-500 text-white py-2 px-4 rounded mt-2"
+        >
+          Submit
+        </button>
       </div>
     </div>
   )

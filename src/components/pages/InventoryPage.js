@@ -5,7 +5,9 @@ import { InventoryView } from '../organisms/Inventory/InventoryView.js'
 import { SortBanner } from '../organisms/Inventory/SortBanner.js'
 
 export function InventoryPage() {
-  const { inventory } = useContext(CharContext)
+  const {
+    character: { inventory },
+  } = useContext(CharContext)
   const [selectedItem, setSelectedItem] = useState(null)
 
   return (

@@ -158,6 +158,7 @@ export function CreateCharacterView({
         },
         inventory: startingInventory,
         equipment: startingEquipment,
+        uid: newCharId,
       },
     }
     userData.characters.push(character)
