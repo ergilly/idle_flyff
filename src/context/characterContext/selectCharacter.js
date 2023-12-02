@@ -113,6 +113,7 @@ export function SelectCharacterView({ user, setCharacter, setCreateChar }) {
   const navigate = useNavigate()
 
   useEffect(() => {
+    let isMounted = true
     const getCharacterData = async () => {
       if (user && user.uid) {
         const { result, error } = await getData('user', user.uid)
@@ -127,12 +128,17 @@ export function SelectCharacterView({ user, setCharacter, setCreateChar }) {
                   ...Array(8 - characterData.length).fill(null),
                 ]
               : characterData
-          setUserChars(updatedCharacters)
+          if (isMounted) {
+            setUserChars(updatedCharacters)
+          }
         }
       }
     }
 
     getCharacterData()
+    return () => {
+      isMounted = false
+    }
   }, [user])
 
   const routeChange = (userChar) => {

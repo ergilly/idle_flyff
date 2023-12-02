@@ -8,8 +8,17 @@ export function ItemAmountSlider({ itemCount, value, setValue }) {
   const min = 1
 
   useEffect(() => {
-    setSliderWidth(sliderRef.current.offsetWidth)
-    setBubbleWidth(bubbleRef.current.offsetWidth)
+    let isMounted = true
+    const setValues = async () => {
+      if (isMounted) {
+        await setSliderWidth(sliderRef.current.offsetWidth)
+        await setBubbleWidth(bubbleRef.current.offsetWidth)
+      }
+    }
+    setValues()
+    return () => {
+      isMounted = false
+    }
   }, [value])
 
   const getNewVal = () => {

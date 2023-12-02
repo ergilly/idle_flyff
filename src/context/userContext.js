@@ -54,7 +54,7 @@ export function UserProvider({ children }) {
     try {
       await signup(email, password)
       await setUsername(username)
-      await verifyEmail()
+      // await verifyEmail()
       setSignUp(false)
       setError('')
     } catch (error) {

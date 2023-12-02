@@ -4,46 +4,31 @@ import { CharContext } from '../../../context/characterContext.js'
 import { BattleBars } from '../../molecules/Battle/BattleBars.js'
 import { AttkInterval } from '../../molecules/Battle/AttkInterval.js'
 import { MenuSelect } from '../../molecules/Battle/PlayerWindow/MenuSelect.js'
+import { Food } from '../../molecules/Battle/PlayerWindow/Food.js'
 import { Consumables } from '../../molecules/Battle/PlayerWindow/Consumables.js'
+import { Buffs } from '../../molecules/Battle/PlayerWindow/Buffs.js'
+import { Skills } from '../../molecules/Battle/PlayerWindow/Skills.js'
+import { Stats } from '../../molecules/Battle/PlayerWindow/Stats.js'
 import { Utils } from '../../../utils/calc/utils.js'
 
-export function PlayerWindow() {
-  const { equipment, jobId, level, stats } = useContext(CharContext)
+export function PlayerWindow({
+  characterData,
+  monsterData,
+  combatRunning,
+  setCombatRunning,
+  damageCalculator,
+  monsterCurrentHp,
+  setMonsterCurrentHp,
+  playerCurrentHp,
+  playerCurrentFp,
+  playerCurrentMp,
+  setPlayerCurrentHp,
+  setPlayerCurrentFp,
+  setPlayerCurrentMp,
+  playerHitsPerSecond,
+}) {
+  const { equipment, sex } = useContext(CharContext)
   const [playerMenu, setPlayerMenu] = useState('equipment')
-  const [currentHp, setCurrentHp] = useState(150)
-  const [characterData, setCharacterData] = useState(null)
-
-  async function createCharacterData() {
-    const charData = await Utils.getJobFromId(jobId, [
-      stats.str,
-      stats.sta,
-      stats.int,
-      stats.dex,
-      level,
-      null,
-      null,
-      equipment.mainhand,
-      equipment.offhand,
-      equipment.helmet,
-      equipment.suit,
-      equipment.gauntlet,
-      equipment.boots,
-      equipment.cloak,
-      equipment.earringR,
-      equipment.earringL,
-      equipment.ringR,
-      equipment.ringL,
-      equipment.necklace,
-      null,
-      jobId,
-    ])
-    await charData.initialize()
-    await setCharacterData(charData)
-  }
-
-  useEffect(() => {
-    createCharacterData()
-  }, [jobId])
 
   if (!characterData) {
     return (
@@ -56,8 +41,19 @@ export function PlayerWindow() {
     )
   }
 
-  console.log(characterData)
-  console.log(characterData.defense)
+  const calculateDamage = async () => {
+    console.log(damageCalculator.computeDamage())
+    if (monsterCurrentHp - damageCalculator.computeDamage() >= 0) {
+      setMonsterCurrentHp(monsterCurrentHp - damageCalculator.computeDamage())
+    } else {
+      setMonsterCurrentHp(0)
+    }
+    // if (playerCurrentHp === characterData.health) {
+    //   setPlayerCurrentHp(playerCurrentHp - 1)
+    // } else {
+    //   setPlayerCurrentHp(characterData.health)
+    // }
+  }
 
   return (
     <div
@@ -72,11 +68,11 @@ export function PlayerWindow() {
               maxHp={characterData.health}
               maxFp={characterData.fp}
               maxMp={characterData.mp}
-              currentHp={currentHp}
-              currentFp={characterData.fp}
-              currentMp={characterData.mp}
+              currentHp={playerCurrentHp}
+              currentFp={playerCurrentFp}
+              currentMp={playerCurrentMp}
             />
-            <Consumables
+            <Food
               hpFood={equipment.hpFood}
               fpFood={equipment.fpFood}
               mpFood={equipment.mpFood}
@@ -84,23 +80,21 @@ export function PlayerWindow() {
             <MenuSelect playerMenu={playerMenu} setPlayerMenu={setPlayerMenu} />
             <div id="View">
               {playerMenu === 'equipment' && (
-                <EquipmentView equipment={equipment} />
+                <EquipmentView equipment={equipment} sex={sex} />
               )}
-              {playerMenu === 'skills' && <div id="Skills" />}
-              {playerMenu === 'buffs' && <div id="Buffs" />}
-              {playerMenu === 'consumables' && <div id="Consumables" />}
+              {playerMenu === 'skills' && <Skills />}
+              {playerMenu === 'buffs' && <Buffs />}
+              {playerMenu === 'consumables' && <Consumables />}
             </div>
           </div>
           <div className="flex flex-col w-1/2">
-            <AttkInterval />
-            <div
-              id="Stats"
-              className="container flex w-auto h-min m-2 border rounded-xl px-4 bg-gray-800"
-            >
-              <div className="text-white text-center text-lg font-bold w-full">
-                Stats
-              </div>
-            </div>
+            <AttkInterval
+              calculateDamage={calculateDamage}
+              hitsPerSecond={playerHitsPerSecond}
+              combatRunning={combatRunning}
+              setCombatRunning={setCombatRunning}
+            />
+            <Stats characterData={characterData} />
             <div
               id="Quest"
               className="container flex w-auto h-min m-2 border rounded-xl px-4 bg-gray-800"

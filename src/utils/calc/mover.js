@@ -9,8 +9,8 @@ export class Mover {
     Object.assign(this, json)
   } // Importing a character
 
-  update() {
-    this.armorSetUpgradeBonus = Utils.getUpgradeBonus(
+  async update() {
+    this.armorSetUpgradeBonus = await Utils.getUpgradeBonus(
       Math.min(
         this.helmetUpgrade,
         this.suitUpgrade,
@@ -18,12 +18,14 @@ export class Mover {
         this.bootsUpgrade,
       ),
     )
-    this.helmetUpgradeBonus = Utils.getUpgradeBonus(this.helmet)
-    this.suitUpgradeBonus = Utils.getUpgradeBonus(this.suit)
-    this.gauntletUpgradeBonus = Utils.getUpgradeBonus(this.gauntlet)
-    this.bootsUpgradeBonus = Utils.getUpgradeBonus(this.boots)
-    this.mainhandUpgradeBonus = Utils.getUpgradeBonus(this.mainhandUpgrade)
-    this.offhandUpgradeBonus = Utils.getUpgradeBonus(this.offhandUpgrade)
+    this.helmetUpgradeBonus = await Utils.getUpgradeBonus(this.helmet)
+    this.suitUpgradeBonus = await Utils.getUpgradeBonus(this.suit)
+    this.gauntletUpgradeBonus = await Utils.getUpgradeBonus(this.gauntlet)
+    this.bootsUpgradeBonus = await Utils.getUpgradeBonus(this.boots)
+    this.mainhandUpgradeBonus = await Utils.getUpgradeBonus(
+      this.mainhandUpgrade,
+    )
+    this.offhandUpgradeBonus = await Utils.getUpgradeBonus(this.offhandUpgrade)
 
     this.applyBuffs()
     this.applyPremiumItems()
@@ -240,7 +242,6 @@ export class Mover {
     let nValue = 0
     let min = 0
     let max = 0
-
     if (this.offhand && this.offhand.subcategory == 'shield') {
       min += this.offhand.minDefense
       max += this.offhand.maxDefense
@@ -256,11 +257,9 @@ export class Mover {
         max += upgradeValue
       }
     }
-
     const parts = [this.helmet, this.suit, this.gauntlet, this.boots]
     for (const part of parts) {
       if (part) {
-        console.log(part)
         let _min = part.minDefense
         let _max = part.maxDefense
 
