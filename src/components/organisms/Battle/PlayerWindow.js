@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { EquipmentView } from '../Character/EquipmentView.js'
-import { CharContext } from '../../../context/characterContext.js'
 import { BattleBars } from '../../molecules/Battle/BattleBars.js'
 import { AttkInterval } from '../../molecules/Battle/AttkInterval.js'
 import { MenuSelect } from '../../molecules/Battle/PlayerWindow/MenuSelect.js'
@@ -9,10 +9,8 @@ import { Consumables } from '../../molecules/Battle/PlayerWindow/Consumables.js'
 import { Buffs } from '../../molecules/Battle/PlayerWindow/Buffs.js'
 import { Skills } from '../../molecules/Battle/PlayerWindow/Skills.js'
 import { Stats } from '../../molecules/Battle/PlayerWindow/Stats.js'
-import { Utils } from '../../../utils/calc/utils.js'
 
 export function PlayerWindow({
-  characterData,
   monsterData,
   combatRunning,
   setCombatRunning,
@@ -27,12 +25,10 @@ export function PlayerWindow({
   setPlayerCurrentMp,
   playerHitsPerSecond,
 }) {
-  const {
-    character: { equipment, sex, jobId, level, stats },
-  } = useContext(CharContext)
+  const character = useSelector((state) => state)
   const [playerMenu, setPlayerMenu] = useState('equipment')
 
-  if (!characterData) {
+  if (!character) {
     return (
       <div
         id="PlayerWindow"
@@ -50,10 +46,10 @@ export function PlayerWindow({
     } else {
       setMonsterCurrentHp(0)
     }
-    // if (playerCurrentHp === characterData.health) {
+    // if (playerCurrentHp === character.health) {
     //   setPlayerCurrentHp(playerCurrentHp - 1)
     // } else {
-    //   setPlayerCurrentHp(characterData.health)
+    //   setPlayerCurrentHp(character.health)
     // }
   }
 
@@ -67,23 +63,14 @@ export function PlayerWindow({
           <div className="flex flex-col min-w-min w-1/2">
             <BattleBars
               target="player"
-              maxHp={characterData.health}
-              maxFp={characterData.fp}
-              maxMp={characterData.mp}
               currentHp={playerCurrentHp}
               currentFp={playerCurrentFp}
               currentMp={playerCurrentMp}
             />
-            <Food
-              hpFood={equipment.hpFood}
-              fpFood={equipment.fpFood}
-              mpFood={equipment.mpFood}
-            />
+            <Food />
             <MenuSelect playerMenu={playerMenu} setPlayerMenu={setPlayerMenu} />
             <div id="View">
-              {playerMenu === 'equipment' && (
-                <EquipmentView equipment={equipment} sex={sex} />
-              )}
+              {playerMenu === 'equipment' && <EquipmentView />}
               {playerMenu === 'skills' && <Skills />}
               {playerMenu === 'buffs' && <Buffs />}
               {playerMenu === 'consumables' && <Consumables />}
@@ -96,7 +83,7 @@ export function PlayerWindow({
               combatRunning={combatRunning}
               setCombatRunning={setCombatRunning}
             />
-            <Stats characterData={characterData} />
+            <Stats />
             <div
               id="Quest"
               className="container flex w-auto h-min m-2 border rounded-xl px-4 bg-gray-800"

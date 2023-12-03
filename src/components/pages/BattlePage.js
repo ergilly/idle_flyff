@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { getData } from '../../firebase/firestore.js'
 import { PlayerWindow } from '../organisms/Battle/PlayerWindow.js'
 import { MonsterWindow } from '../organisms/Battle/MonsterWindow.js'
 import { BattleMap } from '../organisms/Battle/BattleMap.js'
 import { DamageCalculator } from '../../utils/calc/damageCalculator.js'
 
-export function BattlePage({ characterData }) {
+export function BattlePage() {
+  const characterData = useSelector((state) => state)
   const [monsterData, setMonsterData] = useState(null)
   const [combatRunning, setCombatRunning] = useState(false) // Track whether the interval is running
   const [damageCalculator, setDamageCalculator] = useState(null)
@@ -15,7 +17,6 @@ export function BattlePage({ characterData }) {
   const [playerCurrentMp, setPlayerCurrentMp] = useState(0)
   const [playerHitsPerSecond, setPlayerHitsPerSecond] = useState(0)
 
-  console.log(characterData)
   useEffect(() => {
     let isMounted = true
     const setDynamicStats = async () => {
@@ -74,11 +75,10 @@ export function BattlePage({ characterData }) {
 
   return (
     <div className="w-full py-8 px-6">
-      <BattleMap characterData={characterData} />
+      <BattleMap />
       <div className="flex">
         {characterData && (
           <PlayerWindow
-            characterData={characterData}
             monsterData={monsterData}
             combatRunning={combatRunning}
             setCombatRunning={setCombatRunning}

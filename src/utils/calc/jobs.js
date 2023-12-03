@@ -4,59 +4,40 @@ import Moverutils from './moverutils.js'
 
 export class Vagrant extends Mover {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
     level = 1,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
+    stats = null,
+    penya = null,
+    inventory = null,
+    equipment = null,
     armorSet = null,
     buffsArray = [],
     skillsArray = [],
-    sex = 'male',
-    jobId = null,
-    inventory = null,
   ) {
     super()
     this.jobId = jobId || 9686
     this.inventory = inventory || { tab1: [] }
     this.sex = sex || 'male'
-    this.mainhand = mainhand || null
-    this.offhand = offhand || null
-    this.helmet = helmet || null
-    this.suit = suit || null
-    this.gauntlet = gauntlet || null
-    this.boots = boots || null
-    this.cloak = cloak || null
-    this.earringR = earringR || null
-    this.earringL = earringL || null
-    this.ringR = ringR || null
-    this.ringL = ringL || null
-    this.necklace = necklace || null
-    this.mainhandUpgrade = 0
-    this.offhandUpgrade = 0
-    this.helmetUpgrade = 0
-    this.suitUpgrade = 0
-    this.gauntletUpgrade = 0
-    this.bootsUpgrade = 0
-    this.earringRUpgrade = 0
-    this.earringLUpgrade = 0
-    this.ringRUpgrade = 0
-    this.ringLUpgrade = 0
-    this.necklaceUpgrade = 0
+    this.equipment = equipment || null
+    this.mainhandUpgrade = equipment.mainhand?.upgrade || 0
+    this.offhandUpgrade = equipment.offhand?.upgrade || 0
+    this.helmetUpgrade = equipment.helmet?.upgrade || 0
+    this.suitUpgrade = equipment.suit?.upgrade || 0
+    this.gauntletUpgrade = equipment.gauntlet?.upgrade || 0
+    this.bootsUpgrade = equipment.boots?.upgrade || 0
+    this.earringRUpgrade = equipment.earringR?.upgrade || 0
+    this.earringLUpgrade = equipment.earringL?.upgrade || 0
+    this.ringRUpgrade = equipment.ringR?.upgrade || 0
+    this.ringLUpgrade = equipment.ringL?.upgrade || 0
+    this.necklaceUpgrade = equipment.necklace?.upgrade || 0
     this.weapon_img = img || 'woodensword.png'
     this.armorSet = armorSet || null
     this.armorSetUpgradeBonus = null
@@ -93,11 +74,8 @@ export class Vagrant extends Mover {
     this.buffsArray = buffsArray || []
     this.skillsArray = skillsArray || []
     this.skillsRawDamage = {}
-
-    this.str = parseInt(str)
-    this.sta = parseInt(sta)
-    this.int = parseInt(int)
-    this.dex = parseInt(dex)
+    console.log(stats);
+    this.stats = stats || null
 
     this.addedStr = 0
     this.addedSta = 0
@@ -165,7 +143,7 @@ export class Vagrant extends Mover {
 
   get health() {
     let health = Math.floor(
-      150 + this.level * 18 + this.sta * this.level * 0.18,
+      150 + this.level * 18 + this.stats.sta * this.level * 0.18,
     )
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
@@ -173,14 +151,14 @@ export class Vagrant extends Mover {
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 0.6 + this.sta * 2.1)
+    let fp = Math.floor(this.level * 0.6 + this.stats.sta * 2.1)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 0.6 + this.int * 2.7)
+    let mp = Math.floor(22 + this.level * 0.6 + this.stats.int * 2.7)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp
@@ -189,31 +167,23 @@ export class Vagrant extends Mover {
 
 export class Assist extends Vagrant {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
-    level = 1,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
+    level = 15,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
+    stats = null,
+    penya = null,
+    inventory = null,
+    equipment = null,
     armorSet = null,
     buffsArray = [],
     skillsArray = [],
-    sex = 'male',
-    jobId = null,
-    inventory = null,
   ) {
     jobId = jobId || 8962
     img = img || 'overamknuckle.png'
@@ -239,37 +209,29 @@ export class Assist extends Vagrant {
       yoyo: 4.2,
     }
     super(
-      str,
-      sta,
-      int,
-      dex,
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
       level,
+      sex,
+      jobId,
       constants,
       img,
-      mainhand,
-      offhand,
-      helmet,
-      suit,
-      gauntlet,
-      boots,
-      cloak,
-      earringR,
-      earringL,
-      ringR,
-      ringL,
-      necklace,
+      stats,
+      penya,
+      inventory,
+      equipment,
       armorSet,
       ['Stonehand'],
       ['Power Fist', 'Temping Hole', 'Burst Crack'],
-      sex,
-      jobId,
-      inventory,
     )
   }
 
   get health() {
     let health = Math.floor(
-      150 + this.level * 28 + this.sta * this.level * 0.28,
+      150 + this.level * 28 + this.stats.sta * this.level * 0.28,
     )
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
@@ -277,14 +239,14 @@ export class Assist extends Vagrant {
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 1.2 + this.sta * 4.2)
+    let fp = Math.floor(this.level * 1.2 + this.stats.sta * 4.2)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 2.6 + this.int * 11.7)
+    let mp = Math.floor(22 + this.level * 2.6 + this.stats.int * 11.7)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp
@@ -293,31 +255,23 @@ export class Assist extends Vagrant {
 
 export class Billposter extends Assist {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
-    level = 1,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
+    level = 60,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
-    armorSet = null,
-    buffsArray = null,
-    skillsArray = null,
-    sex = null,
-    jobId = null,
+    stats = null,
+    penya = null,
     inventory = null,
+    equipment = null,
+    armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
   ) {
     jobId = jobId || 7424
     img = img || 'lgknuckle.png'
@@ -343,37 +297,29 @@ export class Billposter extends Assist {
       yoyo: 4.2,
     }
     super(
-      str,
-      sta,
-      int,
-      dex,
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
       level,
+      sex,
+      jobId,
       constants,
       img,
-      mainhand,
-      offhand,
-      helmet,
-      suit,
-      gauntlet,
-      boots,
-      cloak,
-      earringR,
-      earringL,
-      ringR,
-      ringL,
-      necklace,
+      stats,
+      penya,
+      inventory,
+      equipment,
       armorSet,
       ['Asmodeus'],
       ['Bgvur Tialbold', 'Blood Fist', 'Asalraalaikum'],
-      sex,
-      jobId,
-      inventory,
     )
   }
 
   get health() {
     let health = Math.floor(
-      150 + this.level * 36 + this.sta * this.level * 0.36,
+      150 + this.level * 36 + this.stats.sta * this.level * 0.36,
     )
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
@@ -381,14 +327,14 @@ export class Billposter extends Assist {
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 2.2 + this.sta * 7.7)
+    let fp = Math.floor(this.level * 2.2 + this.stats.sta * 7.7)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 1.8 + this.int * 8.1)
+    let mp = Math.floor(22 + this.level * 1.8 + this.stats.int * 8.1)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp
@@ -397,31 +343,23 @@ export class Billposter extends Assist {
 
 export class Ringmaster extends Assist {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
-    level = 1,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
+    level = 60,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
-    armorSet = null,
-    buffsArray = null,
-    skillsArray = null,
-    sex = null,
-    jobId = null,
+    stats = null,
+    penya = null,
     inventory = null,
+    equipment = null,
+    armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
   ) {
     jobId = jobId || 9389
     img = img || 'lgstick.png'
@@ -447,37 +385,29 @@ export class Ringmaster extends Assist {
       yoyo: 4.2,
     }
     super(
-      str,
-      sta,
-      int,
-      dex,
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
       level,
+      sex,
+      jobId,
       constants,
       img,
-      mainhand,
-      offhand,
-      helmet,
-      suit,
-      gauntlet,
-      boots,
-      cloak,
-      earringR,
-      earringL,
-      ringR,
-      ringL,
-      necklace,
+      stats,
+      penya,
+      inventory,
+      equipment,
       armorSet,
       ['Holyguard', 'Protect', 'Spirit Fortune', 'Geburah Tiphreth'],
       ['Merkaba Hanzelrusha', 'Burst Crack'],
-      sex,
-      jobId,
-      inventory,
     )
   }
 
   get health() {
     let health = Math.floor(
-      150 + this.level * 32 + this.sta * this.level * 0.32,
+      150 + this.level * 32 + this.stats.sta * this.level * 0.32,
     )
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
@@ -485,14 +415,14 @@ export class Ringmaster extends Assist {
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 0.8 + this.sta * 2.8)
+    let fp = Math.floor(this.level * 0.8 + this.stats.sta * 2.8)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 3.6 + this.int * 16.2)
+    let mp = Math.floor(22 + this.level * 3.6 + this.stats.int * 16.2)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp
@@ -501,31 +431,23 @@ export class Ringmaster extends Assist {
 
 export class Acrobat extends Vagrant {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
-    level = 1,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
+    level = 15,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
-    armorSet = null,
-    buffsArray = null,
-    skillsArray = null,
-    sex = null,
-    jobId = null,
+    stats = null,
+    penya = null,
     inventory = null,
+    equipment = null,
+    armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
   ) {
     jobId = jobId || 9098
     img = img || 'layeredbow.png'
@@ -552,37 +474,29 @@ export class Acrobat extends Vagrant {
       yoyo: 4.2,
     }
     super(
-      str,
-      sta,
-      int,
-      dex,
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
       level,
+      sex,
+      jobId,
       constants,
       img,
-      mainhand,
-      offhand,
-      helmet,
-      suit,
-      gauntlet,
-      boots,
-      cloak,
-      earringR,
-      earringL,
-      ringR,
-      ringL,
-      necklace,
+      stats,
+      penya,
+      inventory,
+      equipment,
       armorSet,
       ['Perfect Block', 'Bow Mastery', 'Yo-Yo mastery', 'Fast Walker'],
       ['Junk Arrow', 'Silent Shot', 'Arrow Rain'],
-      sex,
-      jobId,
-      inventory,
     )
   }
 
   get health() {
     let health = Math.floor(
-      150 + this.level * 28 + this.sta * this.level * 0.28,
+      150 + this.level * 28 + this.stats.sta * this.level * 0.28,
     )
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
@@ -590,14 +504,14 @@ export class Acrobat extends Vagrant {
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 1 + this.sta * 3.5)
+    let fp = Math.floor(this.level * 1 + this.stats.sta * 3.5)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 1 + this.int * 4.5)
+    let mp = Math.floor(22 + this.level * 1 + this.stats.int * 4.5)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp
@@ -606,31 +520,23 @@ export class Acrobat extends Vagrant {
 
 export class Jester extends Acrobat {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
-    level = 1,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
+    level = 60,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
-    armorSet = null,
-    buffsArray = null,
-    skillsArray = null,
-    sex = null,
-    jobId = null,
+    stats = null,
+    penya = null,
     inventory = null,
+    equipment = null,
+    armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
   ) {
     jobId = jobId || 3545
     img = img || 'lgyoyo.png'
@@ -657,50 +563,42 @@ export class Jester extends Acrobat {
       bow: 2.0,
     }
     super(
-      str,
-      sta,
-      int,
-      dex,
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
       level,
+      sex,
+      jobId,
       constants,
       img,
-      mainhand,
-      offhand,
-      helmet,
-      suit,
-      gauntlet,
-      boots,
-      cloak,
-      earringR,
-      earringL,
-      ringR,
-      ringL,
-      necklace,
+      stats,
+      penya,
+      inventory,
+      equipment,
       armorSet,
       ['Critical Swing', 'Enchant Absorb', 'Yo-Yo Mastery', 'Bow Mastery'],
       ['Multi-Stab', 'Vital stab', 'Hit of Penya'],
-      sex,
-      jobId,
-      inventory,
     )
   }
 
   get health() {
-    let health = Math.floor(150 + this.level * 30 + this.sta * this.level * 0.3)
+    let health = Math.floor(150 + this.level * 30 + this.stats.sta * this.level * 0.3)
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
     return Math.floor(health)
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 2 + this.sta * 7)
+    let fp = Math.floor(this.level * 2 + this.stats.sta * 7)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 1 + this.int * 4.5)
+    let mp = Math.floor(22 + this.level * 1 + this.stats.int * 4.5)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp
@@ -709,31 +607,23 @@ export class Jester extends Acrobat {
 
 export class Ranger extends Acrobat {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
-    level = 1,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
+    level = 60,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
-    armorSet = null,
-    buffsArray = null,
-    skillsArray = null,
-    sex = null,
-    jobId = null,
+    stats = null,
+    penya = null,
     inventory = null,
+    equipment = null,
+    armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
   ) {
     jobId = jobId || 9295
     img = img || 'lgbow.png'
@@ -760,37 +650,29 @@ export class Ranger extends Acrobat {
       bow: 4.0,
     }
     super(
-      str,
-      sta,
-      int,
-      dex,
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
       level,
+      sex,
+      jobId,
       constants,
       img,
-      mainhand,
-      offhand,
-      helmet,
-      suit,
-      gauntlet,
-      boots,
-      cloak,
-      earringR,
-      earringL,
-      ringR,
-      ringL,
-      necklace,
+      stats,
+      penya,
+      inventory,
+      equipment,
       armorSet,
       ['Critical Shot', 'Nature', 'Yo-Yo Mastery', 'Bow Mastery'],
       ['Ice Arrow', 'Flame Arrow', 'Silent Arrow'],
-      sex,
-      jobId,
-      inventory,
     )
   }
 
   get health() {
     let health = Math.floor(
-      150 + this.level * 32 + this.sta * this.level * 0.32,
+      150 + this.level * 32 + this.stats.sta * this.level * 0.32,
     )
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
@@ -798,14 +680,14 @@ export class Ranger extends Acrobat {
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 1.2 + this.sta * 4.2)
+    let fp = Math.floor(this.level * 1.2 + this.stats.sta * 4.2)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 2.4 + this.int * 10.8)
+    let mp = Math.floor(22 + this.level * 2.4 + this.stats.int * 10.8)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp
@@ -814,31 +696,23 @@ export class Ranger extends Acrobat {
 
 export class Magician extends Vagrant {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
-    level = 1,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
+    level = 15,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
-    armorSet = null,
-    buffsArray = null,
-    skillsArray = null,
-    sex = null,
-    jobId = null,
+    stats = null,
+    penya = null,
     inventory = null,
+    equipment = null,
+    armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
   ) {
     jobId = jobId || 9581
     img = img || 'opelwand.png'
@@ -864,25 +738,20 @@ export class Magician extends Vagrant {
       yoyo: 4.2,
     }
     super(
-      str,
-      sta,
-      int,
-      dex,
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
       level,
+      sex,
+      jobId,
       constants,
       img,
-      mainhand,
-      offhand,
-      helmet,
-      suit,
-      gauntlet,
-      boots,
-      cloak,
-      earringR,
-      earringL,
-      ringR,
-      ringL,
-      necklace,
+      stats,
+      penya,
+      inventory,
+      equipment,
       armorSet,
       [],
       [
@@ -890,15 +759,12 @@ export class Magician extends Vagrant {
         'Rock Crash',
         'Water Well',
       ],
-      sex,
-      jobId,
-      inventory,
     )
   }
 
   get health() {
     let health = Math.floor(
-      150 + this.level * 28 + this.sta * this.level * 0.28,
+      150 + this.level * 28 + this.stats.sta * this.level * 0.28,
     )
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
@@ -906,14 +772,14 @@ export class Magician extends Vagrant {
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 0.6 + this.sta * 2.1)
+    let fp = Math.floor(this.level * 0.6 + this.stats.sta * 2.1)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 3.4 + this.int * 15.3)
+    let mp = Math.floor(22 + this.level * 3.4 + this.stats.int * 15.3)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp
@@ -922,31 +788,23 @@ export class Magician extends Vagrant {
 
 export class Psykeeper extends Magician {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
-    level = 1,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
+    level = 60,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
-    armorSet = null,
-    buffsArray = null,
-    skillsArray = null,
-    sex = null,
-    jobId = null,
+    stats = null,
+    penya = null,
     inventory = null,
+    equipment = null,
+    armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
   ) {
     jobId = jobId || 5709
     img = img || 'lgwand.png'
@@ -972,50 +830,42 @@ export class Psykeeper extends Magician {
       yoyo: 4.2,
     }
     super(
-      str,
-      sta,
-      int,
-      dex,
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
       level,
+      sex,
+      jobId,
       constants,
       img,
-      mainhand,
-      offhand,
-      helmet,
-      suit,
-      gauntlet,
-      boots,
-      cloak,
-      earringR,
-      earringL,
-      ringR,
-      ringL,
-      necklace,
+      stats,
+      penya,
+      inventory,
+      equipment,
       armorSet,
       [],
       ['Psychic Bomb', 'Spirit Bomb', 'Psychic Square'],
-      sex,
-      jobId,
-      inventory,
     )
   }
 
   get health() {
-    let health = Math.floor(150 + this.level * 30 + this.sta * this.level * 0.3)
+    let health = Math.floor(150 + this.level * 30 + this.stats.sta * this.level * 0.3)
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
     return Math.floor(health)
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 0.8 + this.sta * 2.8)
+    let fp = Math.floor(this.level * 0.8 + this.stats.sta * 2.8)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 4 + this.int * 18)
+    let mp = Math.floor(22 + this.level * 4 + this.stats.int * 18)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp
@@ -1024,31 +874,23 @@ export class Psykeeper extends Magician {
 
 export class Elementor extends Magician {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
-    level = 1,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
+    level = 60,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
-    armorSet = null,
-    buffsArray = null,
-    skillsArray = null,
-    sex = null,
-    jobId = null,
+    stats = null,
+    penya = null,
     inventory = null,
+    equipment = null,
+    armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
   ) {
     jobId = jobId || 9150
     img = img || 'lgstaff.png'
@@ -1074,25 +916,20 @@ export class Elementor extends Magician {
       yoyo: 4.2,
     }
     super(
-      str,
-      sta,
-      int,
-      dex,
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
       level,
+      sex,
+      jobId,
       constants,
       img,
-      mainhand,
-      offhand,
-      helmet,
-      suit,
-      gauntlet,
-      boots,
-      cloak,
-      earringR,
-      earringL,
-      ringR,
-      ringL,
-      necklace,
+      stats,
+      penya,
+      inventory,
+      equipment,
       armorSet,
       [
         'Lightning Mastery',
@@ -1102,28 +939,25 @@ export class Elementor extends Magician {
         'Water Mastery',
       ],
       ['Firebird', 'Windfield', 'Iceshark'],
-      sex,
-      jobId,
-      inventory,
     )
   }
 
   get health() {
-    let health = Math.floor(150 + this.level * 30 + this.sta * this.level * 0.3)
+    let health = Math.floor(150 + this.level * 30 + this.stats.sta * this.level * 0.3)
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
     return Math.floor(health)
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 0.8 + this.sta * 2.8)
+    let fp = Math.floor(this.level * 0.8 + this.stats.sta * 2.8)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 4 + this.int * 18)
+    let mp = Math.floor(22 + this.level * 4 + this.stats.int * 18)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp
@@ -1132,31 +966,23 @@ export class Elementor extends Magician {
 
 export class Mercenary extends Vagrant {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
-    level = 1,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
+    level = 15,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
-    armorSet = null,
-    buffsArray = null,
-    skillsArray = null,
-    sex = null,
-    jobId = null,
+    stats = null,
+    penya = null,
     inventory = null,
+    equipment = null,
+    armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
   ) {
     jobId = jobId || 764
     img = img || 'zirkansword.png'
@@ -1182,50 +1008,42 @@ export class Mercenary extends Vagrant {
       yoyo: 4.2,
     }
     super(
-      str,
-      sta,
-      int,
-      dex,
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
       level,
+      sex,
+      jobId,
       constants,
       img,
-      mainhand,
-      offhand,
-      helmet,
-      suit,
-      gauntlet,
-      boots,
-      cloak,
-      earringR,
-      earringL,
-      ringR,
-      ringL,
-      necklace,
+      stats,
+      penya,
+      inventory,
+      equipment,
       armorSet,
       ['Blazing Sword', 'Sword Mastery'],
       ['Shield Bash', 'Keenwheel', 'Guillotine'],
-      sex,
-      jobId,
-      inventory,
     )
   }
 
   get health() {
-    let health = Math.floor(150 + this.level * 30 + this.sta * this.level * 0.3)
+    let health = Math.floor(150 + this.level * 30 + this.stats.sta * this.level * 0.3)
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
     return Math.floor(health)
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 1.4 + this.sta * 4.9)
+    let fp = Math.floor(this.level * 1.4 + this.stats.sta * 4.9)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 1 + this.int * 4.5)
+    let mp = Math.floor(22 + this.level * 1 + this.stats.int * 4.5)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp
@@ -1234,31 +1052,23 @@ export class Mercenary extends Vagrant {
 
 export class Blade extends Mercenary {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
-    level = 1,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
+    level = 60,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
-    armorSet = null,
-    buffsArray = null,
-    skillsArray = null,
-    sex = null,
-    jobId = null,
+    stats = null,
+    penya = null,
     inventory = null,
+    equipment = null,
+    armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
   ) {
     jobId = jobId || 2246
     img = img || 'lgaxe.png'
@@ -1284,50 +1094,42 @@ export class Blade extends Mercenary {
       yoyo: 4.2,
     }
     super(
-      str,
-      sta,
-      int,
-      dex,
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
       level,
+      sex,
+      jobId,
       constants,
       img,
-      mainhand,
-      offhand,
-      helmet,
-      suit,
-      gauntlet,
-      boots,
-      cloak,
-      earringR,
-      earringL,
-      ringR,
-      ringL,
-      necklace,
+      stats,
+      penya,
+      inventory,
+      equipment,
       armorSet,
       ['Berserk', 'Smite Axe', 'Axe Mastery', 'Sword Mastery'],
       ['Blade Dance', 'Hawk Attack', 'Cross Strike'],
-      sex,
-      jobId,
-      inventory,
     )
   }
 
   get health() {
-    let health = Math.floor(150 + this.level * 30 + this.sta * this.level * 0.3)
+    let health = Math.floor(150 + this.level * 30 + this.stats.sta * this.level * 0.3)
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
     return Math.floor(health)
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 2.4 + this.sta * 8.400001)
+    let fp = Math.floor(this.level * 2.4 + this.stats.sta * 8.400001)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 1.2 + this.int * 5.4)
+    let mp = Math.floor(22 + this.level * 1.2 + this.stats.int * 5.4)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp
@@ -1336,31 +1138,23 @@ export class Blade extends Mercenary {
 
 export class Knight extends Mercenary {
   constructor(
-    str = 15,
-    sta = 15,
-    int = 15,
-    dex = 15,
-    level = 1,
+    name = null,
+    uid = null,
+    action = null,
+    selected = false,
+    lastOnline = null,
+    level = 60,
+    sex = 'male',
+    jobId = null,
     constants = null,
     img = null,
-    mainhand = null,
-    offhand = null,
-    helmet = null,
-    suit = null,
-    gauntlet = null,
-    boots = null,
-    cloak = null,
-    earringR = null,
-    earringL = null,
-    ringR = null,
-    ringL = null,
-    necklace = null,
-    armorSet = null,
-    buffsArray = null,
-    skillsArray = null,
-    sex = null,
-    jobId = null,
+    stats = null,
+    penya = null,
     inventory = null,
+    equipment = null,
+    armorSet = null,
+    buffsArray = [],
+    skillsArray = [],
   ) {
     jobId = jobId || 5330
     img = img || 'lgswt.png'
@@ -1386,25 +1180,20 @@ export class Knight extends Mercenary {
       yoyo: 4.2,
     }
     super(
-      str,
-      sta,
-      int,
-      dex,
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
       level,
+      sex,
+      jobId,
       constants,
       img,
-      mainhand,
-      offhand,
-      helmet,
-      suit,
-      gauntlet,
-      boots,
-      cloak,
-      earringR,
-      earringL,
-      ringR,
-      ringL,
-      necklace,
+      stats,
+      penya,
+      inventory,
+      equipment,
       armorSet,
       [
         'Rage',
@@ -1415,28 +1204,25 @@ export class Knight extends Mercenary {
         'Heart of Fury',
       ],
       ['Pain Dealer', 'Power Stomp', 'Earth Divider'],
-      sex,
-      jobId,
-      inventory,
     )
   }
 
   get health() {
-    let health = Math.floor(150 + this.level * 40 + this.sta * this.level * 0.4)
+    let health = Math.floor(150 + this.level * 40 + this.stats.sta * this.level * 0.4)
     health *= 1 + this.getExtraParam('maxhp', true) / 100
     health += this.getExtraParam('maxhp', false)
     return Math.floor(health)
   }
 
   get fp() {
-    let fp = Math.floor(this.level * 3 + this.sta * 10.5)
+    let fp = Math.floor(this.level * 3 + this.stats.sta * 10.5)
     fp *= 1 + this.getExtraParam('maxfp', true) / 100
     fp += this.getExtraParam('maxfp', false)
     return fp
   }
 
   get mp() {
-    let mp = Math.floor(22 + this.level * 1.2 + this.int * 5.4)
+    let mp = Math.floor(22 + this.level * 1.2 + this.stats.int * 5.4)
     mp *= 1 + this.getExtraParam('maxmp', true) / 100
     mp += this.getExtraParam('maxmp', false)
     return mp

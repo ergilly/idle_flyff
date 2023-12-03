@@ -2,6 +2,7 @@ import React, { Fragment, useState, useContext, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { useDispatch } from 'react-redux'
 import { InventoryPage } from './components/pages/InventoryPage.js'
 import { BattlePage } from './components/pages/BattlePage.js'
 import { CharacterPage } from './components/pages/CharacterPage.js'
@@ -11,50 +12,63 @@ import { CharContext } from './context/characterContext.js'
 import { Utils } from './utils/calc/utils.js'
 
 function App() {
-  const character = useContext(CharContext)
   const {
-    character: { inventory, equipment, jobId, level, stats, sex },
+    character,
+    character: {
+      name,
+      uid,
+      action,
+      selected,
+      lastOnline,
+      level,
+      sex,
+      jobId,
+      stats,
+      penya,
+      inventory,
+      equipment,
+    },
   } = useContext(CharContext)
+  const dispatch = useDispatch()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [characterData, setCharacterData] = useState(null)
+  const [stateLoaded, setStateLoaded] = useState(false)
+
   useEffect(() => {
     let isMounted = true
     const createCharacterData = async () => {
-      console.log(inventory)
+      console.log(stats)
       const charData = await Utils.getJobFromId(jobId, [
-        stats.str,
-        stats.sta,
-        stats.int,
-        stats.dex,
+        name,
+        uid,
+        action,
+        selected,
+        lastOnline,
         level,
-        null,
-        null,
-        equipment.mainhand,
-        equipment.offhand,
-        equipment.helmet,
-        equipment.suit,
-        equipment.gauntlet,
-        equipment.boots,
-        equipment.cloak,
-        equipment.earringR,
-        equipment.earringL,
-        equipment.ringR,
-        equipment.ringL,
-        equipment.necklace,
-        null,
-        [],
-        [],
         sex,
         jobId,
+        null, // constants
+        null, // img
+        stats,
+        penya,
         inventory,
+        equipment,
+        null, // armorSet
+        [], // buffsArray
+        [], // skillsArray
       ])
+      console.log(charData)
       if (isMounted) {
         await charData.initialize()
         await charData.update()
-        await Promise.all([setCharacterData(charData)])
+        await Promise.all([
+          dispatch({
+            type: 'SET_CHARACTER',
+            character: charData,
+          }),
+          setStateLoaded(true),
+        ])
       }
     }
-    console.log(inventory)
     createCharacterData()
     return () => {
       isMounted = false
@@ -132,14 +146,15 @@ function App() {
 
         <main>
           <Routes>
-            <Route path="/character" element={<CharacterPage />} />
-            <Route path="/inventory" element={<InventoryPage />} />
             <Route
-              path="/battle"
-              element={
-                characterData && <BattlePage characterData={characterData} />
-              }
+              path="/character"
+              element={stateLoaded && <CharacterPage />}
             />
+            <Route
+              path="/inventory"
+              element={stateLoaded && <InventoryPage />}
+            />
+            <Route path="/battle" element={stateLoaded && <BattlePage />} />
           </Routes>
         </main>
       </div>

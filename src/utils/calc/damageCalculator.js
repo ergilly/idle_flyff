@@ -6,7 +6,7 @@ export class DamageCalculator {
   constructor(attacker, defender) {
     this.attacker = attacker
     this.defender = defender
-    this.weapon = attacker.mainhand
+    this.weapon = attacker.equipment.mainhand
     this.skill = attacker.focusSkill == -1 ? null : attacker.focusSkill
     this.isSkill = this.skill != null // Using a skill or not
     this.damage = 0
@@ -742,8 +742,8 @@ export class DamageCalculator {
         this.attacker.getExtraParam('elementattack')
     } else {
       // Inherent element
-      if (Moverutils.Elements[this.attacker.mainhand.element] != undefined) {
-        attackType = Moverutils.Elements[this.attacker.mainhand.element]
+      if (Moverutils.Elements[this.attacker.mainhand?.element] != undefined) {
+        attackType = Moverutils.Elements[this.attacker.mainhand?.element]
       }
     }
 

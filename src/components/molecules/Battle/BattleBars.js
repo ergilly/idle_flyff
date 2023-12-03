@@ -1,17 +1,13 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-export function BattleBars({
-  target,
-  maxHp,
-  maxFp,
-  maxMp,
-  currentHp,
-  currentFp,
-  currentMp,
-}) {
-  const hpPercent = (currentHp / maxHp) * 100
-  const fpPercent = (currentFp / maxFp) * 100
-  const mpPercent = (currentMp / maxMp) * 100
+export function BattleBars({ target, currentHp, currentFp, currentMp }) {
+  const health = useSelector((state) => state?.health)
+  const fp = useSelector((state) => state?.fp)
+  const mp = useSelector((state) => state?.mp)
+  const hpPercent = (currentHp / health) * 100
+  const fpPercent = (currentFp / fp) * 100
+  const mpPercent = (currentMp / mp) * 100
   return (
     <div className="w-auto mx-2">
       <div className="w-full mt-2 bg-gray-600 rounded-md h-5">
@@ -20,7 +16,7 @@ export function BattleBars({
           style={{ width: `${hpPercent}%` }}
         />
         <div className="relative -top-5 text-white text-md font-bold text-center">
-          {currentHp}/{maxHp} HP
+          {currentHp}/{health} HP
         </div>
       </div>
       {target === 'player' && (
@@ -30,7 +26,7 @@ export function BattleBars({
             style={{ width: `${fpPercent}%` }}
           />
           <div className="relative -top-5 text-white text-md font-bold text-center">
-            {currentFp}/{maxFp} FP
+            {currentFp}/{fp} FP
           </div>
         </div>
       )}
@@ -41,7 +37,7 @@ export function BattleBars({
             style={{ width: `${mpPercent}%` }}
           />
           <div className="relative -top-5 text-white text-md font-bold text-center">
-            {currentMp}/{maxMp} MP
+            {currentMp}/{mp} MP
           </div>
         </div>
       )}

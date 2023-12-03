@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { Utils } from '../../../utils/calc/utils.js'
 
-export function ModelViewer({
-  modelViewerSource,
-  setModelViewerSource,
-  equipment,
-  sex,
-}) {
+export function ModelViewer({ modelViewerSource, setModelViewerSource }) {
+  const { equipment, sex } = useSelector((state) => state)
   const weaponClasses = {
     axe1: '1H Axe',
     axe2: '2H Axe',

@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import {
   addItemToInventory,
   removeItemFromInventory,
@@ -7,7 +8,6 @@ import {
   equipItem,
 } from '../../../utils/inventoryManagement.js'
 import { ItemAmountSlider } from '../../atoms/SelectedItemSell/ItemAmountSlider.js'
-import { CharContext } from '../../../context/characterContext.js'
 
 const equipable = [
   'weapon',
@@ -21,10 +21,7 @@ const equipable = [
 ]
 
 export function SelectedItemEquip({ item, equipped, slot }) {
-  const {
-    character,
-    character: { equipment },
-  } = useContext(CharContext)
+  const character = useSelector((state) => state)
   const [value, setValue] = useState(1)
 
   function equipFood() {

@@ -1,8 +1,10 @@
 import React from 'react'
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import { useSelector } from 'react-redux'
 import { ItemImage } from '../../../atoms/ItemImage.js'
 
-export function Food({ hpFood, fpFood, mpFood }) {
+export function Food() {
+  const { hpFood, fpFood, mpFood } = useSelector((state) => state?.equipment)
   function useFood(food) {
     // console.log(food)
   }

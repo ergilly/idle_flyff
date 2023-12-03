@@ -18,10 +18,10 @@ export class Mover {
         this.bootsUpgrade,
       ),
     )
-    this.helmetUpgradeBonus = await Utils.getUpgradeBonus(this.helmet)
-    this.suitUpgradeBonus = await Utils.getUpgradeBonus(this.suit)
-    this.gauntletUpgradeBonus = await Utils.getUpgradeBonus(this.gauntlet)
-    this.bootsUpgradeBonus = await Utils.getUpgradeBonus(this.boots)
+    this.helmetUpgradeBonus = await Utils.getUpgradeBonus(this.helmetUpgrade)
+    this.suitUpgradeBonus = await Utils.getUpgradeBonus(this.suitUpgrade)
+    this.gauntletUpgradeBonus = await Utils.getUpgradeBonus(this.gauntletUpgrade)
+    this.bootsUpgradeBonus = await Utils.getUpgradeBonus(this.bootsUpgrade)
     this.mainhandUpgradeBonus = await Utils.getUpgradeBonus(
       this.mainhandUpgrade,
     )
@@ -29,12 +29,12 @@ export class Mover {
 
     this.applyBuffs()
     this.applyPremiumItems()
-    this.applyBaseStats()
+    // this.applyBaseStats()
 
-    this.str = Math.floor(this.str)
-    this.sta = Math.floor(this.sta)
-    this.dex = Math.floor(this.dex)
-    this.int = Math.floor(this.int)
+    this.stats.str = Math.floor(this.stats.str)
+    this.stats.sta = Math.floor(this.stats.sta)
+    this.stats.dex = Math.floor(this.stats.dex)
+    this.stats.int = Math.floor(this.stats.int)
 
     this.criticalChance = this.getCriticalChance()
     this.aspd = this.getAspd()
@@ -49,10 +49,12 @@ export class Mover {
   }
 
   applyBaseStats() {
-    this.str = 15 + Utils.addedStr + this.getExtraParam('str')
-    this.sta = 15 + Utils.addedSta + this.getExtraParam('sta')
-    this.dex = 15 + Utils.addedDex + this.getExtraParam('dex')
-    this.int = 15 + Utils.addedInt + this.getExtraParam('int')
+    console.log(this.stats);
+    this.stats.str = 15 + Utils.addedStr + this.getExtraParam('str')
+    this.stats.sta = 15 + Utils.addedSta + this.getExtraParam('sta')
+    this.stats.dex = 15 + Utils.addedDex + this.getExtraParam('dex')
+    this.stats.int = 15 + Utils.addedInt + this.getExtraParam('int')
+    console.log(this.stats);
   }
 
   applyBuffs() {
@@ -100,16 +102,16 @@ export class Mover {
   }
 
   get parry() {
-    const parry = this.dex / 2
+    const parry = this.stats.dex / 2
     return parry
   }
 
   get defense() {
     // TODO: Use computeDefense from DamageCalculator
     let defense = Math.floor(
-      (this.level * 2 + this.sta / 2) / 2.8 -
+      (this.level * 2 + this.stats.sta / 2) / 2.8 -
         4 +
-        (this.sta - 14) * this.constants.Def,
+        (this.stats.sta - 14) * this.constants.Def,
     )
     defense += this.getExtraParam('def')
     defense += this.getEquipmentDefense()
@@ -130,19 +132,19 @@ export class Mover {
 
     const blockB = Utils.clamp(
       Math.floor(
-        (this.dex + attackerDex + 2) * ((this.dex - attackerDex) / 800.0),
+        (this.stats.dex + attackerDex + 2) * ((this.stats.dex - attackerDex) / 800.0),
       ),
       0,
       10,
     )
-    const blockRate = Math.floor((this.dex / 8.0) * this.constants.block)
+    const blockRate = Math.floor((this.stats.dex / 8.0) * this.constants.block)
     const final = Math.max(blockB + blockRate, 0) + extra
     return final > 100 ? 100 : final
   }
 
   getAspd() {
-    const weaponAspd = this.mainhand.attackSpeedValue
-    const statScale = 4.0 * this.dex + this.level / 8.0
+    const weaponAspd = this.equipment.mainhand.attackSpeedValue
+    const statScale = 4.0 * this.stats.dex + this.level / 8.0
 
     const plusValue = [
       0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56, 0.64, 0.72, 0.8, 0.88, 0.96,
@@ -183,7 +185,7 @@ export class Mover {
   }
 
   getCriticalChance() {
-    let chance = this.dex / 10
+    let chance = this.stats.dex / 10
     chance = Math.floor(chance * this.constants.critical)
     chance += this.getExtraParam('criticalchance', true)
     chance = Math.max(chance, 0)
@@ -233,7 +235,7 @@ export class Mover {
 
   getHitrate() {
     // This is just the value displayed in the stats window, basically not used anywhere else
-    let hit = this.dex / 4
+    let hit = this.stats.dex / 4
     hit += this.getExtraParam('hitrate', true)
     return Math.max(hit, 0)
   }
@@ -242,9 +244,9 @@ export class Mover {
     let nValue = 0
     let min = 0
     let max = 0
-    if (this.offhand && this.offhand.subcategory == 'shield') {
-      min += this.offhand.minDefense
-      max += this.offhand.maxDefense
+    if (this.equipment.offhand && this.equipment.offhand.subcategory == 'shield') {
+      min += this.equipment.offhand.minDefense
+      max += this.equipment.offhand.maxDefense
 
       if (this.offhandUpgradeBonus != null) {
         min *= 1 + this.offhandUpgradeBonus.shieldDefense / 100
@@ -257,7 +259,7 @@ export class Mover {
         max += upgradeValue
       }
     }
-    const parts = [this.helmet, this.suit, this.gauntlet, this.boots]
+    const parts = [this.equipment.helmet, this.equipment.suit, this.equipment.gauntlet, this.equipment.boots]
     for (const part of parts) {
       if (part) {
         let _min = part.minDefense
@@ -343,8 +345,8 @@ export class Mover {
     }
 
     // Suit Piercing
-    if (this.suitPiercing) {
-      const ability = this.suitPiercing.abilities[0] // Piercing cards only have one ability
+    if (this.equipment.suitPiercing) {
+      const ability = this.equipment.suitPiercing.abilities[0] // Piercing cards only have one ability
       if (params.includes(ability.parameter) && ability.rate == rate) {
         add += ability.add * 4 // 4 card piercing slots
       }
@@ -367,23 +369,23 @@ export class Mover {
     const params = [param]
 
     // Mainhand bonus addition
-    if (this.mainhand && this.mainhand.abilities) {
-      const bonus = this.mainhand.abilities.find(
+    if (this.equipment.mainhand && this.equipment.mainhand.abilities) {
+      const bonus = this.equipment.mainhand.abilities.find(
         (a) => params.includes(a.parameter) && a.rate == rate,
       )
       if (bonus) add += bonus.add
     }
 
     // Offhand bonus addition, including shields
-    if (this.offhand && this.offhand.abilities) {
-      if (this.offhand.subcategory == 'shield') {
-        this.offhand.abilities.forEach((ability) => {
+    if (this.equipment.offhand && this.equipment.offhand.abilities) {
+      if (this.equipment.offhand.subcategory == 'shield') {
+        this.equipment.offhand.abilities.forEach((ability) => {
           if (params.includes(ability.parameter) && ability.rate == rate) {
             add += ability.add
           }
         })
       } else {
-        const bonus = this.offhand.abilities.find(
+        const bonus = this.equipment.offhand.abilities.find(
           (a) => params.includes(a.parameter) && a.rate == rate,
         )
         if (bonus) add += bonus.add
@@ -398,36 +400,36 @@ export class Mover {
     // var params = [param].concat(Utils.globalParams[param]);
     const params = [param]
 
-    if (this.earringR && this.earringR.abilities) {
-      const bonus = this.earringR.abilities.find(
+    if (this.equipment.earringR && this.equipment.earringR.abilities) {
+      const bonus = this.equipment.earringR.abilities.find(
         (a) => params.includes(a.parameter) && a.rate == rate,
       )
       if (bonus) add += bonus.add
     }
 
-    if (this.earringL && this.earringL.abilities) {
-      const bonus = this.earringL.abilities.find(
+    if (this.equipment.earringL && this.equipment.earringL.abilities) {
+      const bonus = this.equipment.earringL.abilities.find(
         (a) => params.includes(a.parameter) && a.rate == rate,
       )
       if (bonus) add += bonus.add
     }
 
-    if (this.ringR && this.ringR.abilities) {
-      const bonus = this.ringR.abilities.find(
+    if (this.equipment.ringR && this.equipment.ringR.abilities) {
+      const bonus = this.equipment.ringR.abilities.find(
         (a) => params.includes(a.parameter) && a.rate == rate,
       )
       if (bonus) add += bonus.add
     }
 
-    if (this.ringL && this.ringL.abilities) {
-      const bonus = this.ringL.abilities.find(
+    if (this.equipment.ringL && this.equipment.ringL.abilities) {
+      const bonus = this.equipment.ringL.abilities.find(
         (a) => params.includes(a.parameter) && a.rate == rate,
       )
       if (bonus) add += bonus.add
     }
 
-    if (this.necklace && this.necklace.abilities) {
-      const bonus = this.necklace.abilities.find(
+    if (this.equipment.necklace && this.equipment.necklace.abilities) {
+      const bonus = this.equipment.necklace.abilities.find(
         (a) => params.includes(a.parameter) && a.rate == rate,
       )
       if (bonus) add += bonus.add
@@ -545,10 +547,10 @@ export class Mover {
     // Calculating for at least level 15
     this.level = this.level < 15 ? 15 : this.level
 
-    this.str -= Utils.addedStr
-    this.sta -= Utils.addedSta
-    this.dex -= Utils.addedDex
-    this.int -= Utils.addedInt
+    this.stats.str -= Utils.addedStr
+    this.stats.sta -= Utils.addedSta
+    this.stats.dex -= Utils.addedDex
+    this.stats.int -= Utils.addedInt
 
     let str
     let dex
@@ -563,8 +565,8 @@ export class Mover {
       str = Math.floor(points * (i / 10))
       dex = points - str
 
-      this.str += str
-      this.dex += dex
+      this.stats.str += str
+      this.stats.dex += dex
 
       this.criticalChance = this.getCriticalChance()
       this.aspd = this.getAspd()
@@ -583,8 +585,8 @@ export class Mover {
         maxRatio = i + 1
       }
 
-      this.str -= str
-      this.dex -= dex
+      this.stats.str -= str
+      this.stats.dex -= dex
     }
 
     return { maxDPS, maxRatio, dpsValues, ratios }
