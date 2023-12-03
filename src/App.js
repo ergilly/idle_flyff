@@ -72,6 +72,9 @@ function App() {
       isMounted = false
     }
   }, [])
+  if (!stateLoaded) {
+    return <div id="Loading">Loading ...</div>
+  }
 
   return (
     <div>
@@ -144,15 +147,9 @@ function App() {
 
         <main>
           <Routes>
-            <Route
-              path="/character"
-              element={stateLoaded && <CharacterPage />}
-            />
-            <Route
-              path="/inventory"
-              element={stateLoaded && <InventoryPage />}
-            />
-            <Route path="/battle" element={stateLoaded && <BattlePage />} />
+            <Route path="/character" element={<CharacterPage />} />
+            <Route path="/inventory" element={<InventoryPage />} />
+            <Route path="/battle" element={<BattlePage />} />
           </Routes>
         </main>
       </div>

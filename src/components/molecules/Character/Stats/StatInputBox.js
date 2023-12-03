@@ -9,7 +9,7 @@ export function StatInputBox({
   value,
   setValue,
 }) {
-  const stats = useSelector((state) => state?.stats)
+  const { stats } = useSelector((state) => state)
   const [timeoutId, setTimeoutId] = useState(null)
 
   async function incrementStatValue(

@@ -30,9 +30,7 @@ function SelectCharacterItem() {
 }
 
 export function HeaderBar({ setSidebarOpen }) {
-  const name = useSelector((state) => state?.name)
-  const jobId = useSelector((state) => state?.jobId)
-  const selected = useSelector((state) => state?.selected)
+  const { name, jobId, selected } = useSelector((state) => state)
   const [jobImageSrc, setJobImageSrc] = useState('')
 
   useEffect(() => {

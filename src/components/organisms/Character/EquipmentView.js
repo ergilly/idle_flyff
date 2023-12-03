@@ -8,9 +8,7 @@ export function EquipmentView({
   setSelectedItem,
   setSelectedItemSlot,
 }) {
-  const equipment = useSelector((state) => state?.equipment)
-  const sex = useSelector((state) => state?.sex)
-
+  const { equipment, sex } = useSelector((state) => state)
   const [modelViewerSource, setModelViewerSource] = useState(
     sex === 'male'
       ? 'https://www.flyffmodelviewer.com/wp-content/uploads/FlyffCSViewer.html?gender=Female&face=Face&hair=Hair&helmet=%20%20None&torso=Body&hands=Hands&feet=Feet&cloak=None&mask=%20%20None&leftwepclass=Weapon%20Category&leftwep=None&rightwepclass=Weapon%20Category&rightwep=None'

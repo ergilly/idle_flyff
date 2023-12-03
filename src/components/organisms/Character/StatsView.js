@@ -4,9 +4,7 @@ import { StatInputBox } from '../../molecules/Character/Stats/StatInputBox.js'
 
 export function StatsView() {
   const dispatch = useDispatch()
-  const character = useSelector((state) => state)
-  const stats = useSelector((state) => state?.stats)
-  const level = useSelector((state) => state?.level)
+  const { stats, level } = useSelector((state) => state)
 
   const [strValue, setStrValue] = useState(0)
   const [staValue, setStaValue] = useState(0)

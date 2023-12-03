@@ -5,7 +5,7 @@ import { ItemImage } from '../../atoms/ItemImage.js'
 import { formatNumber } from '../../../utils/convertPenya.js'
 
 export function InventoryView({ selectedItem, setSelectedItem }) {
-  const inventory = useSelector((state) => state?.inventory)
+  const { inventory } = useSelector((state) => state)
   const [items, setItems] = useState(inventory.tab1)
   const [slots, setSlots] = useState(50)
 
