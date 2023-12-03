@@ -7,8 +7,6 @@ export function StatsView() {
   const character = useSelector((state) => state)
   const stats = useSelector((state) => state?.stats)
   const level = useSelector((state) => state?.level)
-  console.log(character)
-  console.log(stats)
 
   const [strValue, setStrValue] = useState(0)
   const [staValue, setStaValue] = useState(0)

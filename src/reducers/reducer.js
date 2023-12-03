@@ -4,7 +4,6 @@ const initialState = null
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_CHARACTER':
-      console.log(action.character)
       return action.character
     case 'SET_CHARACTER_STATS': {
       const newState = {

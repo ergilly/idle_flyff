@@ -66,6 +66,9 @@ export function PlayerWindow({
               currentHp={playerCurrentHp}
               currentFp={playerCurrentFp}
               currentMp={playerCurrentMp}
+              maxHp={character.health}
+              maxFp={character.fp}
+              maxMp={character.mp}
             />
             <Food />
             <MenuSelect playerMenu={playerMenu} setPlayerMenu={setPlayerMenu} />

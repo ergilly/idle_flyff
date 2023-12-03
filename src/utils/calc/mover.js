@@ -49,12 +49,10 @@ export class Mover {
   }
 
   applyBaseStats() {
-    console.log(this.stats);
     this.stats.str = 15 + Utils.addedStr + this.getExtraParam('str')
     this.stats.sta = 15 + Utils.addedSta + this.getExtraParam('sta')
     this.stats.dex = 15 + Utils.addedDex + this.getExtraParam('dex')
     this.stats.int = 15 + Utils.addedInt + this.getExtraParam('int')
-    console.log(this.stats);
   }
 
   applyBuffs() {

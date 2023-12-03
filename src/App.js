@@ -36,7 +36,6 @@ function App() {
   useEffect(() => {
     let isMounted = true
     const createCharacterData = async () => {
-      console.log(stats)
       const charData = await Utils.getJobFromId(jobId, [
         name,
         uid,
@@ -56,7 +55,6 @@ function App() {
         [], // buffsArray
         [], // skillsArray
       ])
-      console.log(charData)
       if (isMounted) {
         await charData.initialize()
         await charData.update()

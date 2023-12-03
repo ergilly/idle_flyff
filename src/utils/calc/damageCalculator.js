@@ -113,7 +113,7 @@ export class DamageCalculator {
       1.5 *
       ((this.attacker.level * 1.2) /
         (this.attacker.level + this.defender.level))
-    const attackerHitRate = this.attacker.dex
+    const attackerHitRate = this.attacker.stats.str
     const defenderParryRate = this.defender.parry
     const hitRate = attackerHitRate / (attackerHitRate + defenderParryRate)
     const hitProb = Math.floor(hitRate * factor * 100.0)
@@ -742,8 +742,8 @@ export class DamageCalculator {
         this.attacker.getExtraParam('elementattack')
     } else {
       // Inherent element
-      if (Moverutils.Elements[this.attacker.mainhand?.element] != undefined) {
-        attackType = Moverutils.Elements[this.attacker.mainhand?.element]
+      if (Moverutils.Elements[this.attacker.equipment.mainhand?.element] != undefined) {
+        attackType = Moverutils.Elements[this.attacker.equipment.mainhand?.element]
       }
     }
 
@@ -923,36 +923,36 @@ export class DamageCalculator {
       case 'sword':
       case 'yoyo':
         levelFactor = 1.1
-        statValue = this.attacker.str - 12
+        statValue = this.attacker.stats.str - 12
         break
       case 'axe':
         levelFactor = 1.2
-        statValue = this.attacker.str - 12
+        statValue = this.attacker.stats.str - 12
         break
       case 'staff':
         levelFactor = 1.1
-        statValue = this.attacker.str - 10
+        statValue = this.attacker.stats.str - 10
         break
       case 'stick':
         levelFactor = 1.3
-        statValue = this.attacker.str - 10
+        statValue = this.attacker.stats.str - 10
         break
       case 'knuckle':
         levelFactor = 1.2
-        statValue = this.attacker.str - 10
+        statValue = this.attacker.stats.str - 10
         break
       case 'wand':
         levelFactor = 1.2
-        statValue = this.attacker.int - 10
+        statValue = this.attacker.stats.str - 10
         break
       case 'bow':
         levelFactor = 0.91
-        statValue = this.attacker.dex - 14
-        addValue = 0.14 * this.attacker.str
+        statValue = this.attacker.stats.str - 14
+        addValue = 0.14 * this.attacker.stats.str
         break
       default:
         levelFactor = 1.1
-        statValue = this.attacker.str - 10
+        statValue = this.attacker.stats.str - 10
         break
     }
 
@@ -1008,7 +1008,7 @@ export class DamageCalculator {
 
     const mana = Math.floor(this.attacker.mp)
     return (
-      Math.floor(this.attacker.str / 10) *
+      Math.floor(this.attacker.stats.str / 10) *
         skillLevel *
         (5 + Math.floor(mana / 10)) +
       add
@@ -1073,16 +1073,16 @@ export class DamageCalculator {
 
         switch (scale.stat) {
           case 'int':
-            statValue = this.attacker.int
+            statValue = this.attacker.stats.str
             break
           case 'sta':
-            statValue = this.attacker.sta
+            statValue = this.attacker.stats.sta
             break
           case 'str':
-            statValue = this.attacker.str
+            statValue = this.attacker.stats.str
             break
           case 'dex':
-            statValue = this.attacker.dex
+            statValue = this.attacker.stats.str
             break
         }
 

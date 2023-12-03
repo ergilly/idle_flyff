@@ -7,7 +7,6 @@ import { addItemToInventory } from '../../../utils/inventoryManagement.js'
 export function BattleMap() {
   const characterData = useSelector((state) => state)
   const addItem = async (id) => {
-    console.log(characterData)
     const item = await Utils.getItemById(id)
     item.count = 1
     await addItemToInventory(characterData, item)

@@ -61,8 +61,6 @@ export function CharProvider({ children }) {
         userData.characters,
         characterData.uid,
       )
-      console.log(userData)
-      console.log(characterData.uid)
       userData.characters[characterIndex] = {
         [characterData.uid]: characterData,
       }

@@ -74,7 +74,6 @@ export class Vagrant extends Mover {
     this.buffsArray = buffsArray || []
     this.skillsArray = skillsArray || []
     this.skillsRawDamage = {}
-    console.log(stats);
     this.stats = stats || null
 
     this.addedStr = 0
