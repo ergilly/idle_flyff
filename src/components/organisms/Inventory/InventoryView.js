@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { ReactSortable } from 'react-sortablejs'
+import { useSelector } from 'react-redux'
 import { ItemImage } from '../../atoms/ItemImage.js'
 import { formatNumber } from '../../../utils/convertPenya.js'
 
-export function InventoryView({ inventory, selectedItem, setSelectedItem }) {
+export function InventoryView({ selectedItem, setSelectedItem }) {
+  const { inventory } = useSelector((state) => state)
   const [items, setItems] = useState(inventory.tab1)
   const [slots, setSlots] = useState(50)
 

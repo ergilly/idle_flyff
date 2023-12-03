@@ -1,6 +1,8 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-export function Stats({ characterData }) {
+export function Stats() {
+  const characterData = useSelector((state) => state)
   return (
     <div
       id="Stats"

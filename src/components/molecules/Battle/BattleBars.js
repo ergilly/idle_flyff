@@ -1,13 +1,14 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 export function BattleBars({
   target,
-  maxHp,
-  maxFp,
-  maxMp,
   currentHp,
   currentFp,
   currentMp,
+  maxHp,
+  maxFp,
+  maxMp,
 }) {
   const hpPercent = (currentHp / maxHp) * 100
   const fpPercent = (currentFp / maxFp) * 100

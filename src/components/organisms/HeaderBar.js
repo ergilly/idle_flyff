@@ -1,14 +1,8 @@
-import React, {
-  useCallback,
-  Fragment,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import React, { useCallback, Fragment, useEffect, useState } from 'react'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline'
-import { CharContext } from '../../context/characterContext.js'
+import { useSelector } from 'react-redux'
 import { logOut } from '../../firebase/auth.js'
 import { getImageUrl } from '../../firebase/store.js'
 import { Utils } from '../../utils/calc/utils.js'
@@ -36,9 +30,7 @@ function SelectCharacterItem() {
 }
 
 export function HeaderBar({ setSidebarOpen }) {
-  const {
-    character: { name, jobId, selected },
-  } = useContext(CharContext)
+  const { name, jobId, selected } = useSelector((state) => state)
   const [jobImageSrc, setJobImageSrc] = useState('')
 
   useEffect(() => {

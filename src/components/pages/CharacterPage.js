@@ -1,13 +1,9 @@
-import React, { useContext, useState } from 'react'
-import { CharContext } from '../../context/characterContext.js'
+import React, { useState } from 'react'
 import { EquipmentView } from '../organisms/Character/EquipmentView.js'
 import { SelectedItemView } from '../organisms/Inventory/SelectedItemView.js'
 import { StatsView } from '../organisms/Character/StatsView.js'
 
 export function CharacterPage() {
-  const {
-    character: { equipment, sex },
-  } = useContext(CharContext)
   const [selectedItem, setSelectedItem] = useState(null)
   const [selectedItemSlot, setSelectedItemSlot] = useState(null)
 
@@ -15,8 +11,6 @@ export function CharacterPage() {
     <div className="w-full p-8">
       <div className="flex">
         <EquipmentView
-          sex={sex}
-          equipment={equipment}
           selectedItem={selectedItem}
           setSelectedItem={setSelectedItem}
           setSelectedItemSlot={setSelectedItemSlot}

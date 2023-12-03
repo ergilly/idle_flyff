@@ -1,13 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { CharContext } from '../../../context/characterContext.js'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { StatInputBox } from '../../molecules/Character/Stats/StatInputBox.js'
 
 export function StatsView() {
-  const {
-    character,
-    character: { stats, level },
-    saveCharacter,
-  } = useContext(CharContext)
+  const dispatch = useDispatch()
+  const { stats, level } = useSelector((state) => state)
 
   const [strValue, setStrValue] = useState(0)
   const [staValue, setStaValue] = useState(0)
@@ -51,8 +48,10 @@ export function StatsView() {
   }, [])
 
   useEffect(() => {
-    calculateAvailableStatPoints(statPointsForLevel, stats)
-  }, [statPointsForLevel])
+    if (stats) {
+      calculateAvailableStatPoints(statPointsForLevel, stats)
+    }
+  }, [stats, statPointsForLevel])
 
   useEffect(() => {
     setUnassignedStatPoints(availableStatPoints)
@@ -71,8 +70,8 @@ export function StatsView() {
     const newSta = stats.sta + staValue
     const newDex = stats.dex + dexValue
     const newInt = stats.int + intValue
-    await saveCharacter({
-      ...character,
+    await dispatch({
+      type: 'SET_CHARACTER_STATS',
       stats: { str: newStr, sta: newSta, dex: newDex, int: newInt },
     })
     setStrValue(0)
@@ -96,7 +95,6 @@ export function StatsView() {
       >
         <StatInputBox
           stat="str"
-          stats={stats}
           unassignedStatPoints={unassignedStatPoints}
           setUnassignedStatPoints={setUnassignedStatPoints}
           availableStatPoints={
@@ -107,7 +105,6 @@ export function StatsView() {
         />
         <StatInputBox
           stat="sta"
-          stats={stats}
           unassignedStatPoints={unassignedStatPoints}
           setUnassignedStatPoints={setUnassignedStatPoints}
           availableStatPoints={
@@ -118,7 +115,6 @@ export function StatsView() {
         />
         <StatInputBox
           stat="dex"
-          stats={stats}
           unassignedStatPoints={unassignedStatPoints}
           setUnassignedStatPoints={setUnassignedStatPoints}
           availableStatPoints={
@@ -129,7 +125,6 @@ export function StatsView() {
         />
         <StatInputBox
           stat="int"
-          stats={stats}
           unassignedStatPoints={unassignedStatPoints}
           setUnassignedStatPoints={setUnassignedStatPoints}
           availableStatPoints={

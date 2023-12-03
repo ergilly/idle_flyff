@@ -1,13 +1,9 @@
-import React, { useContext, useState } from 'react'
-import { CharContext } from '../../context/characterContext.js'
+import React, { useState } from 'react'
 import { SelectedItemView } from '../organisms/Inventory/SelectedItemView.js'
 import { InventoryView } from '../organisms/Inventory/InventoryView.js'
 import { SortBanner } from '../organisms/Inventory/SortBanner.js'
 
 export function InventoryPage() {
-  const {
-    character: { inventory },
-  } = useContext(CharContext)
   const [selectedItem, setSelectedItem] = useState(null)
 
   return (
@@ -15,7 +11,6 @@ export function InventoryPage() {
       <SortBanner />
       <div className="flex">
         <InventoryView
-          inventory={inventory}
           selectedItem={selectedItem}
           setSelectedItem={setSelectedItem}
         />

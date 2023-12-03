@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 export function StatInputBox({
   stat,
-  stats,
   unassignedStatPoints,
   setUnassignedStatPoints,
   availableStatPoints,
   value,
   setValue,
 }) {
+  const { stats } = useSelector((state) => state)
   const [timeoutId, setTimeoutId] = useState(null)
 
   async function incrementStatValue(

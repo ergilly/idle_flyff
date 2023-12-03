@@ -1,11 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { ItemImage } from '../../atoms/ItemImage.js'
 import { Utils } from '../../../utils/calc/utils.js'
 import { addItemToInventory } from '../../../utils/inventoryManagement.js'
 
-export function BattleMap({ characterData }) {
+export function BattleMap() {
+  const characterData = useSelector((state) => state)
   const addItem = async (id) => {
-    console.log(characterData)
     const item = await Utils.getItemById(id)
     item.count = 1
     await addItemToInventory(characterData, item)
